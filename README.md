@@ -6,7 +6,8 @@
 - Try to comment na din sa bawat part ng magiging code para sa iba para madali nila maintindihan ung code<br>
 - Feel free to edit and test ung gawa natin, basta pakilagay nalang ng details sa pag nagcommit na para maiintindihan ung changes<br>
 <br>
-## FEATURES:
+
+## FEATURES:<br>
 - A Menu Interface.<br>
 - Adding new products to the inventory.<br>
 - Updating current product information.<br>
