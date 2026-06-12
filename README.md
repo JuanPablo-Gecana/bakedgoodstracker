@@ -5,6 +5,7 @@
 - As much as possible, no ai pls; let's try na on hand gawin.<br>
 - Try to comment na din sa bawat part ng magiging code para sa iba para madali nila maintindihan ung code.<br>
 - Feel free to edit and test ung gawa natin, basta pakilagay nalang ng details sa pag nagcommit na para maiintindihan ung changes.<br>
+  (Or gawa nalang ng bagong branch tas i pull request para mareview and ma merge sa main branch)<br>
 <br>
 
 ## PROBLEM AND SOLUTION:<br>
