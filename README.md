@@ -1,12 +1,12 @@
-## Baked Goods Tracker on C++
+# Baked Goods Tracker on C++
 
-# NOTE:
+## NOTE:
 - Dito ilalagay ung na document na errors and ung naging solutions<br>
 - As much as possible, no ai pls; lets try na on hand gawin<br>
 - Try to comment na din sa bawat part ng magiging code para sa iba para madali nila maintindihan ung code<br>
 - Feel free to edit and test ung gawa natin, basta pakilagay nalang ng details sa pag nagcommit na para maiintindihan ung changes<br>
 <br>
-# Features:
+## FEATURES:
 - A Menu Interface.<br>
 - Adding new products to the inventory.<br>
 - Updating current product information.<br>
