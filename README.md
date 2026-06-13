@@ -13,8 +13,8 @@
 - Dito muna ilalagay lahat ng naencounter nyong errors and ung naging solutions nyo before ilagay sa pinaka paper natin.<br>
 <br>
 
-**Problem:** <br>
-**Solution:** <br>
+**Problem:** Errors on user inputs when using space on line 21 (eg. Spanish Bread) <br>
+**Solution:** Add a getline instead of just cin (cin>>newProduct.name -> getline(cin, newProduct.name))<br>
 
 <br>
 
