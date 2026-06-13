@@ -54,8 +54,7 @@ void deleteProduct(){ // function to delete products. Pakicheck na lang if nagan
             return;
         }
         else {
-            cout << "404 NOT FOUND IN DA SYSTEM, 404 DA NEW ERA-ERA" << endl;
-            cout << "LEMONADE, the second album by aespa OUT NOW!" << endl;
+            cout << "Product Not Found." << endl;
             cout << endl;
             return;
         }
