@@ -14,6 +14,7 @@
 <br>
 
 **Challenges:** Some parts of the program doesnt work like the developers intended to work. <br>
+                Developers need to figure out a way to make sure the program isn't case sensitive in user input, as it hampers the user's experience with the program. <br>
 **Solution:** Experiment and try until the issue gets resolved.<br>
 
 <br>
