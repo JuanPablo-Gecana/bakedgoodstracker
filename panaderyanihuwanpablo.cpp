@@ -68,7 +68,8 @@ int main() {
         cout << "========PANADEYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
              << "1. Add Product" << endl
              << "2. Display All Products" << endl
-             << "3. Exit" << endl
+             << "3. Delete Product" << endl
+             << "4. Exit" << endl
              << "Enter your choice: ";
         cin >> choice;
         switch (choice) {
