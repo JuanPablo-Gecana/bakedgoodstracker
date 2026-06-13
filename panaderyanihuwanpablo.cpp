@@ -18,7 +18,7 @@ vector <bakedProcuct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 void addProduct() {
     bakedProcuct newProduct;
     cin.ignore();
-    cout << "Enter the name of the product: ";
+    cout << "\nEnter the name of the product: ";
     getline(cin, newProduct.name);
     cout << "Enter the price of the product: ";
     cin >> newProduct.price;
@@ -27,14 +27,14 @@ void addProduct() {
     /* Once tapos na malagyan ung product and ung info nila, ipupush back na dun sa vector and magiging item na sya ng tracker natin
     and pwede na sya makita and maorder ng magiging customer*/
     menu.push_back(newProduct);
-    cout << "Product added successfully!" << endl;
+    cout << "\nProduct added successfully!\n" << endl;
 }
 
 //Ipapakita lahat nung nilagay na products doon sa addProduct function
 void displayMenu() {
     cout << "Menu:" << endl;
     for (int i = 0; i < menu.size(); ++i) {
-        cout << i + 1 << ". " << menu[i].name << " - ₱" << fixed << setprecision(2) 
+        cout << i + 1 << ". " << menu[i].name << " - P" << fixed << setprecision(2) 
         << menu[i].price << " (Quantity: " << menu[i].quantity << ")" << endl;
     }
 }
