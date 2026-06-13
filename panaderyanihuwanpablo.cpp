@@ -18,7 +18,7 @@ vector <bakedProcuct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 void addProduct() {
     bakedProcuct newProduct;
     cout << "Enter the name of the product: ";
-    cin >> newProduct.name;
+    getline(cin, newProduct.name);
     cout << "Enter the price of the product: ";
     cin >> newProduct.price;
     cout << "Enter the quantity of the product: ";
