@@ -32,11 +32,12 @@ void addProduct() {
 
 //Ipapakita lahat nung nilagay na products doon sa addProduct function
 void displayMenu() {
-    cout << "Menu:" << endl;
+    cout << "\nMenu:" << endl;
     for (int i = 0; i < menu.size(); ++i) {
         cout << i + 1 << ". " << menu[i].name << " - P" << fixed << setprecision(2) 
         << menu[i].price << " (Quantity: " << menu[i].quantity << ")" << endl;
     }
+    cout<<endl;
 }
 
 int main() {
