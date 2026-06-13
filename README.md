@@ -14,7 +14,12 @@
 <br>
 
 **Problem:** Errors on user inputs when using space on line 21 (eg. Spanish Bread) <br>
-**Solution:** Add a getline instead of just cin (cin>>newProduct.name -> getline(cin, newProduct.name))<br>
+**Solution:** Add a getline instead of just cin (cin>>newProduct.name -> getline(cin, newProduct.name)<br>
+
+<br>
+
+**Problem:** getline skips the user input on line 22. <br>
+**Solution:** added cin.ignore() before the getline input (Line 20).<br>
 
 <br>
 
