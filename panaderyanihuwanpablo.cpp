@@ -40,7 +40,8 @@ void displayMenu() {
     cout<<endl;
 }
 
-void deleteProduct(){ // function to delete products. Pakicheck na lang if nagana LMAO
+// Dito yung part kung san magdedelete ka ng products. Looking for way para di sya case sensitive (pakicheck na lang if nagana LMAO)
+void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
     cin >> name;
@@ -88,6 +89,6 @@ int main() {
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 3);
+    } while (choice != 4);
     return 0;
 }
