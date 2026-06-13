@@ -79,6 +79,9 @@ int main() {
                 displayMenu();
                 break;
             case 3:
+                deleteProduct();
+                break;
+            case 4:
                 cout << "Exiting the program." << endl;
                 break;
             default:
