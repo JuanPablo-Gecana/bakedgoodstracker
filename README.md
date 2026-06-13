@@ -8,18 +8,13 @@
   (Or gawa nalang ng bagong branch tas i pull request para mareview and ma merge sa main branch)<br>
 <br>
 
-## PROBLEM AND SOLUTION:<br>
+## CHALLENGES AND SOLUTION:<br>
 ### NOTE:<br>
-- Dito muna ilalagay lahat ng naencounter nyong errors and ung naging solutions nyo before ilagay sa pinaka paper natin.<br>
+- Dito muna ilalagay lahat ng naencounter na Challenges during the coding process and ung naging solutions before ilagay sa pinaka paper natin.<br>
 <br>
 
-**Problem:** Errors on user inputs when using space on line 21 (eg. Spanish Bread) <br>
-**Solution:** Add a getline instead of just cin (cin>>newProduct.name -> getline(cin, newProduct.name)<br>
-
-<br>
-
-**Problem:** getline skips the user input on line 22. <br>
-**Solution:** added cin.ignore() before the getline input (Line 20).<br>
+**Challenges:** Some parts of the program doesnt work like the developers intended to work. <br>
+**Solution:** Experiment and try until the issue gets resolved.<br>
 
 <br>
 
