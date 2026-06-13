@@ -40,6 +40,28 @@ void displayMenu() {
     cout<<endl;
 }
 
+void deleteProduct(){ // function to delete products. Pakicheck na lang if nagana LMAO
+    string name;
+    cout << "Enter product to delete: ";
+    cin >> name;
+    cin.ignore();
+    
+    for (size_t i = 0; i < menu.size(); ++i){
+        if (menu[i].name == name){
+            menu.erase(menu.begin() + i);
+            cout << "The product named '" << name << "' is deleted. Thank you." << endl;
+            cout << endl;
+            return;
+        }
+        else {
+            cout << "404 NOT FOUND IN DA SYSTEM, 404 DA NEW ERA-ERA" << endl;
+            cout << "LEMONADE, the second album by aespa OUT NOW!" << endl;
+            cout << endl;
+            return;
+        }
+    }
+}
+
 int main() {
     int choice;
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
