@@ -2,7 +2,7 @@
 
 ## NOTE:
 - Dito ilalagay ung na document na errors and ung naging solutions.<br>
-- As much as possible, no ai pls; let's try na on hand gawin.<br>
+- Use ai carefully, make sure na naiintihan natin ung binibigay satin ni ai<br>
 - Try to comment na din sa bawat part ng magiging code para sa iba para madali nila maintindihan ung code.<br>
 - Feel free to edit and test ung gawa natin, basta pakilagay nalang ng details sa pag nagcommit na para maiintindihan ung changes.<br>
   (Or gawa nalang ng bagong branch tas i pull request para mareview and ma merge sa main branch)<br>
@@ -22,6 +22,7 @@
 
 **Solution:**
 - Experiment and try until the issue gets resolved.<br>
+- Using filehandling and its properties enables the program to remember what its menu contents without re entering. <br>
 
 <br>
 
