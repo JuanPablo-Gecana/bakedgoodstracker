@@ -38,6 +38,8 @@ void addProduct() {
     cout << "\nProduct added successfully!\n" << endl;
 }
 
+
+//itong block of code nato ang reason na matatandaan lahat ng ininput natin sa addProduct function
 //Ipapakita lahat nung nilagay na products doon sa addProduct function 
 void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
