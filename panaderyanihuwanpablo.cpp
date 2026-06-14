@@ -31,8 +31,7 @@ void addProduct() {
     if (file.is_open()){
         file << newProduct.name << "  "
              << newProduct.price << "  "
-             << newProduct.quantity
-             << endl;
+             << newProduct.quantity << endl;
         file.close();
     }
 
