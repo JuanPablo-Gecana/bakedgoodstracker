@@ -16,6 +16,7 @@ vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 bakedProduct newProduct;
 bakedProduct existProduct;
 
+//itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung ininput natin na Products
 //Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila
 void addProduct() {  
     cin.ignore();
@@ -38,8 +39,6 @@ void addProduct() {
     cout << "\nProduct added successfully!\n" << endl;
 }
 
-
-//itong block of code nato ang reason na matatandaan lahat ng ininput natin sa addProduct function
 //Ipapakita lahat nung nilagay na products doon sa addProduct function 
 void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
