@@ -32,13 +32,19 @@ void addProduct() {
 
 //Ipapakita lahat nung nilagay na products doon sa addProduct function
 void displayMenu() {
-    cout << "\nMenu:" << endl;
-    for (int i = 0; i < menu.size(); ++i) {
-        cout << i + 1 << ". " << menu[i].name << " - P" << fixed << setprecision(2) 
-        << menu[i].price << " (Quantity: " << menu[i].quantity << ")" << endl;
+    if (menu.size() > 0){
+        cout << "\nMenu:" << endl;
+        for (int i = 0; i < menu.size(); ++i) {
+            cout << i + 1 << ". " << menu[i].name << " - P" << fixed << setprecision(2) 
+            << menu[i].price << " (Quantity: " << menu[i].quantity << ")" << endl;
+            }
+        } else {
+        cout<<"\nThere is no item added yet\n";
     }
-    cout<<endl;
+    cout<<endl;        
 }
+    
+
 
 // Dito yung part kung san magdedelete ka ng products. Looking for way para di sya case sensitive (pakicheck na lang if nagana LMAO)
 void deleteProduct(){ 
