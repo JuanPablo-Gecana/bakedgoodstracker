@@ -58,20 +58,24 @@ void displayMenu() {
         }
         file.close();//and then isasara ung file
 
-        //ung na pushback ni menu vector is ilalabas na dito
-        cout<<"\n"<<endl;
-		cout<<left<<setw(15)<<"NAME"
-		    <<left<<setw(0)<<"PRICE"
-		    <<right<<setw(15)<<"QUANTITY"<<endl;
+        if (menu.empty()){
+            cout<<"\nThere is no listed products in the menu.\n";
+        } else {
+            //ung na pushback ni menu vector is ilalabas na dito
+            cout<<"\n"<<endl;
+		    cout<<left<<setw(15)<<"NAME"
+		        <<left<<setw(0)<<"PRICE"
+		        <<right<<setw(15)<<"QUANTITY"<<endl;
 
-		cout<<setfill('-')<<setw(40)<<"-"<<endl;
-		cout<<setfill(' ');
+		    cout<<setfill('-')<<setw(40)<<"-"<<endl;
+		    cout<<setfill(' ');
 
-		for (int i = 0 ; i < menu.size(); ++i)  {
-			cout<<left<<setw(15)<<menu[i].name
-			    <<right<<setw(3)<<"₱"<<menu[i].price
-			    <<right<<setw(13)<<menu[i].quantity<<endl;
-		}
+		    for (int i = 0 ; i < menu.size(); ++i)  {
+			    cout<<left<<setw(15)<<menu[i].name
+			        <<right<<setw(3)<<"₱"<<menu[i].price
+			        <<right<<setw(13)<<menu[i].quantity<<endl;
+		    }
+        }
     } 
     cout << endl;
 }
@@ -97,7 +101,7 @@ void deleteProduct(){
     //i checheck kung nandun ba sa vector ung tatanggaling product
     bool found = false;
     for (int i=0; i<menu.size(); ++i){
-        if (menu[i].name == name) {
+        if (toLower(menu[i].name) == toLower(name)) {
             menu.erase(menu.begin() + i);
             found = true;
         }
@@ -141,7 +145,7 @@ int main() {
                 deleteProduct();
                 break;
             case 4:
-                cout << "Exiting the program." << endl;
+                cout << "\nExiting the program." << endl;
                 break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
