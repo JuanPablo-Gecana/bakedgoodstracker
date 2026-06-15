@@ -29,7 +29,7 @@ void addProduct() {
     cin.ignore();
     bakedProduct newProduct;
     cout << "\nEnter the name of the product: ";
-    getline(cin, newProduct.name);
+    cin >> newProduct.name;
     cout << "Enter the price of the product: ";
     cin >> newProduct.price;
     cout << "Enter the quantity of the product: ";
@@ -84,7 +84,7 @@ void displayMenu() {
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
-    cin>>name;
+    cin >> name;
     cin.ignore();
     
     //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
