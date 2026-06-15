@@ -3,6 +3,7 @@
 #include <string> //Personally di ko pa nakikita relevancy neto pero itetest ko pa
 #include <vector> //Needed to para makapagstore ng as many products as we can without limitations
 #include <fstream> //pang save ng inventory sa file and possibly ng transaction history ng bawat customers
+#include <algorithm> //way para maging case insensitive ung mga icocompare na input later
 using namespace std;
 
 //Structure para malagay natin ung mga products and info nila sa vector as one 
@@ -13,13 +14,20 @@ struct bakedProduct {
 };
 
 vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
-bakedProduct newProduct;
+
 bakedProduct existProduct;
+
+// Reason na magiging case-insensitive ung program.
+string toLower(string s) {
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    return s;
+}
 
 //itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung ininput natin na Products
 //Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila
 void addProduct() {  
     cin.ignore();
+    bakedProduct newProduct;
     cout << "\nEnter the name of the product: ";
     getline(cin, newProduct.name);
     cout << "Enter the price of the product: ";
