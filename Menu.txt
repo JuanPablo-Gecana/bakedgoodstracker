@@ -1,4 +1,1 @@
-kalahi  4  5
-Donut  5  10
-SpanishBread  4  5
 PanDeCoco  3  10

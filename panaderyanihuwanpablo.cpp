@@ -74,21 +74,41 @@ void displayMenu() {
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
-    cin >> name;
+    cin>>name;
     cin.ignore();
     
-    for (int i = 0; i < menu.size(); ++i){
-        if (menu[i].name == name){
+    //lagay muna sa vector ung mga nasa file (or ilalagay ulit if ginawa muna ung display)
+    menu.clear();
+    ifstream file("Menu.txt"); 
+    if (file.is_open()){
+        while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+            menu.push_back(existProduct); 
+        }
+        file.close();
+    }
+
+    //i checheck kung nandun ba sa vector ung tatanggaling product
+    bool found = false;
+    for (int i=0; i<menu.size(); ++i){
+        if (menu[i].name == name) {
             menu.erase(menu.begin() + i);
-            cout << "The product named '" << name << "' is deleted. Thank you." << endl;
-            cout << endl;
-            return;
+            found = true;
         }
-        else {
-            cout << "Product Not Found." << endl;
-            cout << endl;
-            return;
+    }
+
+    //if natanggal successfully, irerewrite ung buong .txt file except ung tinanggal
+    if (found){
+        ofstream file("Menu.txt");
+            for (int i=0 ; i < menu.size(); ++i){
+                file << menu[i].name << "  " 
+                     << menu[i].price << "  " 
+                     << menu[i].quantity << endl;
         }
+        file.close();
+
+        cout<<"\nProduct '"<< name << "' was deleted.\n" << endl;
+    } else {
+        cout << "Product not found.\n" << endl;
     }
 }
 
