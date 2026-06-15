@@ -123,6 +123,43 @@ void deleteProduct(){
     }
 }
 
+void updateProduct(){
+    string name;
+    cout<<"What product do you want to update: ";
+    cin>>name;
+    cin.ignore();
+
+    if (menu.empty()) {
+        ifstream file("Menu.txt"); 
+            if (file.is_open()){
+                while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+                menu.push_back(existProduct); 
+            }
+            file.close();
+        }
+    }
+
+    for (int i=0; i<menu.size(); ++i){
+        if (toLower(menu[i].name) == toLower(name)) {
+            cout << "\nProduct found successfully." << endl;
+            int choice;
+            do {
+                cout << "1. Update Price" << endl
+                     << "2. Update Quantity" << endl
+                     << "3. Back" << endl
+                     << "Enter your choice: ";
+                cin >> choice;
+                switch (choice) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    default:
+                }
+            } while (choice !=3);
+        }
+    }
+}
+
 int main() {
     int choice;
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
