@@ -26,6 +26,11 @@
 
 <br>
 
+## TIPS:<br>
+- If wala kayong VsCode and gusto itry ung program since may kasama na yang file handling, i download nyo nalang ung .exe file and ung Menu.txt sa laptop/pc nyo and kailangan magkasama sa isang folder yang .exe and .txt file. Thanks! <br>
+
+<br>
+
 ## FEATURES:<br>
 - A Menu Interface.<br>
 - Adding new products to the inventory.<br>
