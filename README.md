@@ -33,19 +33,25 @@
 <br>
 
 ## FEATURES:<br>
-- A Menu Interface.<br>
-- Adding new products to the inventory.<br>
-- Updating current product information.<br>
-- Deleting product records from the inventory.<br>
-- Can Search for a specific product.<br>
-- Display all available products and their details.<br>
-- Monitor and display current stock quantities.<br>
-- Accept and process customer orders.<br>
-- Validate stock availability before confirming an order.<br>
-- Automatically deduct inventory quantities after a successful order.<br>
-- Save and retrieve inventory records.<br>
-- Saves all transactions in a file.<br>
-- Generate transaction summaries or order receipts. <br>
+🟥 - No Progress<br>
+🟧 - Currently Working <br>
+🟩 - Done<br>
+
+<br>
+
+- A Menu Interface.<br> (**STATUS:** 🟧)
+- Adding new products to the inventory.<br> (**STATUS:** 🟩)
+- Updating current product information.<br> (**STATUS:** 🟥)
+- Deleting product records from the inventory.<br> (**STATUS:** 🟧)
+- Can Search for a specific product.<br> (**STATUS:** 🟥)
+- Display all available products and their details.<br> (**STATUS:** 🟧)
+- Monitor and display current stock quantities.<br> (**STATUS:** 🟧)
+- Accept and process customer orders.<br> (**STATUS:** 🟥)
+- Validate stock availability before confirming an order.<br> (**STATUS:** 🟥)
+- Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟥)
+- Save and retrieve inventory records.<br> (**STATUS:** 🟩)
+- Saves all transactions in a file.<br> (**STATUS:** 🟥)
+- Generate transaction summaries or order receipts. <br> (**STATUS:** 🟥)
 <br>
 
 
