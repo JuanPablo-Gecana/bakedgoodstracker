@@ -51,12 +51,19 @@ void displayMenu() {
         file.close();//and then isasara ung file
 
         //ung na pushback ni menu vector is ilalabas na dito
-        cout << "\nMenu:" << endl;
-        for (int i = 0; i < menu.size(); ++i) {
-            cout << i + 1 << ". " << menu[i].name << " - P" 
-                 << fixed << setprecision(2) << menu[i].price 
-                 << " (Quantity: " << menu[i].quantity << ")" << endl;
-        }
+        cout<<"\n"<<endl;
+		cout<<left<<setw(15)<<"NAME"
+		    <<left<<setw(0)<<"PRICE"
+		    <<right<<setw(15)<<"QUANTITY"<<endl;
+
+		cout<<setfill('-')<<setw(40)<<"-"<<endl;
+		cout<<setfill(' ');
+
+		for (int i = 0 ; i < menu.size(); ++i)  {
+			cout<<left<<setw(15)<<menu[i].name
+			    <<right<<setw(3)<<"₱"<<menu[i].price
+			    <<right<<setw(13)<<menu[i].quantity<<endl;
+		}
     } else {
         cout << "Unable to open Menu.txt" << endl;
     }
