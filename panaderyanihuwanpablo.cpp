@@ -19,7 +19,7 @@ bakedProduct existProduct;
 
 // Reason na magiging case-insensitive ung program.
 string toLower(string s) {
-    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    transform(s.begin(), s.end(), s.begin(), ::tolower); //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
     return s;
 }
 
