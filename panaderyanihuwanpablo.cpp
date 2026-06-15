@@ -80,7 +80,7 @@ void displayMenu() {
     cout << endl;
 }
 
-// Dito yung part kung san magdedelete ka ng products. Looking for way para di sya case sensitive (pakicheck na lang if nagana LMAO)
+// Dito yung part kung san magdedelete ka ng products. Looking for way para di sya case sensitive (pakicheck na lang if nagana LMAO)(Done. -Jepe)
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
