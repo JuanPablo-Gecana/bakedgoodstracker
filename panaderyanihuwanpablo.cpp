@@ -77,14 +77,15 @@ void deleteProduct(){
     cin>>name;
     cin.ignore();
     
-    //lagay muna sa vector ung mga nasa file (or ilalagay ulit if ginawa muna ung display)
-    menu.clear();
-    ifstream file("Menu.txt"); 
-    if (file.is_open()){
-        while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-            menu.push_back(existProduct); 
+    //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
+    if (menu.empty()) {
+        ifstream file("Menu.txt"); 
+            if (file.is_open()){
+                while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+                menu.push_back(existProduct); 
+            }
+            file.close();
         }
-        file.close();
     }
 
     //i checheck kung nandun ba sa vector ung tatanggaling product
