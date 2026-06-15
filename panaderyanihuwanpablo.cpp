@@ -72,9 +72,7 @@ void displayMenu() {
 			    <<right<<setw(3)<<"₱"<<menu[i].price
 			    <<right<<setw(13)<<menu[i].quantity<<endl;
 		}
-    } else {
-        cout << "Unable to open Menu.txt" << endl;
-    }
+    } 
     cout << endl;
 }
 
