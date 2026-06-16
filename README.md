@@ -28,6 +28,7 @@
 
 **Solution:**
 - Experiment and try until the issue gets resolved.<br>
+- Algorithm header alongside transform() syntax makes the program case-insensitive<br> 
 - Using filehandling and its properties enables the program to remember what its menu contents without re entering. <br>
 
 <br>
@@ -43,7 +44,7 @@
 - Adding new products to the inventory.<br> (**STATUS:** 🟩, Additional Comment: TANGINA AYOQ NA ~~MABUHAY~~)
 - Updating current product information.<br> (**STATUS:** 🟩)
 - Deleting product records from the inventory.<br> (**STATUS:** 🟩)
-- Can Search for a specific product.<br> (**STATUS:** 🟧)
+- Can Search for a specific product.<br> (**STATUS:** 🟩, Additional Comment: took a ton of hours to fix that bruh ._.)
 - Display all available products and their details.<br> (**STATUS:** 🟩)
 - Monitor and display current stock quantities.<br> (**STATUS:** 🟩, Additional Comment: personally idk ano gagawin here)
 - Accept and process customer orders.<br> (**STATUS:** 🟥)
