@@ -13,28 +13,33 @@ struct bakedProduct {
     int quantity;
 };
 
+//struct para sa mga inputs natin sa main with a secret passcode syempre
 struct choiceInputs {
     string code;
     int numCode;
 };
 
+//login credentials para sa admin
 struct loginCredentials {
     string username;
     string password;
 };
 
-vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
-
+ //pang lagay ng mga items na ibebenta and ididisplay later sa display function
+vector <bakedProduct> menu;
+//useful sa pagloload sa vector galing sa txt file
 bakedProduct existProduct;
 
 // Reason na magiging case-insensitive ung program.
 string toLower(string s) {
-    transform(s.begin(), s.end(), s.begin(), ::tolower); //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
+    //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
+    transform(s.begin(), s.end(), s.begin(), ::tolower); 
     return s;
 }
 
-//itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung ininput natin na Products
-//Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila
+/*itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
+ininput natin na Products
+Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
 void addProduct() {  
     cin.ignore();
     bakedProduct newProduct;
@@ -62,8 +67,9 @@ void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
     ifstream file("Menu.txt"); //Babasahin na nya ung file
     if (file.is_open()){
-        //Hahanapin na nya sa file ung needed na info based sa data type 
-        while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ //Might change this kase di sya nagaacomodate ng may spaces (eg. Pan de Coco)
+        /*Hahanapin na nya sa file ung needed na info based sa data type
+        Might change this kase di sya nagaacomodate ng may spaces (eg. Pan de Coco)*/ 
+        while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
             menu.push_back(existProduct); //And ipupush na nya sa menu vector na kakaclear lang kanina
         }
         file.close();//and then isasara ung file
@@ -90,7 +96,7 @@ void displayMenu() {
     cout << endl;
 }
 
-// Dito yung part kung san magdedelete ka ng products. Looking for way para di sya case sensitive (pakicheck na lang if nagana LMAO)(Done. -Jepe)
+// Dito yung part kung san magdedelete ka ng products. 
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
@@ -133,11 +139,13 @@ void deleteProduct(){
     }
 }
 
+//dito mag uupdate ng ating mga current products
 void updateProduct(){
     string name;
     cout<<"\nWhat product do you want to update: ";
     cin>>name;
 
+    //if deretso agad
     if (menu.empty()) {
             ifstream file("Menu.txt"); 
                 if (file.is_open()){
@@ -148,6 +156,7 @@ void updateProduct(){
             }
         }
 
+    //magrereiterate kung may mag match and iaanounce naman agad ni program yan
     for (int i=0; i<menu.size(); ++i){
         if (toLower(menu[i].name) == toLower(name)) {
                 cout << "\nProduct found successfully.\n" << endl;
@@ -164,6 +173,8 @@ void updateProduct(){
                             cout << "\nEnter your updated price of " << menu[i].name << ": ";
                             cin >> menu[i].price;
                             
+                            /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                             sa lahat ng cases dito sa function nato, its either price or quantity lang */
                             ofstream file("Menu.txt");
                             for (int i=0 ; i < menu.size(); ++i){
                                 file << menu[i].name << "  " 
@@ -203,13 +214,14 @@ void updateProduct(){
         }
     }
 
+//dito naman pag gusto ng user na mag search ng specific product
 void searchProduct() {
     string name;
     int failCount = 0;
-    cout << "\nEnter the product you want to search: ";
+    cout << "\nEnter the product you want to search: "; //Enter mo dito ung sinearch mo
     cin >> name;
 
-    if (menu.empty()) {
+    if (menu.empty()) { //again if deretso ko agad dito ayan muna mag rurun
             ifstream file("Menu.txt"); 
                 if (file.is_open()){
                     while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
@@ -219,22 +231,26 @@ void searchProduct() {
             }
         }
     
+        //mag rereiterate sya hanggang mag match
     for (int i=0; i<menu.size(); ++i){
         if (toLower(menu[i].name) == toLower(name)) {
                 cout << endl;
+                //i oout nanya lahat ng info about sa product na yun kung may mag match
                 cout << "Product Name: " << menu[i].name << endl
                      << "Price: ₱" << menu[i].price << endl;
-                if (menu[i].quantity > 0) {
+                if (menu[i].quantity > 0) { //chinecheck nya kung meron paba tong product nato
                     cout << "Status: Available" << endl;
                 } else {
                     cout << "Status: Unvailable" << endl;
                 }
                 cout << "Quantity: " << menu[i].quantity << endl;
         } else {
-            failCount++;
+            failCount++; 
+            //if nag false ung pinaka unang if statement sa ilalim ng for loop mag aadd sya ng isa
         }
     } 
-    if (failCount == menu.size()) {
+    if (failCount == menu.size()) { 
+        // and then pag wala talaga ung "Product" na yun sa mga paninda na nailagay na sa vector, edi product not found
         cout << "\nProduct not Found.\n";
     } 
     cout << endl;
@@ -251,8 +267,9 @@ int main() {
              << "Enter your choice: ";
         cin >> choice.code;
 
+        //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
         if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
-            choice.numCode = stoi(choice.code);
+            choice.numCode = stoi(choice.code); //stoi para magamit sya pag nag switch na
             switch (choice.numCode) {
                 case 1:
                     cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
