@@ -260,7 +260,7 @@ int main() {
                 searchProduct();
                 break;
             case 6:
-                cout << "\nExiting the program." << endl;
+                cout << "\nThank you and Please come again!" << endl;
                 break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
