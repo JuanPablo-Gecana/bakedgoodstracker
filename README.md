@@ -59,13 +59,13 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
 - Saves all transactions in a file.<br> (**STATUS:** 🟥)
 - Generate transaction summaries or order receipts. <br> (**STATUS:** 🟥)
-- Admin menu
-   A. Unique Admin Password
-   B. Can save admin login credentials on a file
-   C. Can change admin name and password
-   D. Admins unlocked more features than the customer
-   E. Unique Admin menu
-- Customer can type their names and will be saved in the transaction files
+- Admin menu <br>
+   A. Unique Admin Password <br>
+   B. Can save admin login credentials on a file<br>
+   C. Can change admin name and password<br>
+   D. Admins unlocked more features than the customer<br>
+   E. Unique Admin menu<br>
+- Customer can type their names and will be saved in the transaction files<br>
 - Customers can be greeted for the first time and again and again and again by the program
 <br>
 
