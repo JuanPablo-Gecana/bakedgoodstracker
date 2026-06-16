@@ -13,6 +13,16 @@ struct bakedProduct {
     int quantity;
 };
 
+struct choiceInputs {
+    string code;
+    int numCode;
+};
+
+struct loginCredentials {
+    string username;
+    string password;
+};
+
 vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
 
 bakedProduct existProduct;
@@ -231,7 +241,7 @@ void searchProduct() {
 }
 
 int main() {
-    int choice;
+    choiceInputs choice;
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
         cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
@@ -242,8 +252,8 @@ int main() {
              << "5. Search for a Product" << endl
              << "6. Exit" << endl
              << "Enter your choice: ";
-        cin >> choice;
-        switch (choice) {
+        cin >> choice.numCode;
+        switch (choice.numCode) {
             case 1:
                 addProduct();
                 break;
@@ -265,6 +275,6 @@ int main() {
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 6);
+    } while (choice.numCode != 6);
     return 0;
 }
