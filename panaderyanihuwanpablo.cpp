@@ -245,35 +245,34 @@ int main() {
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
         cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
-             << "1. Add Product" << endl
-             << "2. Display All Products" << endl
-             << "3. Delete Product" << endl
-             << "4. Update Product" << endl
-             << "5. Search for a Product" << endl
-             << "6. Exit" << endl
+             << "2. Search for a Product" << endl
+             << "3. Display All Products" << endl
+             << "4. Exit" << endl
              << "Enter your choice: ";
-        cin >> choice.numCode;
-        switch (choice.numCode) {
-            case 1:
-                addProduct();
-                break;
-            case 2:
-                displayMenu();
-                break;
-            case 3:
-                deleteProduct();
-                break;
-            case 4:
-                updateProduct();
-                break;
-             case 5:
-                searchProduct();
-                break;
-            case 6:
-                cout << "\nThank you and Please come again!" << endl;
-                break;
-            default:
-                cout << "Invalid choice. Please try again." << endl;
+        cin >> choice.code;
+
+        if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
+            choice.numCode = stoi(choice.code);
+            switch (choice.numCode) {
+                case 1:
+                    cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
+                    break;
+                case 2:
+                    searchProduct();
+                    break;
+                case 3:
+                    displayMenu();
+                    break;
+                case 4:
+                    cout << "\nThank you and Please come again!" << endl;
+                    break;
+                default:
+                    cout << "Invalid choice. Please try again." << endl;
+            }
+        } else if (choice.code == "ADMIN") {
+            cout << "HEYHEYYYY" << endl;
+        } else {
+            cout << "Invalid choice. Please try again." << endl;
         }
     } while (choice.numCode != 6);
     return 0;
