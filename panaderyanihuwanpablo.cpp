@@ -125,40 +125,73 @@ void deleteProduct(){
 
 void updateProduct(){
     string name;
-    cout<<"What product do you want to update: ";
+    cout<<"\nWhat product do you want to update: ";
     cin>>name;
-    cin.ignore();
 
     if (menu.empty()) {
-        ifstream file("Menu.txt"); 
-            if (file.is_open()){
-                while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-                menu.push_back(existProduct); 
+            ifstream file("Menu.txt"); 
+                if (file.is_open()){
+                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+                    menu.push_back(existProduct); 
+                }
+                file.close();
             }
-            file.close();
         }
-    }
 
     for (int i=0; i<menu.size(); ++i){
         if (toLower(menu[i].name) == toLower(name)) {
-            cout << "\nProduct found successfully." << endl;
-            int choice;
-            do {
-                cout << "1. Update Price" << endl
-                     << "2. Update Quantity" << endl
-                     << "3. Back" << endl
-                     << "Enter your choice: ";
-                cin >> choice;
-                switch (choice) {
-                    case 1:
-                    case 2:
-                    case 3:
-                    default:
-                }
-            } while (choice !=3);
+                cout << "\nProduct found successfully.\n" << endl;
+                int choice;
+                do {
+                    cout<< "What information of "<< menu[i].name << " do you want to update?" << endl
+                        << "1. Update Price" << endl
+                        << "2. Update Quantity" << endl
+                        << "3. Back" << endl
+                        << "Enter your choice: ";
+                    cin >> choice;
+                    switch (choice) {
+                        case 1: {
+                            cout << "\nEnter your updated price of " << menu[i].name << ": ";
+                            cin >> menu[i].price;
+                            
+                            ofstream file("Menu.txt");
+                            for (int i=0 ; i < menu.size(); ++i){
+                                file << menu[i].name << "  " 
+                                     << menu[i].price << "  " 
+                                     << menu[i].quantity << endl;
+                            }
+                                file.close();
+
+                            cout << "\nPrice Updated!\n" << endl;
+                            break;
+                        }
+                        case 2: {
+                            cout << "\nEnter your updated quantity of " << menu[i].name << ": ";
+                            cin >> menu[i].quantity;
+                            
+                            ofstream file("Menu.txt");
+                            for (int i=0 ; i < menu.size(); ++i){
+                                file << menu[i].name << "  " 
+                                     << menu[i].price << "  " 
+                                     << menu[i].quantity << endl;
+                            }
+                                file.close();
+
+                            cout << "\nQuantity Updated!\n" << endl;
+                            break;
+                        }
+                        case 3:
+                            cout << endl;
+                            break;
+                        default:
+                         cout << "Invalid choice. Please try again." << endl;
+                    }
+                } while (choice !=3);
+            } else {
+                cout << "\nProduct not found.\n" << endl;
+            }
         }
     }
-}
 
 int main() {
     int choice;
@@ -168,7 +201,8 @@ int main() {
              << "1. Add Product" << endl
              << "2. Display All Products" << endl
              << "3. Delete Product" << endl
-             << "4. Exit" << endl
+             << "4. Update Product" << endl
+             << "5. Exit" << endl
              << "Enter your choice: ";
         cin >> choice;
         switch (choice) {
@@ -182,11 +216,14 @@ int main() {
                 deleteProduct();
                 break;
             case 4:
+                updateProduct();
+                break;
+            case 5:
                 cout << "\nExiting the program." << endl;
                 break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 4);
+    } while (choice != 5);
     return 0;
 }
