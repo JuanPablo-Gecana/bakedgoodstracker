@@ -193,6 +193,43 @@ void updateProduct(){
         }
     }
 
+void searchProduct() {
+    string name;
+    int failCount = 0;
+    cout << "\nEnter the product you want to search: ";
+    cin >> name;
+
+    if (menu.empty()) {
+            ifstream file("Menu.txt"); 
+                if (file.is_open()){
+                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+                    menu.push_back(existProduct); 
+                }
+                file.close();
+            }
+        }
+    
+    for (int i=0; i<menu.size(); ++i){
+        if (toLower(menu[i].name) == toLower(name)) {
+                cout << endl;
+                cout << "Product Name: " << menu[i].name << endl
+                     << "Price: ₱" << menu[i].price << endl;
+                if (menu[i].quantity > 0) {
+                    cout << "Status: Available" << endl;
+                } else {
+                    cout << "Status: Unvailable" << endl;
+                }
+                cout << "Quantity: " << menu[i].quantity << endl;
+        } else {
+            failCount++;
+        }
+    } 
+    if (failCount == menu.size()) {
+        cout << "\nProduct not Found.\n";
+    } 
+    cout << endl;
+}
+
 int main() {
     int choice;
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
@@ -202,7 +239,8 @@ int main() {
              << "2. Display All Products" << endl
              << "3. Delete Product" << endl
              << "4. Update Product" << endl
-             << "5. Exit" << endl
+             << "5. Search for a Product" << endl
+             << "6. Exit" << endl
              << "Enter your choice: ";
         cin >> choice;
         switch (choice) {
@@ -218,12 +256,15 @@ int main() {
             case 4:
                 updateProduct();
                 break;
-            case 5:
+             case 5:
+                searchProduct();
+                break;
+            case 6:
                 cout << "\nExiting the program." << endl;
                 break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 5);
+    } while (choice != 6);
     return 0;
 }
