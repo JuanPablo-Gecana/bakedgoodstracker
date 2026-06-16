@@ -12,7 +12,8 @@
 ## TIPS:<br>
 - If wala kayong VsCode and gusto itry ung program since may kasama na yang file handling, i download nyo nalang ung .exe file and ung Menu.txt sa laptop/pc nyo and kailangan magkasama sa isang folder yang .exe and .txt file. Thanks! <br>
 
-<br>
+## PROGRAM< EXPLANATION<br>
+May dalawang menu dito sa program, isa sa customer and isa sa admin (satin). Basically ang admin menu is customer menu sya pero with more new features (parang subscription services lang ganun pero di ka magbabayad obv). Sa Customer menu is order, display, search, exit (in order) and then sa Admin menu ang additional is ung Add and delete ng product including din ung update ng product (with possibly a seperate menu pero may additional option dun na "Admin" dun sa pinaka menu talaga). Dont worry na ung sa pagsasave ng info sa file since automatically na sya. As admin syempre may login system and hidden sya sa mga options sa customer menu, katulad din ng isang login system is pwede mo din paltan ung username and password just like usual. Wait nalang siguro na maimplement ko yan.
 
 ## CHALLENGES AND SOLUTION:<br>
 ### NOTE:<br>
@@ -53,6 +54,13 @@
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
 - Saves all transactions in a file.<br> (**STATUS:** 🟥)
 - Generate transaction summaries or order receipts. <br> (**STATUS:** 🟥)
+- Admin menu
+   A. Unique Admin Password
+   B. Can save admin login credentials on a file
+   C. Can change admin name and password
+   D. Admins unlocked more features than the customer
+   E. Unique Admin menu
+   F. Possibly more pa if may naisip pako
 <br>
 
 
