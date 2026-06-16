@@ -265,11 +265,11 @@ int main() {
              << "3. Display All Products" << endl
              << "4. Exit" << endl
              << "Enter your choice: ";
-        cin >> choice.code;
+        cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
 
         //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
         if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
-            choice.numCode = stoi(choice.code); //stoi para magamit sya pag nag switch na
+            choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
             switch (choice.numCode) {
                 case 1:
                     cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
