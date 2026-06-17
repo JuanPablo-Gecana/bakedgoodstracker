@@ -6,7 +6,7 @@
 #include <algorithm> //way para maging case insensitive ung mga icocompare na input later
 using namespace std;
 
-//==================================Structures===================================== 
+//==================================[Structures]===================================== 
 
 //Structure para malagay natin ung mga products and info nila sa vector as one 
 struct bakedProduct {
@@ -27,14 +27,66 @@ struct loginCredentials {
     string password;
 };
 
-//=========================Important Struct Variables==============================
+//=========================[Important Struct Variables]==============================
 
-//pang lagay ng mga items na ibebenta and ididisplay later sa display function
-vector <bakedProduct> menu;
-//useful sa pagloload sa vector galing sa txt file
-bakedProduct existProduct;
+vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
+bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
 
-//===============================Helper Functions================================== 
+//===============================[Helper Functions]================================== 
+
+void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
+string toLower(string s); // Reason na magiging case-insensitive ung program.
+
+//================================[Core Functions]=================================== 
+
+/*itong addProduct kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
+ininput natin na Products*/
+void addProduct(); // Mag aadd ng product dun sa program and sa file.
+void displayMenu(); //Ipapakita lahat nung nilagay na products doon sa addProduct function.
+void deleteProduct(); // Dito yung part kung san magdedelete ka ng products. 
+void updateProduct(); //dito mag uupdate ng ating mga current products
+void searchProduct(); //dito naman pag gusto ng user na mag search ng specific product
+
+//================================[Main Function]==================================== 
+
+int main() {
+    choiceInputs choice;
+    //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
+    do {
+        cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
+             << "2. Search for a Product" << endl
+             << "3. Display All Products" << endl
+             << "4. Exit" << endl
+             << "Enter your choice: ";
+        cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
+
+        //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
+        if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
+            choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
+            switch (choice.numCode) {
+                case 1:
+                    cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
+                    break;
+                case 2:
+                    searchProduct();
+                    break;
+                case 3:
+                    displayMenu();
+                    break;
+                case 4:
+                    cout << "\nThank you and Please come again!" << endl;
+                    break;
+                default:
+                    cout << "Invalid choice. Please try again." << endl;
+            }
+        } else if (choice.code == "ADMIN") {
+            cout << "HEYHEYYYY" << endl;
+        } else {
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice.numCode != 4);
+    return 0;
+}
 
 void loadExistingProducts(){
      if (menu.empty()) {
@@ -48,18 +100,13 @@ void loadExistingProducts(){
         }
 }
 
-// Reason na magiging case-insensitive ung program.
 string toLower(string s) {
     //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
     transform(s.begin(), s.end(), s.begin(), ::tolower); 
     return s;
 }
 
-//===============================Core Functions================================== 
-
-/*itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
-ininput natin na Products
-Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
+/*Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
 void addProduct() {  
     cin.ignore();
     bakedProduct newProduct;
@@ -82,7 +129,6 @@ void addProduct() {
     cout << "\nProduct added successfully!\n" << endl;
 }
 
-//Ipapakita lahat nung nilagay na products doon sa addProduct function 
 void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
     ifstream file("Menu.txt"); //Babasahin na nya ung file
@@ -116,7 +162,6 @@ void displayMenu() {
     cout << endl;
 }
 
-// Dito yung part kung san magdedelete ka ng products. 
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
@@ -151,7 +196,6 @@ void deleteProduct(){
     }
 }
 
-//dito mag uupdate ng ating mga current products
 void updateProduct(){
     string name;
     cout<<"\nWhat product do you want to update: ";
@@ -212,13 +256,12 @@ void updateProduct(){
                          cout << "Invalid choice. Please try again." << endl;
                     }
                 } while (choice !=3);
-            } else {
-                cout << "\nProduct not found.\n" << endl;
-            }
+        } else {
+            cout << "\nProduct not found.\n" << endl;
         }
     }
+}
 
-//dito naman pag gusto ng user na mag search ng specific product
 void searchProduct() {
     string name;
     int failCount = 0;
@@ -251,43 +294,4 @@ void searchProduct() {
         cout << "\nProduct not Found.\n";
     } 
     cout << endl;
-}
-
-int main() {
-    choiceInputs choice;
-    //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
-    do {
-        cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
-             << "2. Search for a Product" << endl
-             << "3. Display All Products" << endl
-             << "4. Exit" << endl
-             << "Enter your choice: ";
-        cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
-
-        //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
-        if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
-            choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
-            switch (choice.numCode) {
-                case 1:
-                    cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
-                    break;
-                case 2:
-                    searchProduct();
-                    break;
-                case 3:
-                    displayMenu();
-                    break;
-                case 4:
-                    cout << "\nThank you and Please come again!" << endl;
-                    break;
-                default:
-                    cout << "Invalid choice. Please try again." << endl;
-            }
-        } else if (choice.code == "ADMIN") {
-            cout << "HEYHEYYYY" << endl;
-        } else {
-            cout << "Invalid choice. Please try again." << endl;
-        }
-    } while (choice.numCode != 4);
-    return 0;
 }
