@@ -95,8 +95,17 @@ int main() {
 
             for (int i=0; i < logInfo.size() ; ++i) {
                 if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
-                    cout << "\nWelkam Admin\n";
-                    cout << endl;
+                    do{
+                        cout << "========Welcome Admin "<< login.username << "!========" << endl
+                        << "1. Add a Product" << endl
+                        << "2. Delete a Product" << endl
+                        << "3. Update a Product" << endl
+                        << "4. Change Username/Password" << endl
+                        << "5. Add an Admin" << endl
+                        << "6. Back" << endl
+                        << "Enter your choice: ";
+        cin >> choice.code;
+                    } while (choice.numCode !=4);
                 }
             }
         } else {
