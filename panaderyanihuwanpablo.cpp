@@ -32,8 +32,8 @@ struct loginCredentials {
 
 vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
 bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
-vector <loginCredentials> logInfo;
-loginCredentials logCred;
+vector <loginCredentials> logInfo; //pang store ng login credentials ng mga admin
+loginCredentials logCred; //pangload sa vector para may ma compare later
 
 //===============================[Helper Functions]================================== 
 
@@ -58,6 +58,7 @@ int main() {
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
         cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
+             << "1. Order a Product" << endl;
              << "2. Search for a Product" << endl
              << "3. Display All Products" << endl
              << "4. Exit" << endl
@@ -104,8 +105,28 @@ int main() {
                         << "5. Add an Admin" << endl
                         << "6. Back" << endl
                         << "Enter your choice: ";
-        cin >> choice.code;
-                    } while (choice.numCode !=4);
+                        cin >> choice.numCode;
+
+                        switch (choice.numCode) {
+                            case 1:
+                                addProduct();
+                                break;
+                            case 2:
+                                deleteProduct();
+                                break;
+                            case 3:
+                                updateProduct();
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                            case 6:
+                                break;
+                            default:
+                                cout << "Invalid choice. Please try again." << endl;
+                        }
+                    } while (choice.numCode !=6);
                 }
             }
         } else {
