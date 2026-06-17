@@ -84,16 +84,16 @@ int main() {
                 default:
                     cout << "Invalid choice. Please try again." << endl;
             }
-        } else if (choice.code == "ADMIN") {
+        } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
             loginCredentials login;
-
-            cout << "\nUsername: ";
+            cout << "\nUsername: ";//Needed nya na mag input ng username and password
             cin >> login.username;
             cout << "Password: ";
             cin >> login.password;
 
             loadAdmin();
 
+            //If magmatch... welcome sa bagong ui natin for admin, dito nakalagay ung mga revision sa menu ng products natin
             for (int i=0; i < logInfo.size() ; ++i) {
                 if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
                     do{
@@ -127,10 +127,13 @@ int main() {
                                 cout << "Invalid choice. Please try again." << endl;
                         }
                     } while (choice.numCode !=6);
+                } else {
+                    cout << "\nUsername and Password don't match.\n" << endl;
+            
                 }
             }
         } else {
-            cout << "Invalid choice. Please try again." << endl;
+            cout << "\nInvalid choice. Please try again.\n" << endl;
         }
     } while (choice.numCode != 4);
     return 0;

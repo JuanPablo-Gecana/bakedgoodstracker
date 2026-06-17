@@ -29,6 +29,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Some parts of the program doesnt work like the developers intended to work. <br>
 - Developers need to figure out a way to make sure the program isn't case sensitive in user input, as it hampers the user's experience with the program. <br>
 - The Program's ability to remember what the items are listed in its menu.<br>
+- Compiler's incompability to use other header's libraries.
 
 <br>
 
@@ -36,6 +37,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Experiment and try until the issue gets resolved.<br>
 - Algorithm header alongside transform() syntax makes the program case-insensitive<br> 
 - Using filehandling and its properties enables the program to remember what its menu contents without re entering. <br>
+- The problem lies in the compiler's version. Therefore, a simple fix is to adjust the compiler's version in order to use that library.
 
 <br>
 
