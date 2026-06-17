@@ -6,6 +6,8 @@
 #include <algorithm> //way para maging case insensitive ung mga icocompare na input later
 using namespace std;
 
+//==================================Structures===================================== 
+
 //Structure para malagay natin ung mga products and info nila sa vector as one 
 struct bakedProduct {
     string name;
@@ -25,10 +27,26 @@ struct loginCredentials {
     string password;
 };
 
- //pang lagay ng mga items na ibebenta and ididisplay later sa display function
+//=========================Important Struct Variables==============================
+
+//pang lagay ng mga items na ibebenta and ididisplay later sa display function
 vector <bakedProduct> menu;
 //useful sa pagloload sa vector galing sa txt file
 bakedProduct existProduct;
+
+//===============================Helper Functions================================== 
+
+void loadExistingProducts(){
+     if (menu.empty()) {
+            ifstream file("Menu.txt"); 
+                if (file.is_open()){
+                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
+                    menu.push_back(existProduct); 
+                }
+                file.close();
+            }
+        }
+}
 
 // Reason na magiging case-insensitive ung program.
 string toLower(string s) {
@@ -36,6 +54,8 @@ string toLower(string s) {
     transform(s.begin(), s.end(), s.begin(), ::tolower); 
     return s;
 }
+
+//===============================Core Functions================================== 
 
 /*itong blocks of code kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
 ininput natin na Products
@@ -104,15 +124,7 @@ void deleteProduct(){
     cin.ignore();
     
     //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
-    if (menu.empty()) {
-        ifstream file("Menu.txt"); 
-            if (file.is_open()){
-                while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-                menu.push_back(existProduct); 
-            }
-            file.close();
-        }
-    }
+    loadExistingProducts();
 
     //i checheck kung nandun ba sa vector ung tatanggaling product
     bool found = false;
@@ -146,15 +158,7 @@ void updateProduct(){
     cin>>name;
 
     //if deretso agad
-    if (menu.empty()) {
-            ifstream file("Menu.txt"); 
-                if (file.is_open()){
-                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-                    menu.push_back(existProduct); 
-                }
-                file.close();
-            }
-        }
+    loadExistingProducts();
 
     //magrereiterate kung may mag match and iaanounce naman agad ni program yan
     for (int i=0; i<menu.size(); ++i){
@@ -221,15 +225,8 @@ void searchProduct() {
     cout << "\nEnter the product you want to search: "; //Enter mo dito ung sinearch mo
     cin >> name;
 
-    if (menu.empty()) { //again if deretso ko agad dito ayan muna mag rurun
-            ifstream file("Menu.txt"); 
-                if (file.is_open()){
-                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-                    menu.push_back(existProduct); 
-                }
-                file.close();
-            }
-        }
+    //again if deretso ko agad dito ayan muna mag rurun
+    loadExistingProducts();
     
         //mag rereiterate sya hanggang mag match
     for (int i=0; i<menu.size(); ++i){
@@ -291,6 +288,6 @@ int main() {
         } else {
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice.numCode != 6);
+    } while (choice.numCode != 4);
     return 0;
 }
