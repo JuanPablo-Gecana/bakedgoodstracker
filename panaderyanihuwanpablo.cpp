@@ -25,17 +25,21 @@ struct choiceInputs {
 struct loginCredentials {
     string username;
     string password;
+    string customerName;
 };
 
 //=========================[Important Struct Variables]==============================
 
 vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay later sa display function
 bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
+vector <loginCredentials> logInfo;
+loginCredentials logCred;
 
 //===============================[Helper Functions]================================== 
 
 void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
 string toLower(string s); // Reason na magiging case-insensitive ung program.
+void loadAdmin(); //pangload ng admin info sa file
 
 //================================[Core Functions]=================================== 
 
@@ -80,7 +84,21 @@ int main() {
                     cout << "Invalid choice. Please try again." << endl;
             }
         } else if (choice.code == "ADMIN") {
-            cout << "HEYHEYYYY" << endl;
+            loginCredentials login;
+
+            cout << "\nUsername: ";
+            cin >> login.username;
+            cout << "Password: ";
+            cin >> login.password;
+
+            loadAdmin();
+
+            for (int i=0; i < logInfo.size() ; ++i) {
+                if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
+                    cout << "\nWelkam Admin\n";
+                    cout << endl;
+                }
+            }
         } else {
             cout << "Invalid choice. Please try again." << endl;
         }
@@ -94,6 +112,18 @@ void loadExistingProducts(){
                 if (file.is_open()){
                     while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
                     menu.push_back(existProduct); 
+                }
+                file.close();
+            }
+        }
+}
+
+void loadAdmin(){
+     if (logInfo.empty()) {
+            ifstream file("Admin.txt"); 
+                if (file.is_open()){
+                    while(file >> logCred.username >> logCred.password){ 
+                    logInfo.push_back(logCred); 
                 }
                 file.close();
             }
