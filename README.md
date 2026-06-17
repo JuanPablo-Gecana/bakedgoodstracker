@@ -65,6 +65,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
    C. Can change admin name and password<br>
    D. Admins unlocked more features than the customer<br>
    E. Unique Admin menu<br>
+   F. Can add an admin<br>
 - Customer can type their names and will be saved in the transaction files<br>
 - Customers can be greeted for the first time and again and again and again by the program
 <br>
