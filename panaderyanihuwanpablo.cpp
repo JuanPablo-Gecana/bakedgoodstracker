@@ -58,7 +58,7 @@ int main() {
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
         cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
-             << "1. Order a Product" << endl;
+             << "1. Order a Product" << endl
              << "2. Search for a Product" << endl
              << "3. Display All Products" << endl
              << "4. Exit" << endl
