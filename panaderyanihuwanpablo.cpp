@@ -209,9 +209,31 @@ void orderProduct() {
                     //eto na kase ung receipt sa transaction T- T
                         double totalCost = menu[i].price * orderQty;
                         cout << "\nOrder successful!" << endl;
-                        cout << "Product: " << menu[i].name << endl;
-                        cout << "Quantity: " << orderQty << endl;
-                        cout << "Total Cost: ₱" << totalCost << "\n" << endl;
+                        cout<<left<<setw(30)<<"PRODUCT NAME"
+            		        <<left<<setw(0)<<"STATUS"
+            		        <<right<<setw(30)<<"QUANTITY"
+                            <<right<<setw(30)<<"PRICE"<<endl;
+                            
+                            cout<<setfill('-')<<setw(110)<<"-"<<endl;
+		                    cout<<setfill(' ');
+                        cout << left << setw(14)<< menu[i].name;
+                        cout << right << setw(24) << "CONFIRMED";
+                        cout << right << setw(25) << orderQty;
+                        cout << right << setw(32) <<"₱" << totalCost << "\n\n";
+                        
+                        //Pag-save sa .txt file ng mga transactions
+                        ofstream tFile("Transaction.txt", ios::app);
+                        if (tFile.is_open()) {
+                            cout << "Transaction saved." << endl;
+                            tFile << menu[i].name << " "
+                                  << orderQty << " "
+                                  << totalCost << endl;
+                                  
+                                  tFile.close();
+                        }
+                        
+                        else
+                            cout << "\nUnecpected error occured while saving transaction records.\n";
 
                         // Pag-rewrite sa .txt file para synchronize ang binawas na stock
                         ofstream file("Menu.txt");
@@ -517,4 +539,30 @@ void changeLogInfo() {
             default:
                  cout<<"\nInvalid Choice. Please try again\n"<<endl;
         }
+}
+
+void addAdmin() {
+    loadAdmin();
+    loginCredentials newUser;
+    loginCredentials veriPass;
+
+    cout<<"Confirm Password: ";
+    cin>>veriPass.password;
+
+    for (int i=0; i<logInfo.size(); ++i){
+        if (veriPass.password==logInfo[i].password) {
+            cout<<"===========CREATE NEW ADMIN===========" << endl;
+            cout<<"Add Username: ";
+            cin>>newUser.username;
+            cout<<"Add Password: ";
+            cin>>newUser.password;
+
+            ofstream file("Admin.txt", ios::app);
+            file << newUser.username << "  " 
+                 << newUser.password << endl;
+            file.close();
+
+            logInfo.push_back(newUser);
+        }
+    }
 }
