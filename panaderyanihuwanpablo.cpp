@@ -206,6 +206,7 @@ void orderProduct() {
                         menu[i].quantity -= orderQty;
                         
                     //Paki Modify nalang ito andry katulad nung sa search product and sa display product
+                    //eto na kase ung receipt sa transaction T- T
                         double totalCost = menu[i].price * orderQty;
                         cout << "\nOrder successful!" << endl;
                         cout << "Product: " << menu[i].name << endl;
