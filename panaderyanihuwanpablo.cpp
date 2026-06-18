@@ -337,16 +337,26 @@ void searchProduct() {
         //mag rereiterate sya hanggang mag match
     for (int i=0; i<menu.size(); ++i){
         if (toLower(menu[i].name) == toLower(name)) {
-                cout << endl;
-                //i oout nanya lahat ng info about sa product na yun kung may mag match
-                cout << "Product Name: " << menu[i].name << endl
-                     << "Price: ₱" << menu[i].price << endl;
-                if (menu[i].quantity > 0) { //chinecheck nya kung meron paba tong product nato
-                    cout << "Status: Available" << endl;
+            cout << endl;
+            cout<<"\n"<<endl;
+		    cout<<left<<setw(30)<<"NAME"
+		        <<left<<setw(0)<<"STATUS"
+		        <<right<<setw(30)<<"QUANTITY"
+                <<right<<setw(30)<<"PRICE"<<endl;
+
+		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
+		    cout<<setfill(' ');
+
+			    cout<<left<<setw(14)<<menu[i].name;
+			    if (menu[i].quantity > 0){
+                    cout << right << setw(24) << "Available";
+                    cout<<right<<setw(25)<<menu[i].quantity
+                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 } else {
-                    cout << "Status: Unvailable" << endl;
-                }
-                cout << "Quantity: " << menu[i].quantity << endl;
+                    cout << right << setw(26) << "Out of Stock";
+                    cout<<right<<setw(23)<<menu[i].quantity
+                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
+                }    
         } else {
             failCount++; 
             //if nag false ung pinaka unang if statement sa ilalim ng for loop mag aadd sya ng isa
