@@ -51,6 +51,12 @@ void deleteProduct(); // Dito yung part kung san magdedelete ka ng products.
 void updateProduct(); //dito mag uupdate ng ating mga current products
 void searchProduct(); //dito naman pag gusto ng user na mag search ng specific product
 
+//==============================[Features Functions]=================================
+
+void changeLogInfo();
+void addAdmin();
+void removeAdmin();
+
 //================================[Main Function]==================================== 
 
 int main() {
@@ -103,7 +109,8 @@ int main() {
                         << "3. Update a Product" << endl
                         << "4. Change Username/Password" << endl
                         << "5. Add an Admin" << endl
-                        << "6. Back" << endl
+                        << "6. Remove an Admin" << endl
+                        << "7. Back" << endl
                         << "Enter your choice: ";
                         cin >> choice.numCode;
 
@@ -118,15 +125,18 @@ int main() {
                                 updateProduct();
                                 break;
                             case 4:
+                                changeLogInfo();
                                 break;
                             case 5:
                                 break;
                             case 6:
                                 break;
+                            case 7:
+                                break;
                             default:
                                 cout << "Invalid choice. Please try again." << endl;
                         }
-                    } while (choice.numCode !=6);
+                    } while (choice.numCode !=7);
                 } else {
                     cout << "\nUsername and Password don't match.\n" << endl;
             
@@ -367,4 +377,74 @@ void searchProduct() {
         cout << "\nProduct not Found.\n";
     } 
     cout << endl;
+}
+
+void changeLogInfo() {
+    int choice;
+    int logError = 0;
+    loginCredentials newInfo;
+
+    cout<<"\nWhat credential do you like to change?"<<endl
+        <<"1. Change Username"<<endl
+        <<"2. Change Password"<<endl
+        <<"3. Back"
+        <<"Enter your choice: ";
+        cin>>choice;
+    
+        loadAdmin();
+
+        switch (choice) {
+            case 1:
+                cout<<"\nEnter your password for confirmation: ";
+                cin>>newInfo.password;
+                for (int i=0; i < logInfo.size(); ++i){
+                    if (newInfo.password == logInfo[i].password) {
+                        cout<<"Enter your new username: ";
+                        cin>>logInfo[i].username;
+                        
+                    ofstream file("Admin.txt");
+                        for (int i=0 ; i < logInfo.size(); ++i){
+                            file << logInfo[i].username << "  " 
+                                 << logInfo[i].password << endl;
+                        }
+                    file.close();
+                    cout<<"\nUsername Successfuly Changed!\n"<<endl;
+
+                    } else {
+                        logError++;
+                    }
+                if (logError == logInfo.size()) {
+                    cout<<"\nPassword doesn't match.\n"<<endl;
+                }
+            }
+                break;
+            case 2:
+                cout<<"\nEnter your old password for confirmation: ";
+                cin>>newInfo.password;
+                for (int i=0; i < logInfo.size(); ++i){
+                    if (newInfo.password == logInfo[i].password) {
+                        cout<<"Enter your new password: ";
+                        cin>>logInfo[i].password;
+                        
+                    ofstream file("Admin.txt");
+                        for (int i=0 ; i < logInfo.size(); ++i){
+                            file << logInfo[i].username << "  " 
+                                 << logInfo[i].password << endl;
+                        }
+                    file.close();
+                    cout<<"\nPassword Successfuly Changed!\n"<<endl;
+
+                    } else {
+                        logError++;
+                    }
+                if (logError == logInfo.size()) {
+                    cout<<"\nPassword doesn't match.\n" <<endl;
+                }
+            }
+                break;
+            case 3:
+                break;
+            default:
+                 cout<<"\nInvalid Choice. Please try again\n"<<endl;
+        }
 }
