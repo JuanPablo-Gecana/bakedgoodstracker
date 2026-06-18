@@ -403,25 +403,30 @@ void updateProduct(){
 
 void searchProduct() {
     string name;
-    int failCount = 0;
+    
     cout << "\nEnter the product you want to search: "; //Enter mo dito ung sinearch mo
-    cin >> name;
+    cin.ignore(); //para di magloko yung user-input
+    getline (cin, name); //getline para mabasa yung mga white spaces
 
     //again if deretso ko agad dito ayan muna mag rurun
     loadExistingProducts();
+    string searchWord = toLower(name); //ginagawang lowercase yung input from user ara maging case insensitive
     
+    bool isFound = false; //boolean ginamit ko rito para madali, di na natin need ng failcount
         //mag rereiterate sya hanggang mag match
-    for (int i=0; i<menu.size(); ++i){
-        if (toLower(menu[i].name) == toLower(name)) {
-            cout << endl;
-            cout<<"\n"<<endl;
-		    cout<<left<<setw(30)<<"NAME"
-		        <<left<<setw(0)<<"STATUS"
-		        <<right<<setw(30)<<"QUANTITY"
-                <<right<<setw(30)<<"PRICE"<<endl;
+    
+    cout << endl;
+    cout<<"\n"<<endl;
+	cout<<left<<setw(30)<<"NAME"
+		<<left<<setw(0)<<"STATUS"
+		<<right<<setw(30)<<"QUANTITY"
+        <<right<<setw(30)<<"PRICE"<<endl;
 
 		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
 		    cout<<setfill(' ');
+
+    for (int i=0; i<menu.size(); ++i){
+        if (toLower(menu[i].name).find(searchWord) != string::npos) {
 
 			    cout<<left<<setw(14)<<menu[i].name;
 			    if (menu[i].quantity > 0){
@@ -433,12 +438,11 @@ void searchProduct() {
                     cout<<right<<setw(23)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 }    
-        } else {
-            failCount++; 
-            //if nag false ung pinaka unang if statement sa ilalim ng for loop mag aadd sya ng isa
-        }
-    } 
-    if (failCount == menu.size()) { 
+                
+                isFound = true; //pag may na-search, magiging true, which means merong product na nahanap.
+        } 
+    }
+    if (!isFound) { 
         // and then pag wala talaga ung "Product" na yun sa mga paninda na nailagay na sa vector, edi product not found
         cout << "\nProduct not Found.\n";
     } 
