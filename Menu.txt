@@ -1,1 +1,2 @@
-Cupcake  7  20Pandesal  5  0
+Cupcake  7  19
+Pandesal  5  0

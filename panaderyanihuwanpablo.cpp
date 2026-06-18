@@ -45,6 +45,7 @@ void loadAdmin(); //pangload ng admin info sa file
 
 /*itong addProduct kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
 ininput natin na Products*/
+void orderProduct();
 void addProduct(); // Mag aadd ng product dun sa program and sa file.
 void displayMenu(); //Ipapakita lahat nung nilagay na products doon sa addProduct function.
 void deleteProduct(); // Dito yung part kung san magdedelete ka ng products. 
@@ -76,7 +77,7 @@ int main() {
             choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
             switch (choice.numCode) {
                 case 1:
-                    cout << "Wait tayo hanggang sat para sa orderProduct()" << endl;
+                    orderProduct();
                     break;
                 case 2:
                     searchProduct();
@@ -103,7 +104,7 @@ int main() {
             for (int i=0; i < logInfo.size() ; ++i) {
                 if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
                     do{
-                        cout << "========Welcome Admin "<< login.username << "!========" << endl
+                        cout << "========Welcome Admin "<< logInfo[i].username << "!========" << endl
                         << "1. Add a Product" << endl
                         << "2. Delete a Product" << endl
                         << "3. Update a Product" << endl
@@ -179,6 +180,62 @@ string toLower(string s) {
     return s;
 }
 
+void orderProduct() {
+    loadExistingProducts();
+
+    if (menu.empty()) {
+        cout << "\nSorry, the menu is currently empty. No items to order.\n" << endl;
+    } else {
+        string orderName;
+        int orderQty;
+        bool productFound = false;
+
+        cout << "\nEnter product name to order: ";
+        cin >> orderName;
+        cout << "Enter quantity: ";
+        cin >> orderQty;
+
+        // reiterate hanggang magmatch sa file ung product na hinahanap ng customer
+            for (int i = 0; i < menu.size(); ++i) {
+                if (toLower(menu[i].name) == toLower(orderName)) {
+                    productFound = true;
+
+                    // Validation check para sa stock availability
+                    if (menu[i].quantity >= orderQty) {
+                        // Automatic inventory deduction sa active running vector
+                        menu[i].quantity -= orderQty;
+                        
+                    //Paki Modify nalang ito andry katulad nung sa search product and sa display product
+                        double totalCost = menu[i].price * orderQty;
+                        cout << "\nOrder successful!" << endl;
+                        cout << "Product: " << menu[i].name << endl;
+                        cout << "Quantity: " << orderQty << endl;
+                        cout << "Total Cost: ₱" << totalCost << "\n" << endl;
+
+                        // Pag-rewrite sa .txt file para synchronize ang binawas na stock
+                        ofstream file("Menu.txt");
+                        if (file.is_open()) {
+                            for (int j = 0; j < menu.size(); ++j) {
+                                file << menu[j].name << "  " 
+                                     << menu[j].price << "  " 
+                                     << menu[j].quantity << endl;
+                            }
+                                file.close();
+                        }
+                    } else {
+                        cout << "\nInsufficient stock! Available quantity for '" 
+                             << menu[i].name << "' is only " << menu[i].quantity << ".\n" << endl;
+                    }
+                            break; 
+                }
+            }
+
+            if (!productFound) {
+                cout << "\nProduct not found in the menu.\n" << endl;
+            }
+    }
+}
+
 /*Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
 void addProduct() {  
     cin.ignore();
@@ -218,18 +275,26 @@ void displayMenu() {
         } else {
             //ung na pushback ni menu vector is ilalabas na dito
             cout<<"\n"<<endl;
-		    cout<<left<<setw(15)<<"NAME"
-		        <<left<<setw(0)<<"PRICE"
-		        <<right<<setw(15)<<"QUANTITY"<<endl;
+		    cout<<left<<setw(30)<<"NAME"
+		        <<left<<setw(0)<<"STATUS"
+		        <<right<<setw(30)<<"QUANTITY"
+                <<right<<setw(30)<<"PRICE"<<endl;
 
-		    cout<<setfill('-')<<setw(40)<<"-"<<endl;
+		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
 		    cout<<setfill(' ');
 
-		    for (int i = 0 ; i < menu.size(); ++i)  {
-			    cout<<left<<setw(15)<<menu[i].name
-			        <<right<<setw(3)<<"₱"<<menu[i].price
-			        <<right<<setw(13)<<menu[i].quantity<<endl;
-		    }
+            for (int i=0; i<menu.size(); ++i){
+			    cout<<left<<setw(14)<<menu[i].name;
+			    if (menu[i].quantity > 0){
+                    cout << right << setw(24) << "Available";
+                    cout<<right<<setw(25)<<menu[i].quantity
+                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
+                } else {
+                    cout << right << setw(26) << "Out of Stock";
+                    cout<<right<<setw(23)<<menu[i].quantity
+                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
+                } 
+            }
         }
     } 
     cout << endl;
