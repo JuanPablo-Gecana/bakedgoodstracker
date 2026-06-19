@@ -72,7 +72,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
    E. Unique Admin menu (**STATUS:** 🟩)<br>
    F. Can add an admin (**STATUS:** 🟩)<br>
    G. Can remove an admin (**STATUS:** 🟩) <br>
-- Customer can type their names and will be saved in the transaction files (**STATUS:** 🟥)<br>
+- Customer can type their names and will be saved in the transaction files (**STATUS:** 🟧)<br>
 - Customers can be greeted for the first time and again and again and again by the program(**STATUS:** 🟥)
 <br>
 

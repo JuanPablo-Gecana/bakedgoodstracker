@@ -25,8 +25,9 @@ struct choiceInputs {
 struct loginCredentials {
     string username;
     string password;
-    string customerName;
 };
+
+string customerName;
 
 //=========================[Important Struct Variables]==============================
 
@@ -62,9 +63,15 @@ void removeAdmin();//Para magtanggal ng admin
 
 int main() {
     choiceInputs choice;
+    
+    cout<<"Enter your name: ";
+    cin>>customerName;
+    cout<<endl;
+
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
-        cout << "========PANADERYA NI HUWAN PABLO========" << endl //Papaltan yang "PANADERYA NI HUWAN PABLO" kase di pwede yan HAHAHA
+        cout << "========MAGANDANG ARAW, "<< customerName 
+             <<"! SA PANADERYA NI HUWAN PABLO========" << endl
              << "1. Order a Product" << endl
              << "2. Search for a Product" << endl
              << "3. Display All Products" << endl
