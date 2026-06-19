@@ -28,6 +28,7 @@ struct loginCredentials {
 };
 
 string customerName;
+vector <string> customerList;
 
 //=========================[Important Struct Variables]==============================
 
@@ -41,6 +42,7 @@ loginCredentials logCred; //pangload sa vector para may ma compare later
 void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
 string toLower(string s); // Reason na magiging case-insensitive ung program.
 void loadAdmin(); //pangload ng admin info sa file
+void loadCustomer();
 
 //================================[Core Functions]=================================== 
 
@@ -58,24 +60,40 @@ void searchProduct(); //dito naman pag gusto ng user na mag search ng specific p
 void changeLogInfo(); //If admin gusto paltan ung either username or password
 void addAdmin();//Para magdagdag ng admin
 void removeAdmin();//Para magtanggal ng admin
+string changeCustomer();
 
 //================================[Main Function]==================================== 
 
 int main() {
     choiceInputs choice;
+    bool found = false;
     
     cout<<"Enter your name: ";
-    cin>>customerName;
+    getline(cin, customerName);
     cout<<endl;
+
+    loadCustomer();
 
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
-        cout << "========MAGANDANG ARAW, "<< customerName 
-             <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
+        for (int i=0; i<customerList.size(); ++i){
+            if (customerName == customerList[i]){
+                cout << "========MULING PAGBATI, "<< customerName 
+                     <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
+                found = true;
+            } 
+        }
+        
+        if (!found){
+            cout << "========PAGBATI, "<< customerName 
+                 <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
+        }
+        
         cout << "1. Order a Product" << endl
              << "2. Search for a Product" << endl
              << "3. Display All Products" << endl
-             << "4. Exit" << endl
+             << "4. Switch Customer" << endl
+             << "5. Exit" << endl
              << "Enter your choice: ";
         cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
 
@@ -93,6 +111,9 @@ int main() {
                     displayMenu();
                     break;
                 case 4:
+                    changeCustomer();
+                    break;
+                case 5:
                     cout << "\nThank you and Please come again!" << endl;
                     break;
                 default:
@@ -156,7 +177,7 @@ int main() {
         } else {
             cout << "\nInvalid choice. Please try again.\n" << endl;
         }
-    } while (choice.numCode != 4);
+    } while (choice.numCode != 5);
     return 0;
 }
 
@@ -182,6 +203,19 @@ void loadAdmin(){
                 file.close();
             }
         }
+}
+
+void loadCustomer() {
+    string tempCustomerName;
+
+     if (customerList.empty()){
+        ifstream file("Transaction.txt");
+         if(file.is_open()){
+            while(file >> tempCustomerName) {
+                customerList.push_back(tempCustomerName);
+            }
+         }
+     }
 }
 
 string toLower(string s) {
@@ -625,4 +659,13 @@ void removeAdmin() {
     if (!isFound){
         cout<<"\nPassword doesn't match.\n"<<endl;
     }
+}
+
+string changeCustomer() {
+    cin.ignore();
+    cout<<endl;
+    cout<<"Enter your name: ";
+    getline(cin, customerName);
+    cout<<endl;
+    return customerName;
 }
