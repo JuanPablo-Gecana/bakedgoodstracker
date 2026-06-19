@@ -71,8 +71,8 @@ int main() {
     //Do-while para paulit ulit and para wala nang initialization ng value ung choice variable
     do {
         cout << "========MAGANDANG ARAW, "<< customerName 
-             <<"! SA PANADERYA NI HUWAN PABLO========" << endl
-             << "1. Order a Product" << endl
+             <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
+        cout << "1. Order a Product" << endl
              << "2. Search for a Product" << endl
              << "3. Display All Products" << endl
              << "4. Exit" << endl
@@ -234,10 +234,10 @@ void orderProduct() {
                         //Pag-save sa .txt file ng mga transactions
                         ofstream tFile("Transaction.txt", ios::app);
                         if (tFile.is_open()) {
-                            cout << "Transaction saved." << endl;
                             tFile << menu[i].name << " "
                                   << orderQty << " "
-                                  << totalCost << endl;
+                                  << totalCost << " " 
+                                  << customerName << endl;
                                   
                                   tFile.close();
                         }
