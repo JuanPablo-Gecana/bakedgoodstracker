@@ -59,7 +59,6 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Accept and process customer orders. (**STATUS:** 🟩)<br>
   A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟥)<br>
   B. If the order was a "cake", customer can include custom writing on the cake and it also includes a candle for free.   (**STATUS:** 🟥)<br>
-  C. Giving customer an option if they want it delivered straight to them or by pickup. (**STATUS:** 🟥)<br>
 - Validate stock availability before confirming an order.<br> (**STATUS:** 🟩)
 - Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟩)
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
