@@ -48,27 +48,29 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 
 <br>
 
-- A Menu Interface.<br> (**STATUS:** 🟧)
+- A Menu Interface.<br> (**STATUS:** 🟩)
 - Adding new products to the inventory.<br> (**STATUS:** 🟩, Additional Comment: TANGINA AYOQ NA ~~MABUHAY~~)
 - Updating current product information.<br> (**STATUS:** 🟩)
 - Deleting product records from the inventory.<br> (**STATUS:** 🟩)
 - Can Search for a specific product.<br> (**STATUS:** 🟩, Additional Comment: took a ton of hours to fix that bruh ._.)
-   A. if you search a term (eg. cake) any item with that name will be included. (**STATUS:** 🟥)
+   A. if you search a term (eg. cake) any item with that name will be included. (**STATUS:** 🟩)
 - Display all available products and their details.<br> (**STATUS:** 🟩)
 - Monitor and display current stock quantities.<br> (**STATUS:** 🟩, Additional Comment: personally idk ano gagawin here)
-- Accept and process customer orders.<br> (**STATUS:** 🟥)
-- Validate stock availability before confirming an order.<br> (**STATUS:** 🟥)
-- Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟥)
+- Accept and process customer orders.<br> (**STATUS:** 🟩)
+  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟥)
+  B. If the order was a "cake", customer can include custom writing on the cake and it also includes a candle for free. (**STATUS:** 🟥)
+- Validate stock availability before confirming an order.<br> (**STATUS:** 🟩)
+- Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟩)
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
-- Saves all transactions in a file.<br> (**STATUS:** 🟥)
-- Generate transaction summaries or order receipts. <br> (**STATUS:** 🟥)
+- Saves all transactions in a file.<br> (**STATUS:**🟩)
+- Generate transaction summaries or order receipts. <br> (**STATUS:** 🟩)
 - Admin menu <br>
-   A. Unique Admin Password (**STATUS:** 🟧) <br>
-   B. Can save admin login credentials on a file (**STATUS:** 🟧)<br>
-   C. Can change admin name and password (**STATUS:** 🟧)<br>
+   A. Unique Admin Password (**STATUS:** 🟩) <br>
+   B. Can save admin login credentials on a file (**STATUS:** 🟩)<br>
+   C. Can change admin name and password (**STATUS:** 🟩)<br>
    D. Admins unlocked more features than the customer (**STATUS:** 🟩)<br>
    E. Unique Admin menu (**STATUS:** 🟩)<br>
-   F. Can add an admin (**STATUS:** 🟥)<br>
+   F. Can add an admin (**STATUS:** 🟩)<br>
    G. Can remove an admin (**STATUS:** 🟥) <br>
 - Customer can type their names and will be saved in the transaction files (**STATUS:** 🟥)<br>
 - Customers can be greeted for the first time and again and again and again by the program(**STATUS:** 🟥)
