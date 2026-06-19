@@ -30,7 +30,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Developers need to figure out a way to make sure the program isn't case sensitive in user input, as it hampers the user's experience with the program. <br>
 - The Program's ability to remember what the items are listed in its menu.<br>
 - Compiler's incompability to use other header's libraries.
-
+- Time constraint
 <br>
 
 **Solution:**
