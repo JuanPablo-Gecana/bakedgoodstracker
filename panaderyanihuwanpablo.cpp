@@ -45,7 +45,7 @@ void loadAdmin(); //pangload ng admin info sa file
 
 /*itong addProduct kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
 ininput natin na Products*/
-void orderProduct();
+void orderProduct();//Main ordering system, dito mag oorder ang mga customer.
 void addProduct(); // Mag aadd ng product dun sa program and sa file.
 void displayMenu(); //Ipapakita lahat nung nilagay na products doon sa addProduct function.
 void deleteProduct(); // Dito yung part kung san magdedelete ka ng products. 
@@ -54,9 +54,9 @@ void searchProduct(); //dito naman pag gusto ng user na mag search ng specific p
 
 //==============================[Features Functions]=================================
 
-void changeLogInfo();
-void addAdmin();
-void removeAdmin();
+void changeLogInfo(); //If admin gusto paltan ung either username or password
+void addAdmin();//Para magdagdag ng admin
+void removeAdmin();//Para magtanggal ng admin
 
 //================================[Main Function]==================================== 
 
@@ -97,6 +97,7 @@ int main() {
             cin >> login.username;
             cout << "Password: ";
             cin >> login.password;
+            cout << endl;
 
             loadAdmin();
 
@@ -129,8 +130,10 @@ int main() {
                                 changeLogInfo();
                                 break;
                             case 5:
+                                addAdmin();
                                 break;
                             case 6:
+                                removeAdmin();
                                 break;
                             case 7:
                                 break;
@@ -545,24 +548,74 @@ void addAdmin() {
     loadAdmin();
     loginCredentials newUser;
     loginCredentials veriPass;
+    bool isFound=false;
 
     cout<<"Confirm Password: ";
     cin>>veriPass.password;
+    cout<<endl;
 
     for (int i=0; i<logInfo.size(); ++i){
         if (veriPass.password==logInfo[i].password) {
             cout<<"===========CREATE NEW ADMIN===========" << endl;
             cout<<"Add Username: ";
             cin>>newUser.username;
-            cout<<"Add Password: ";
-            cin>>newUser.password;
+            
+            do {
+                cout<<"Add Password (Should be atleast 8 characters): ";
+                cin>>newUser.password;
 
-            ofstream file("Admin.txt", ios::app);
-            file << newUser.username << "  " 
-                 << newUser.password << endl;
-            file.close();
+                if (newUser.password.size() == 8) {
+                    ofstream file("Admin.txt", ios::app);
+                    file << newUser.username << "  " 
+                         << newUser.password << endl;
+                    file.close();
 
-            logInfo.push_back(newUser);
+                    logInfo.push_back(newUser);
+                    cout<<"\nAdmin Successfuly Added!\n"<<endl;
+                    isFound=true;
+                } else {
+                    cout<<"\nPassword too short.\n"<<endl;
+                }
+            } while (newUser.password.size() < 8);
         }
+    }
+    if (!isFound){
+        cout<<"\nPassword doesn't match.\n"<<endl;
+    }
+}
+
+void removeAdmin() {
+    loadAdmin();
+    loginCredentials delUser;
+    loginCredentials veriPass;
+    bool isFound=false;
+    cout<<"\nConfirm Password: ";
+    cin>>veriPass.password;
+    cout<<endl;
+
+    for (int i=0; i<logInfo.size(); ++i){
+        if (veriPass.password==logInfo[i].password) {
+            cout<<"===========DELETE ADMIN===========" << endl;
+            cout<<"Enter Admin Username to Delete: ";
+            cin>>delUser.username;
+            loadAdmin();
+                for (int j=0; j<logInfo.size(); ++j){
+                     if (toLower(delUser.username)==toLower(logInfo[j].username)){
+                        logInfo.erase(logInfo.begin() + j);
+                        isFound=true;
+                     }
+                }
+        } 
+            if (isFound){
+                ofstream file("Admin.txt");
+                file << logInfo[i].username << "  " 
+                     << logInfo[i].password << endl;
+                file.close();
+
+                cout<<"\nAdmin Successfuly Deleted!\n"<<endl;
+            }           
+    }
+    if (!isFound){
+        cout<<"\nPassword doesn't match.\n"<<endl;
     }
 }
