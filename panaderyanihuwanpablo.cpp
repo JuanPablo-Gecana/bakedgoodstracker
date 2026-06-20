@@ -43,7 +43,7 @@ loginCredentials logCred; //pangload sa vector para may ma compare later
 void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
 string toLower(string s); // Reason na magiging case-insensitive ung program.
 void loadAdmin(); //pangload ng admin info sa file
-void loadCustomer();
+void loadCustomer(); //need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
 
 //================================[Core Functions]=================================== 
 
@@ -183,38 +183,39 @@ int main() {
 }
 
 void loadExistingProducts(){
-     if (menu.empty()) {
-            ifstream file("Menu.txt"); 
-                if (file.is_open()){
-                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
-                    menu.push_back(existProduct); 
+     if (menu.empty()) { //checheck muna if empty otherwise, ignored to
+            ifstream file("Menu.txt"); //read nya ung txt
+                if (file.is_open()){ //check if open
+                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ //kukunin sa file ung name price and quantity nung product
+                    menu.push_back(existProduct); //ipupushback ung tatlo dito sa menu
                 }
-                file.close();
+                file.close(); //icloclose ung file
             }
         }
 }
 
 void loadAdmin(){
-     if (logInfo.empty()) {
-            ifstream file("Admin.txt"); 
-                if (file.is_open()){
-                    while(file >> logCred.username >> logCred.password){ 
-                    logInfo.push_back(logCred); 
+     if (logInfo.empty()) {//checheck muna if empty otherwise, ignored to
+            ifstream file("Admin.txt"); //read nya ung txt
+                if (file.is_open()){//check if open
+                    while(file >> logCred.username >> logCred.password){ //kukunin sa file ung username and password ng admin
+                    logInfo.push_back(logCred); //ipupushback na ito sa vector
                 }
-                file.close();
+                file.close();//icloclose ung file
             }
         }
 }
 
 void loadCustomer() {
-    string tempCustomerName;
+    string tempCustomerName; //temp baka mag overwrite kase sa current customer
 
-     if (customerList.empty()){
-        ifstream file("Transaction.txt");
-         if(file.is_open()){
-            while(file >> tempCustomerName) {
-                customerList.push_back(tempCustomerName);
+     if (customerList.empty()){ //check if empty otherwise, ignored
+        ifstream file("Transaction.txt"); //open ung transaction history
+         if(file.is_open()){ //check if open
+            while(file >> tempCustomerName) {//kukunin ung mga name ng mga customer na nag order in the past
+                customerList.push_back(tempCustomerName); //ilalagay na sya sa vector
             }
+		 file.close() //icloclose ung file
          }
      }
 }
@@ -228,8 +229,8 @@ string toLower(string s) {
 void orderProduct() {
     loadExistingProducts();
 
-    if (menu.empty()) {
-        cout << "\nSorry, the menu is currently empty. No items to order.\n" << endl;
+    if (menu.empty()) { //checheck if empty ung menu
+        cout << "\nSorry, the menu is currently empty. No items to order.\n" << endl; //then ito lalabas pag wala talagang laman
     } else {
         string orderName;
         int orderQty;
@@ -250,8 +251,7 @@ void orderProduct() {
                         // Automatic inventory deduction sa active running vector
                         menu[i].quantity -= orderQty;
                         
-                    //Paki Modify nalang ito andry katulad nung sa search product and sa display product
-                    //eto na kase ung receipt sa transaction T- T
+                    //eto ung receipt sa transaction
                         double totalCost = menu[i].price * orderQty;
                         cout << "\nOrder successful!" << endl;
                         cout<<left<<setw(30)<<"PRODUCT NAME"
@@ -331,8 +331,7 @@ void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
     ifstream file("Menu.txt"); //Babasahin na nya ung file
     if (file.is_open()){
-        /*Hahanapin na nya sa file ung needed na info based sa data type
-        Might change this kase di sya nagaacomodate ng may spaces (eg. Pan de Coco)*/ 
+        /*Hahanapin na nya sa file ung needed na info based sa data type*/
         while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
             menu.push_back(existProduct); //And ipupush na nya sa menu vector na kakaclear lang kanina
         }
@@ -353,7 +352,7 @@ void displayMenu() {
 
             for (int i=0; i<menu.size(); ++i){
 			    cout<<left<<setw(14)<<menu[i].name;
-			    if (menu[i].quantity > 0){
+			    if (menu[i].quantity > 0){//may if dito kung available or not ba ung product 
                     cout << right << setw(24) << "Available";
                     cout<<right<<setw(25)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
@@ -443,7 +442,9 @@ void updateProduct(){
                         case 2: {
                             cout << "\nEnter your updated quantity of " << menu[i].name << ": ";
                             cin >> menu[i].quantity;
-                            
+
+							 /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                             sa lahat ng cases dito sa function nato, its either price or quantity lang */
                             ofstream file("Menu.txt");
                             for (int i=0 ; i < menu.size(); ++i){
                                 file << menu[i].name << "  " 
@@ -516,30 +517,31 @@ void searchProduct() {
     cout << endl;
 }
 
-void changeLogInfo() {
+void changeLogInfo() { //might remove logerror
     int choice;
     int logError = 0;
     loginCredentials newInfo;
 
-    cout<<"\nWhat credential do you like to change?"<<endl
+    cout<<"\nWhat credential do you like to change?"<<endl //bibigyan ng option si admin kung ano papaltan
         <<"1. Change Username"<<endl
         <<"2. Change Password"<<endl
         <<"3. Back"
         <<"Enter your choice: ";
         cin>>choice;
     
-        loadAdmin();
+        loadAdmin(); //iloload ung current admin info
 
         switch (choice) {
             case 1:
-                cout<<"\nEnter your password for confirmation: ";
+                cout<<"\nEnter your password for confirmation: "; //mandatory to sa lahat ng admin action regarding pag aadd pagreremove and pag palit ng info ng admin
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
-                    if (newInfo.password == logInfo[i].password) {
-                        cout<<"Enter your new username: ";
+                    if (newInfo.password == logInfo[i].password) { //check muna if may mag match
+                        cout<<"Enter your new username: "; //papainputin 
                         cin>>logInfo[i].username;
-                        
-                    ofstream file("Admin.txt");
+
+					//then iooverwrite ung buong txt file with ung bagong updated username
+                    ofstream file("Admin.txt"); 
                         for (int i=0 ; i < logInfo.size(); ++i){
                             file << logInfo[i].username << "  " 
                                  << logInfo[i].password << endl;
@@ -555,7 +557,7 @@ void changeLogInfo() {
                 }
             }
                 break;
-            case 2:
+            case 2: //might update later
                 cout<<"\nEnter your old password for confirmation: ";
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
@@ -587,25 +589,26 @@ void changeLogInfo() {
 }
 
 void addAdmin() {
-    loadAdmin();
+    loadAdmin(); //load ung current admin info
     loginCredentials newUser;
     loginCredentials veriPass;
     bool isFound=false;
 
-    cout<<"Confirm Password: ";
+    cout<<"Confirm Password: ";//need ng confirmation ng current admin
     cin>>veriPass.password;
     cout<<endl;
 
     for (int i=0; i<logInfo.size(); ++i){
-        if (veriPass.password==logInfo[i].password) {
+        if (veriPass.password==logInfo[i].password) { //checheck if may mag match
             cout<<"===========CREATE NEW ADMIN===========" << endl;
             cout<<"Add Username: ";
             cin>>newUser.username;
             
             do {
-                cout<<"Add Password (Should be atleast 8 characters): ";
+                cout<<"Add Password (Should be atleast 8 characters): "; //need 8 characters minimun, uulit yan pag di nameet 
                 cin>>newUser.password;
 
+				//and then if ok na, isasama na sya sa file and sa current vector
                 if (newUser.password.size() == 8) {
                     ofstream file("Admin.txt", ios::app);
                     file << newUser.username << "  " 
@@ -631,25 +634,26 @@ void removeAdmin() {
     loginCredentials delUser;
     loginCredentials veriPass;
     bool isFound=false;
-    cout<<"\nConfirm Password: ";
+	
+    cout<<"\nConfirm Password: "; //need ulit confirmation ng current admin
     cin>>veriPass.password;
     cout<<endl;
 
-    for (int i=0; i<logInfo.size(); ++i){
+    for (int i=0; i<logInfo.size(); ++i){ //ichecheck if may magmatch
         if (veriPass.password==logInfo[i].password) {
             cout<<"===========DELETE ADMIN===========" << endl;
-            cout<<"Enter Admin Username to Delete: ";
+            cout<<"Enter Admin Username to Delete: "; //ieenter na dito ung ireremove na admin
             cin>>delUser.username;
             loadAdmin();
                 for (int j=0; j<logInfo.size(); ++j){
                      if (toLower(delUser.username)==toLower(logInfo[j].username)){
-                        logInfo.erase(logInfo.begin() + j);
+                        logInfo.erase(logInfo.begin() + j); //if may existing admin na same username, tatanggalin na yon sa vector 
                         isFound=true;
                      }
                 }
         } 
             if (isFound){
-                ofstream file("Admin.txt");
+                ofstream file("Admin.txt");// and sa file ng admin mismo
                 file << logInfo[i].username << "  " 
                      << logInfo[i].password << endl;
                 file.close();
@@ -663,10 +667,10 @@ void removeAdmin() {
 }
 
 string changeCustomer() {
-    cin.ignore();
+    cin.ignore(); //para di mag error ung user input
     cout<<endl;
     cout<<"Enter your name: ";
-    getline(cin, customerName);
+    getline(cin, customerName); //getline para maacomodate ung may spaces (like Juan Pablo)
     cout<<endl;
     return customerName;
 }

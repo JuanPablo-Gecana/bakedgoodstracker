@@ -53,12 +53,12 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - Updating current product information.<br> (**STATUS:** 🟩)
 - Deleting product records from the inventory.<br> (**STATUS:** 🟩)
 - Can Search for a specific product.<br> (**STATUS:** 🟩, Additional Comment: took a ton of hours to fix that bruh ._.)
-   A. if you search a term (eg. cake) any item with that name will be included. (**STATUS:** 🟩)
+   A. if you search a term (eg. cake) any item with that name will be included. <br>(**STATUS:** 🟩)
 - Display all available products and their details.<br> (**STATUS:** 🟩)
 - Monitor and display current stock quantities.<br> (**STATUS:** 🟩, Additional Comment: personally idk ano gagawin here)
-- Accept and process customer orders.<br> (**STATUS:** 🟩)
-  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟥)
-  B. If the order was a "cake", customer can include custom writing on the cake and it also includes a candle for free. (**STATUS:** 🟥)
+- Accept and process customer orders. (**STATUS:** 🟩)<br>
+  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟥)<br>
+  B. If the order was a "cake", customer can include custom writing on the cake and it also includes a candle for free.   (**STATUS:** 🟥)<br>
 - Validate stock availability before confirming an order.<br> (**STATUS:** 🟩)
 - Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟩)
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
