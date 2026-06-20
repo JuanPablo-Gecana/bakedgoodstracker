@@ -48,7 +48,7 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 
 <br>
 
-- A Menu Interface.<br> (**STATUS:** 🟩)
+- A UI Menu Interface.<br> (**STATUS:** 🟩)
 - Adding new products to the inventory.<br> (**STATUS:** 🟩, Additional Comment: TANGINA AYOQ NA ~~MABUHAY~~)
 - Updating current product information.<br> (**STATUS:** 🟩)
 - Deleting product records from the inventory.<br> (**STATUS:** 🟩)

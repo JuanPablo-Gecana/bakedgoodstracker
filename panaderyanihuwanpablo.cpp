@@ -215,7 +215,7 @@ void loadCustomer() {
             while(file >> tempCustomerName) {//kukunin ung mga name ng mga customer na nag order in the past
                 customerList.push_back(tempCustomerName); //ilalagay na sya sa vector
             }
-		 file.close() //icloclose ung file
+		 file.close(); //icloclose ung file
          }
      }
 }
