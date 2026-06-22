@@ -76,6 +76,9 @@ void changeLogInfo(); //If admin gusto paltan ung either username or password
 void addAdmin();//Para magdagdag ng admin
 void removeAdmin();//Para magtanggal ng admin
 string changeCustomer();
+void viewPreOrder();
+void viewTransactions();
+void viewCustomOrders();
 
 //================================[Main Function]==================================== 
 
@@ -854,4 +857,16 @@ string changeCustomer() {
     getline(cin, customerName); //getline para maacomodate ung may spaces (like Juan Pablo)
     cout<<endl;
     return customerName;
+}
+
+void viewPreOrder() {
+
+}
+
+void viewTransactions() {
+
+}
+
+void viewCustomOrders() {
+
 }
