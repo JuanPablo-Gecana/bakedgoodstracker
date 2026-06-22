@@ -5,7 +5,7 @@
 #include <fstream> //pang save ng inventory sa file and possibly ng transaction history ng bawat customers
 #include <algorithm> //way para maging case insensitive ung mga icocompare na input later
 #include <chrono> //For date related tasks sa program, primarily for pre ordering
-#include <format> //to change chrono dates to strings with string library help
+#include <format> //to change calendar dates to strings with string library help
 using namespace std;
 
 //==================================[Structures]===================================== 
@@ -29,7 +29,7 @@ struct loginCredentials {
     string password;
 };
 
-struct preOrders {
+struct orders {
     string customer;
     string productName;
     int quantity;
@@ -37,10 +37,9 @@ struct preOrders {
     double paid;
     double change;
     string date;
+    string writing;
+    string candle;
 };
-
-string customerName;
-vector <string> customerList;
 
 //=========================[Important Struct Variables]==============================
 
@@ -48,12 +47,15 @@ vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
 vector <loginCredentials> logInfo; //pang store ng login credentials ng mga admin
 loginCredentials logCred; //pangload sa vector para may ma compare later
-vector <preOrders> preOrder;
-preOrders temp;
+vector <orders> order;
+orders temp;
+string customerName;
+vector <string> customerList;
 
 //===============================[Helper Functions]================================== 
 
 void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
+void loadOrder(string a);
 void receipt(string a, string b, int c, double d, double e, double f, double g);
 void loadAdmin(); //pangload ng admin info sa file
 void loadCustomer(); //need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
@@ -73,8 +75,7 @@ void searchProduct(); //dito naman pag gusto ng user na mag search ng specific p
 //==============================[Features Functions]=================================
 
 void changeLogInfo(); //If admin gusto paltan ung either username or password
-void addAdmin();//Para magdagdag ng admin
-void removeAdmin();//Para magtanggal ng admin
+void addOrRemoveAdmin();//Para magdagdag ng admin //Para magtanggal ng admin
 string changeCustomer();
 void viewPreOrder();
 void viewTransactions();
@@ -144,7 +145,6 @@ int main() {
             cin >> login.username;
             cout << "Password: ";
             cin >> login.password;
-            cout << endl;
 
             loadAdmin();
 
@@ -156,10 +156,12 @@ int main() {
                         << "1. Add a Product" << endl
                         << "2. Delete a Product" << endl
                         << "3. Update a Product" << endl
-                        << "4. Change Username/Password" << endl
-                        << "5. Add an Admin" << endl
-                        << "6. Remove an Admin" << endl
-                        << "7. Back" << endl
+                        << "4. View Transaction History" << endl
+                        << "5. View Pre-orders" << endl
+                        << "6. View Custom Orders" << endl
+                        << "7. Change Username/Password" << endl
+                        << "8. Add or Remove an Admin" << endl
+                        << "9. Back" << endl
                         << "Enter your choice: ";
                         cin >> choice.numCode;
 
@@ -174,20 +176,26 @@ int main() {
                                 updateProduct();
                                 break;
                             case 4:
-                                changeLogInfo();
+                                viewTransactions();
                                 break;
                             case 5:
-                                addAdmin();
+                                viewPreOrder();
                                 break;
                             case 6:
-                                removeAdmin();
+                                viewCustomOrders();
                                 break;
                             case 7:
+                                changeLogInfo();
+                                break;
+                            case 8:
+                                addOrRemoveAdmin();
+                                break;
+                            case 9:
                                 break;
                             default:
                                 cout << "Invalid choice. Please try again." << endl;
                         }
-                    } while (choice.numCode !=7);
+                    } while (choice.numCode !=9);
                 } else {
                     cout << "\nUsername and Password don't match.\n" << endl;
             
@@ -254,7 +262,31 @@ void receipt(string a, string b, int c, double d, double e, double f, double g) 
     cout<<"\nTotal cost: "<< e << endl;
     cout<<"Amount Paid: "<< f <<endl;
     cout<<"Change: "<< g <<endl;
-    cout<<endl;
+}
+
+void loadOrder(string a) {
+    if (a == "pre"){
+        order.clear();
+        ifstream file("Pre-orders.txt");
+            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
+                order.push_back(temp);
+            }
+        file.close();
+    } else if (a == "trans"){
+        order.clear();
+        ifstream file("Transaction.txt");
+            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
+                order.push_back(temp);
+            }
+        file.close();
+    } else {
+        order.clear();
+        ifstream file("Custom Order.txt");
+            while (file >> temp.customer >> temp.productName >> temp.writing >> temp.candle) {
+                order.push_back(temp);
+            }
+        file.close();
+    }
 }
 
 string toLower(string s) {
@@ -279,34 +311,37 @@ void orderProduct() {
         char response;
 
         cout << "\nEnter product name to order: ";
-        cin >> orderName;
+        getline(cin, orderName);
         cout << "Enter quantity: ";
         cin >> orderQty;
 
+        replace(orderName.begin(), orderName.end(), ' ', '_');
+
         for (int i=0; i<menu.size(); ++i){
-            if (toLower(menu[i].name).find("cake") != string::npos) {
-                if (toLower(menu[i].name) == toLower(orderName)) {
-                    string writing;
-                    cout<<"\nWould you like to create a custom writing on the cake?(y/n): ";
+            if (toLower(menu[i].name).find("cake") != string::npos && toLower(menu[i].name) == toLower(orderName)) {
+                string writing;
+                cout<<"\nWould you like to create a custom writing on the cake?(y/n): ";
+                cin>>response;
+                if (response == 'y'){
+                    cin.ignore();
+                    cout<<"\nType your custom writing here: ";
+                    getline(cin, writing);
+
+                    replace(writing.begin(), writing.end(), ' ', '_');
+                        
+                    cout<<"\nWould you like a candle for the cake for free?(y/n): ";
                     cin>>response;
+                    ofstream file("Custom Order.txt", ios::app);
+                    file << customerName << "  "
+                         << menu[i].name << "  "
+                         << writing << "  ";
                     if (response == 'y'){
-                        cin.ignore();
-                        cout<<"\nType your custom writing here: ";
-                        getline(cin, writing);
-                        cout<<"\nWould you like a candle for the cake for free?(y/n): ";
-                        cin>>response;
-                        ofstream file("Custom Order.txt", ios::app);
-                        file << customerName << "  "
-                             << menu[i].name << "  "
-                             << writing << "  ";
-                        if (response == 'y'){
-                            file << "w Candle" << endl;
-                        } else {
-                            file << "w/o Candle" << endl;
-                        } file.close();
+                        file << "w_Candle" << endl;
                     } else {
-                        break;
-                    }
+                        file << "w/o_Candle" << endl;
+                    } file.close();
+                } else {
+                    break;
                 }
             }
         }
@@ -435,11 +470,13 @@ void addProduct() {
     cin.ignore();
     bakedProduct newProduct;
     cout << "\nEnter the name of the product: ";
-    cin >> newProduct.name;
+    getline(cin, newProduct.name);
     cout << "Enter the price of the product: ";
     cin >> newProduct.price;
     cout << "Enter the quantity of the product: ";
     cin >> newProduct.quantity;
+
+    replace(newProduct.name.begin(), newProduct.name.end(), ' ', '_');
 
     //After malagay lahat ng relevant info, ilalagay na nya muna sa file
     ofstream file("Menu.txt", ios::app);
@@ -496,9 +533,11 @@ void displayMenu() {
 void deleteProduct(){ 
     string name;
     cout << "Enter product to delete: ";
-    cin >> name;
+    getline(cin, name);
     cin.ignore();
     
+    replace(name.begin(), name.end(), ' ', '_');
+
     //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
     loadExistingProducts();
 
@@ -572,41 +611,36 @@ void updateProduct(){
                             cout << "\nEnter your updated quantity of " << menu[i].name << ": ";
                             cin >> menu[i].quantity;
 
-                            ifstream file("Pre-orders.txt");
-                                while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
-                                    preOrder.push_back(temp);
-                                }
-                            file.close();
+                            loadOrder("pre");
 
-                            for (int j=0; j<preOrder.size(); ++j){
-                                if (menu[i].name == preOrder[j].productName){
-                                    if (menu[i].quantity >= preOrder[j].quantity){
-                                        cout<<"\nYou have a pre-order for this product for customer "<< preOrder[j].customer<<"! Automatically deducting... \n" << endl;
-                                        menu[i].quantity -= preOrder[j].quantity;
+                            for (int j=0; j<order.size(); ++j){
+                                if (menu[i].name == order[j].productName && menu[i].quantity >= order[j].quantity){
+                                    cout<<"\nYou have a pre-order for this product for customer "<< order[j].customer<<"! Automatically deducting... \n" << endl;
+                                    menu[i].quantity -= order[j].quantity;
 
-                                        ofstream file("Transaction.txt", ios::app);
-                                            file << preOrder[j].customer << "  " 
-                                                 << preOrder[j].productName << "  " 
-                                                 << preOrder[j].quantity << "  "
-                                                 << preOrder[j].price << "  "
-                                                 << preOrder[j].paid << "  "
-                                                 << preOrder[j].change << "  "
-                                                 << preOrder[j].date << endl;
+                                    ofstream file("Transaction.txt", ios::app);
+                                        file << order[j].customer << "  " 
+                                             << order[j].productName << "  " 
+                                             << order[j].quantity << "  "
+                                             << order[j].price << "  "
+                                             << order[j].paid << "  "
+                                             << order[j].change << "  "
+                                             << order[j].date << endl;
+                                    file.close();
+
+                                    order.erase(order.begin() + j);
+
+                                    for (int k=0; k<order.size(); ++k){
+                                        ofstream pfile("Pre-orders.txt");
+                                        pfile << order[j].customer << "  " 
+                                             << order[j].productName << "  " 
+                                             << order[j].quantity << "  "
+                                             << order[j].price << "  "
+                                             << order[j].paid << "  "
+                                             << order[j].change << "  "
+                                             << order[j].date << endl;
                                         file.close();
-
-                                        preOrder.erase(preOrder.begin() + j);
-
-                                        for (int k=0; k<preOrder.size(); ++k){
-                                            ofstream pfile("Pre-orders.txt");
-                                            pfile << preOrder[k].customer << "  " 
-                                                 << preOrder[k].productName << "  " 
-                                                 << preOrder[k].quantity << "  "
-                                                 << preOrder[k].price << "  "
-                                                 << preOrder[k].paid << "  "
-                                                 << preOrder[k].change << "  "
-                                                 << preOrder[k].date << endl;
-                                            file.close();
-                                        }
+                                    }
 
                                         ofstream mfile("Menu.txt");
                                         for (int l=0 ; l < menu.size(); ++l){
@@ -617,7 +651,6 @@ void updateProduct(){
                                         file.close();
 
                                         cout<<"The updated quantity of "<< menu[i].name << " is " << menu[i].quantity << "!\n" << endl;
-                                    }
                                 } else {
                                      /* rewriting na sa file ung specific product na gusto natin iupdate same case
                                     sa lahat ng cases dito sa function nato, its either price or quantity lang */
@@ -772,82 +805,96 @@ void changeLogInfo() {
         }
 }
 
-void addAdmin() {
-    loadAdmin(); //load ung current admin info
-    loginCredentials newUser;
-    loginCredentials veriPass;
-    bool isFound=false;
-
-    cout<<"Confirm Password: ";//need ng confirmation ng current admin
-    cin>>veriPass.password;
-    cout<<endl;
-
-    for (int i=0; i<logInfo.size(); ++i){
-        if (veriPass.password==logInfo[i].password) { //checheck if may mag match
-            cout<<"===========CREATE NEW ADMIN===========" << endl;
-            cout<<"Add Username: ";
-            cin>>newUser.username;
-            
-            do {
-                cout<<"Add Password (Should be atleast 8 characters): "; //need 8 characters minimun, uulit yan pag di nameet 
-                cin>>newUser.password;
-
-				//and then if ok na, isasama na sya sa file and sa current vector
-                if (newUser.password.size() == 8) {
-                    ofstream file("Admin.txt", ios::app);
-                    file << newUser.username << "  " 
-                         << newUser.password << endl;
-                    file.close();
-
-                    logInfo.push_back(newUser);
-                    cout<<"\nAdmin Successfuly Added!\n"<<endl;
-                    isFound=true;
-                } else {
-                    cout<<"\nPassword too short.\n"<<endl;
-                }
-            } while (newUser.password.size() < 8);
-        }
-    }
-    if (!isFound){
-        cout<<"\nPassword doesn't match.\n"<<endl;
-    }
-}
-
-void removeAdmin() {
-    loadAdmin();
+void addOrRemoveAdmin() {
+    int choice;
     loginCredentials delUser;
     loginCredentials veriPass;
+    loginCredentials newUser;
+    loadAdmin();
     bool isFound=false;
-	
-    cout<<"\nConfirm Password: "; //need ulit confirmation ng current admin
-    cin>>veriPass.password;
-    cout<<endl;
 
-    for (int i=0; i<logInfo.size(); ++i){ //ichecheck if may magmatch
-        if (veriPass.password==logInfo[i].password) {
-            cout<<"===========DELETE ADMIN===========" << endl;
-            cout<<"Enter Admin Username to Delete: "; //ieenter na dito ung ireremove na admin
-            cin>>delUser.username;
-            loadAdmin();
-                for (int j=0; j<logInfo.size(); ++j){
-                     if (toLower(delUser.username)==toLower(logInfo[j].username)){
-                        logInfo.erase(logInfo.begin() + j); //if may existing admin na same username, tatanggalin na yon sa vector 
-                        isFound=true;
-                     }
+    do{
+        cout<<"\n===========ADD OR DELETE ADMIN===========" << endl
+            <<"1. Add Admin" << endl
+            <<"2. Delete Admin" << endl
+            <<"3. Back" << endl
+            <<"Enter your choice: ";
+        cin>>choice;
+
+        switch(choice){
+            case 1:
+                cout<<"Confirm Password: ";//need ng confirmation ng current admin
+                cin>>veriPass.password;
+                cout<<endl;
+
+                for (int i=0; i<logInfo.size(); ++i){
+                    if (veriPass.password==logInfo[i].password) { //checheck if may mag match
+                        cout<<"===========CREATE NEW ADMIN===========" << endl;
+                        cout<<"Add Username: ";
+                        cin>>newUser.username;
+            
+                        do {
+                            cout<<"Add Password (Should be atleast 8 characters): "; //need 8 characters minimun, uulit yan pag di nameet 
+                            cin>>newUser.password;
+
+				            //and then if ok na, isasama na sya sa file and sa current vector
+                            if (newUser.password.size() == 8) {
+                                ofstream file("Admin.txt", ios::app);
+                                    file << newUser.username << "  " 
+                                         << newUser.password << endl;
+                                file.close();
+
+                                logInfo.push_back(newUser);
+                                cout<<"\nAdmin Successfuly Added!\n"<<endl;
+                                isFound=true;
+                            } else {
+                                cout<<"\nPassword too short.\n"<<endl;
+                            }
+                        } while (newUser.password.size() < 8);
+                    }
                 }
-        } 
-            if (isFound){
-                ofstream file("Admin.txt");// and sa file ng admin mismo
-                file << logInfo[i].username << "  " 
-                     << logInfo[i].password << endl;
-                file.close();
+            if (!isFound){
+                cout<<"\nPassword doesn't match.\n"<<endl;
+            }
+            break;
 
-                cout<<"\nAdmin Successfuly Deleted!\n"<<endl;
-            }           
-    }
-    if (!isFound){
-        cout<<"\nPassword doesn't match.\n"<<endl;
-    }
+            case 2:
+            cout<<"\nConfirm Password: "; //need ulit confirmation ng current admin
+            cin>>veriPass.password;
+            cout<<endl;
+
+            for (int i=0; i<logInfo.size(); ++i){ //ichecheck if may magmatch
+                if (veriPass.password==logInfo[i].password) {
+                    cout<<"===========DELETE ADMIN===========" << endl;
+                    cout<<"Enter Admin Username to Delete: "; //ieenter na dito ung ireremove na admin
+                    cin>>delUser.username;
+                    loadAdmin();
+                    for (int j=0; j<logInfo.size(); ++j){
+                        if (toLower(delUser.username)==toLower(logInfo[j].username)){
+                            logInfo.erase(logInfo.begin() + j); //if may existing admin na same username, tatanggalin na yon sa vector 
+                            isFound=true;
+                        }
+                    }
+                } 
+
+                if (isFound){
+                    ofstream file("Admin.txt");// and sa file ng admin mismo
+                    file << logInfo[i].username << "  " 
+                         << logInfo[i].password << endl;
+                    file.close();
+
+                    cout<<"\nAdmin Successfuly Deleted!\n"<<endl;
+                }           
+            }
+            if (!isFound){
+                cout<<"\nPassword doesn't match.\n"<<endl;
+            }
+            break;
+
+            default:
+            cout << "Invalid choice. Please try again." << endl;
+        }   
+    } while (choice != 3);
 }
 
 string changeCustomer() {
@@ -860,13 +907,103 @@ string changeCustomer() {
 }
 
 void viewPreOrder() {
+    cout<<endl;
+    loadOrder("pre");
+    for(int i=0; i<order.size(); i++) {
+        cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
+        cout<<left<<setw(30)<<"PRODUCT NAME"
+            <<right<<setw(0)<<"QUANTITY"
+            <<right<<setw(30)<<"DATE TO BE CLAIMED"<<endl;
+                            
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+    
+        cout<<left<<setw(30)<< order[i].productName
+            <<right<<setw(4)<< order[i].quantity
+            <<right<<setw(30)<< order[i].date <<endl;
 
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+        cout<<endl;
+    }
 }
 
 void viewTransactions() {
+    loadOrder("trans");
+    cout<<endl;
+    for(int i=0; i<order.size(); i++) {
+        cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
+        cout<<left<<setw(30)<<"PRODUCT NAME"
+            <<right<<setw(0)<<"QUANTITY"
+            <<right<<setw(30)<<"DATE OF TRANSACTION"<<endl;
+                            
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+    
+        cout<<left<<setw(30)<< order[i].productName
+            <<right<<setw(4)<< order[i].quantity
+            <<right<<setw(30)<< order[i].date <<endl;
 
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+        cout<<endl;
+    }
 }
 
 void viewCustomOrders() {
+    loadOrder("custom");
+    int number;
+    int choice;
+    do{
+        cout<<endl;
+        for(int i=0; i<order.size(); i++) {
+            cout<<"Custom Order No."<<i+1<<endl;
+            cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
+            cout<<left<<setw(30)<<"PRODUCT NAME"
+                <<right<<setw(0)<<"MESSAGE"
+                <<right<<setw(30)<<"CANDLE"<<endl;
+                            
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
+    
+            cout<<left<<setw(30)<< order[i].productName
+                <<right<<setw(2)<< order[i].writing
+                <<right<<setw(26)<< order[i].candle <<endl;
+    
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
+            cout<<endl;
+        }
 
+        cout << "\n1. Remove a Custom Order" <<endl
+            << "2. Back" << endl
+            << "Enter your choice: ";
+        cin>>choice;
+
+        switch(choice){
+            case 1: {
+                cout<<"Enter the Custom Order No. to Delete: ";
+                cin>>number;
+
+                number=-1;
+
+            order.erase(order.begin() + number);
+
+                ofstream dfile("Custom Order.txt");
+                for (int i=0; i<order.size(); ++i){
+                    dfile << order[i].customer << "  "
+                        << order[i].productName << "  "
+                        << order[i].writing << "  "
+                        << order[i].candle << endl;
+                }
+                dfile.close();
+
+                break;
+            }
+            case 2:
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 2);
 }
