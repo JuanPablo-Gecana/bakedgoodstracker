@@ -93,7 +93,7 @@ int main() {
         cout<<endl;
 
         if(customerName.empty()){
-            cout<<"Name cannot be empty, Please try again.";
+            cout <<"Name cannot be empty, Please try again.\n" << endl;
         }
     } while (customerName.empty());
 
