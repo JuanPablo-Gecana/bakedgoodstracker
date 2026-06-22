@@ -5,6 +5,7 @@
 #include <fstream> //pang save ng inventory sa file and possibly ng transaction history ng bawat customers
 #include <algorithm> //way para maging case insensitive ung mga icocompare na input later
 #include <chrono> //For date related tasks sa program, primarily for pre ordering
+#include <format> //to change chrono dates to strings with string library help
 using namespace std;
 
 //==================================[Structures]===================================== 
@@ -28,6 +29,16 @@ struct loginCredentials {
     string password;
 };
 
+struct preOrders {
+    string customer;
+    string productName;
+    int quantity;
+    double price;
+    double paid;
+    double change;
+    string date;
+};
+
 string customerName;
 vector <string> customerList;
 
@@ -37,13 +48,16 @@ vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
 vector <loginCredentials> logInfo; //pang store ng login credentials ng mga admin
 loginCredentials logCred; //pangload sa vector para may ma compare later
+vector <preOrders> preOrder;
+preOrders temp;
 
 //===============================[Helper Functions]================================== 
 
 void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
-string toLower(string s); // Reason na magiging case-insensitive ung program.
+void receipt(string a, string b, int c, double d, double e, double f, double g);
 void loadAdmin(); //pangload ng admin info sa file
 void loadCustomer(); //need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
+string toLower(string s); // Reason na magiging case-insensitive ung program.
 
 //================================[Core Functions]=================================== 
 
@@ -82,6 +96,7 @@ int main() {
                 cout << "========MULING PAGBATI, "<< customerName 
                      <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
                 found = true;
+                break;
             } 
         }
         
@@ -99,7 +114,7 @@ int main() {
         cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
 
         //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
-        if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4") {
+        if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4" || choice.code == "5") {
             choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
             switch (choice.numCode) {
                 case 1:
@@ -220,6 +235,25 @@ void loadCustomer() {
      }
 }
 
+void receipt(string a, string b, int c, double d, double e, double f, double g) {
+    cout<<"Customer Name: "<< a << endl;
+    cout<<left<<setw(30)<<"PRODUCT NAME"
+        <<right<<setw(0)<<"QUANTITY"
+        <<right<<setw(30)<<"PRICE"<<endl;
+                            
+    cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	cout<<setfill(' ');
+    
+    cout<<left<<setw(30)<<b
+        <<right<<setw(4)<<c
+        <<right<<setw(32)<<d<<endl;
+
+    cout<<"\nTotal cost: "<< e << endl;
+    cout<<"Amount Paid: "<< f <<endl;
+    cout<<"Change: "<< g <<endl;
+    cout<<endl;
+}
+
 string toLower(string s) {
     //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
     transform(s.begin(), s.end(), s.begin(), ::tolower); 
@@ -235,11 +269,44 @@ void orderProduct() {
         string orderName;
         int orderQty;
         bool productFound = false;
+        double payment;
+        double totalCost;
+        double change = 0;
+        string date;
+        char response;
 
         cout << "\nEnter product name to order: ";
         cin >> orderName;
         cout << "Enter quantity: ";
         cin >> orderQty;
+
+        for (int i=0; i<menu.size(); ++i){
+            if (toLower(menu[i].name).find("cake") != string::npos) {
+                if (toLower(menu[i].name) == toLower(orderName)) {
+                    string writing;
+                    cout<<"\nWould you like to create a custom writing on the cake?(y/n): ";
+                    cin>>response;
+                    if (response == 'y'){
+                        cin.ignore();
+                        cout<<"\nType your custom writing here: ";
+                        getline(cin, writing);
+                        cout<<"\nWould you like a candle for the cake for free?(y/n): ";
+                        cin>>response;
+                        ofstream file("Custom Order.txt", ios::app);
+                        file << customerName << "  "
+                             << menu[i].name << "  "
+                             << writing << "  ";
+                        if (response == 'y'){
+                            file << "w Candle" << endl;
+                        } else {
+                            file << "w/o Candle" << endl;
+                        } file.close();
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
 
         // reiterate hanggang magmatch sa file ung product na hinahanap ng customer
             for (int i = 0; i < menu.size(); ++i) {
@@ -252,29 +319,37 @@ void orderProduct() {
                         menu[i].quantity -= orderQty;
                         
                     //eto ung receipt sa transaction
-                        double totalCost = menu[i].price * orderQty;
-                        cout << "\nOrder successful!" << endl;
-                        cout<<left<<setw(30)<<"PRODUCT NAME"
-            		        <<left<<setw(0)<<"STATUS"
-            		        <<right<<setw(30)<<"QUANTITY"
-                            <<right<<setw(30)<<"PRICE"<<endl;
-                            
-                            cout<<setfill('-')<<setw(110)<<"-"<<endl;
-		                    cout<<setfill(' ');
-                        cout << left << setw(14)<< menu[i].name;
-                        cout << right << setw(24) << "CONFIRMED";
-                        cout << right << setw(25) << orderQty;
-                        cout << right << setw(32) <<"₱" << totalCost << "\n\n";
+                        totalCost = menu[i].price * orderQty;
+                        
+                        do {
+                            cout<<"The cost of " << orderName << " is " << totalCost << "." << endl;
+                            cout<<"Please enter your payment: ";
+                            cin>>payment;
+
+                            if (payment >= totalCost) {
+                                change = payment - totalCost;
+                                cout << "\nOrder successful!\n" << endl;
+                            } else {
+                                cout << "\nInsufficient Funds\n" << endl;
+                            }
+                        } while (payment < totalCost);
+                        
+                        receipt(customerName, menu[i].name, orderQty, menu[i].price, totalCost,  payment, change);
+
+                        chrono::sys_days today = chrono::time_point_cast<chrono::days>(chrono::system_clock::now());
+                        chrono::year_month_day calendarDate{today};
                         
                         //Pag-save sa .txt file ng mga transactions
                         ofstream tFile("Transaction.txt", ios::app);
                         if (tFile.is_open()) {
-                            tFile << menu[i].name << " "
-                                  << orderQty << " "
-                                  << totalCost << " " 
-                                  << customerName << endl;
-                                  
-                                  tFile.close();
+                            tFile << customerName << "  "
+                                  << menu[i].name << "  "
+                                  << orderQty << "  "
+                                  << totalCost << "  "
+                                  << payment << "  "
+                                  << change << "  "
+                                  << calendarDate << endl;
+                            tFile.close();
                         }
                         
                         else
@@ -291,8 +366,56 @@ void orderProduct() {
                                 file.close();
                         }
                     } else {
-                        cout << "\nInsufficient stock! Available quantity for '" 
-                             << menu[i].name << "' is only " << menu[i].quantity << ".\n" << endl;
+                        cout << "\nInsufficient stock! Would you like to pre-order?(y/n): ";
+                        cin >> response;
+
+                        if (response == 'y'){
+                            totalCost = menu[i].price * orderQty;
+
+                           do {
+                            cout<<"The cost of " << orderName << " is " << totalCost << "." << endl;
+                            cout<<"Please enter your payment: ";
+                            cin>>payment;
+
+                            if (payment >= totalCost) {
+                                change = payment - totalCost;
+                                cout << "\nOrder successful!\n" << endl;
+                            } else {
+                                cout << "\nInsufficient Funds\n" << endl;
+                            }
+                        } while (payment < totalCost);
+                            
+                        chrono::sys_days today = chrono::time_point_cast<chrono::days>(chrono::system_clock::now());
+                        chrono::year_month_day calendarDate{today};
+                        string currentDate = format("{}", calendarDate);
+
+                          do {
+                            cout<<"What date do you want to claim the item when it restocks (YYYY-MM-DD): ";
+                            cin>>date;
+
+                            if (date > currentDate) {
+                                ofstream file("Pre-orders.txt", ios::app);
+                                file << customerName << "  "
+                                     << menu[i].name << "  "
+                                     << orderQty << "  "
+                                     << totalCost << "  "
+                                     << payment << "  "
+                                     << change << "  "
+                                     << date << endl;
+                                file.close();
+                                
+                                cout<<endl;
+
+                                receipt(customerName, menu[i].name, orderQty, menu[i].price, totalCost,  payment, change);
+
+                                cout<<"\nPre-Ordered Successfuly\n"<<endl;
+                            } else {
+                                cout<<"\n Date is not Available\n"<<endl;
+                            }
+                          } while (date <= currentDate);   
+                        } else {
+                            cout<<"\nPre-ordering aborted.\n"<<endl;
+                        }
                     }
                             break; 
                 }
@@ -403,6 +526,8 @@ void deleteProduct(){
 
 void updateProduct(){
     string name;
+    bool found = false;
+
     cout<<"\nWhat product do you want to update: ";
     cin>>name;
 
@@ -437,23 +562,74 @@ void updateProduct(){
                                 file.close();
 
                             cout << "\nPrice Updated!\n" << endl;
+                            found = true;
                             break;
                         }
                         case 2: {
                             cout << "\nEnter your updated quantity of " << menu[i].name << ": ";
                             cin >> menu[i].quantity;
 
-							 /* rewriting na sa file ung specific product na gusto natin iupdate same case
-                             sa lahat ng cases dito sa function nato, its either price or quantity lang */
-                            ofstream file("Menu.txt");
-                            for (int i=0 ; i < menu.size(); ++i){
-                                file << menu[i].name << "  " 
-                                     << menu[i].price << "  " 
-                                     << menu[i].quantity << endl;
-                            }
-                                file.close();
+                            ifstream file("Pre-orders.txt");
+                                while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
+                                    preOrder.push_back(temp);
+                                }
+                            file.close();
 
-                            cout << "\nQuantity Updated!\n" << endl;
+                            for (int j=0; j<preOrder.size(); ++j){
+                                if (menu[i].name == preOrder[j].productName){
+                                    if (menu[i].quantity >= preOrder[j].quantity){
+                                        cout<<"\nYou have a pre-order for this product for customer "<< preOrder[j].customer<<"! Automatically deducting... \n" << endl;
+                                        menu[i].quantity -= preOrder[j].quantity;
+
+                                        ofstream file("Transaction.txt", ios::app);
+                                            file << preOrder[j].customer << "  " 
+                                                 << preOrder[j].productName << "  " 
+                                                 << preOrder[j].quantity << "  "
+                                                 << preOrder[j].price << "  "
+                                                 << preOrder[j].paid << "  "
+                                                 << preOrder[j].change << "  "
+                                                 << preOrder[j].date << endl;
+                                        file.close();
+
+                                        preOrder.erase(preOrder.begin() + j);
+
+                                        for (int k=0; k<preOrder.size(); ++k){
+                                            ofstream pfile("Pre-orders.txt");
+                                            pfile << preOrder[k].customer << "  " 
+                                                 << preOrder[k].productName << "  " 
+                                                 << preOrder[k].quantity << "  "
+                                                 << preOrder[k].price << "  "
+                                                 << preOrder[k].paid << "  "
+                                                 << preOrder[k].change << "  "
+                                                 << preOrder[k].date << endl;
+                                            file.close();
+                                        }
+
+                                        ofstream mfile("Menu.txt");
+                                        for (int l=0 ; l < menu.size(); ++l){
+                                            mfile << menu[l].name << "  " 
+                                                 << menu[l].price << "  " 
+                                                 << menu[l].quantity << endl;
+                                        }
+                                        file.close();
+
+                                        cout<<"The updated quantity of "<< menu[i].name << " is " << menu[i].quantity << "!\n" << endl;
+                                    }
+                                } else {
+                                     /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                                    sa lahat ng cases dito sa function nato, its either price or quantity lang */
+                                    ofstream file("Menu.txt");
+                                        for (int i=0 ; i < menu.size(); ++i){
+                                            file << menu[i].name << "  " 
+                                                 << menu[i].price << "  " 
+                                                 << menu[i].quantity << endl;
+                                        }
+                                    file.close();
+
+                                    cout << "\nQuantity Updated!\n" << endl;
+                                }
+                            }
+                            found = true;
                             break;
                         }
                         case 3:
@@ -463,7 +639,8 @@ void updateProduct(){
                          cout << "Invalid choice. Please try again." << endl;
                     }
                 } while (choice !=3);
-        } else {
+        } 
+        if (found) {
             cout << "\nProduct not found.\n" << endl;
         }
     }
@@ -480,22 +657,29 @@ void searchProduct() {
     loadExistingProducts();
     string searchWord = toLower(name); //ginagawang lowercase yung input from user ara maging case insensitive
     
-    bool isFound = false; //boolean ginamit ko rito para madali, di na natin need ng failcount
+    bool isFound = true; //boolean ginamit ko rito para madali, di na natin need ng failcount
         //mag rereiterate sya hanggang mag match
-    
-    cout << endl;
-    cout<<"\n"<<endl;
-	cout<<left<<setw(30)<<"NAME"
-		<<left<<setw(0)<<"STATUS"
-		<<right<<setw(30)<<"QUANTITY"
-        <<right<<setw(30)<<"PRICE"<<endl;
-
-		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
-		    cout<<setfill(' ');
 
     for (int i=0; i<menu.size(); ++i){
-        if (toLower(menu[i].name).find(searchWord) != string::npos) {
+        if (toLower(menu[i].name).find(searchWord) == string::npos) {
+                //pag wala talaga ung "Product" na yun sa mga paninda na nailagay na sa vector, edi product not found
+                isFound = false; 
+        }       
+    } 
 
+    //pag may na-search, magiging true, which means merong product na nahanap.
+    if (!isFound) { 
+        cout<<endl;
+	    cout<<left<<setw(30)<<"NAME"
+		    <<left<<setw(0)<<"STATUS"
+		    <<right<<setw(30)<<"QUANTITY"
+            <<right<<setw(30)<<"PRICE"<<endl;
+
+		cout<<setfill('-')<<setw(110)<<"-"<<endl;
+		cout<<setfill(' ');
+        
+        for (int i=0; i<menu.size(); ++i){
+            if (toLower(menu[i].name).find(searchWord) != string::npos) {
 			    cout<<left<<setw(14)<<menu[i].name;
 			    if (menu[i].quantity > 0){
                     cout << right << setw(24) << "Available";
@@ -505,27 +689,24 @@ void searchProduct() {
                     cout << right << setw(26) << "Out of Stock";
                     cout<<right<<setw(23)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
-                }    
-                
-                isFound = true; //pag may na-search, magiging true, which means merong product na nahanap.
+                }
+            }
         } 
-    }
-    if (!isFound) { 
-        // and then pag wala talaga ung "Product" na yun sa mga paninda na nailagay na sa vector, edi product not found
+    } else {
         cout << "\nProduct not Found.\n";
-    } 
+    }
     cout << endl;
 }
 
-void changeLogInfo() { //might remove logerror
+void changeLogInfo() { 
     int choice;
-    int logError = 0;
+    bool logError = true;
     loginCredentials newInfo;
 
     cout<<"\nWhat credential do you like to change?"<<endl //bibigyan ng option si admin kung ano papaltan
         <<"1. Change Username"<<endl
         <<"2. Change Password"<<endl
-        <<"3. Back"
+        <<"3. Back"<<endl
         <<"Enter your choice: ";
         cin>>choice;
     
@@ -550,9 +731,9 @@ void changeLogInfo() { //might remove logerror
                     cout<<"\nUsername Successfuly Changed!\n"<<endl;
 
                     } else {
-                        logError++;
+                        logError=false;
                     }
-                if (logError == logInfo.size()) {
+                if (!logError) {
                     cout<<"\nPassword doesn't match.\n"<<endl;
                 }
             }
@@ -574,9 +755,9 @@ void changeLogInfo() { //might remove logerror
                     cout<<"\nPassword Successfuly Changed!\n"<<endl;
 
                     } else {
-                        logError++;
+                        logError=false;
                     }
-                if (logError == logInfo.size()) {
+                if (!logError) {
                     cout<<"\nPassword doesn't match.\n" <<endl;
                 }
             }

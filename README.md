@@ -51,14 +51,15 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 - A UI Menu Interface.<br> (**STATUS:** 🟩)
 - Adding new products to the inventory.<br> (**STATUS:** 🟩, Additional Comment: TANGINA AYOQ NA ~~MABUHAY~~)
 - Updating current product information.<br> (**STATUS:** 🟩)
+  A. Can automatically deduct quantity from pre orders and transfer the pre order details to the transactions record (**STATUS:** 🟩)<br>
 - Deleting product records from the inventory.<br> (**STATUS:** 🟩)
 - Can Search for a specific product.<br> (**STATUS:** 🟩, Additional Comment: took a ton of hours to fix that bruh ._.)
    A. if you search a term (eg. cake) any item with that name will be included. <br>(**STATUS:** 🟩)
 - Display all available products and their details.<br> (**STATUS:** 🟩)
 - Monitor and display current stock quantities.<br> (**STATUS:** 🟩, Additional Comment: personally idk ano gagawin here)
 - Accept and process customer orders. (**STATUS:** 🟩)<br>
-  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟥)<br>
-  B. If the order was a "cake", customer can include custom writing on the cake and it also includes a candle for free.   (**STATUS:** 🟥)<br>
+  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟩)<br>
+  B. If an order is a "cake" it will ask for a custom writing on the cake and asks if a candle is included (for free) <br>(**STATUS:** 🟩)
 - Validate stock availability before confirming an order.<br> (**STATUS:** 🟩)
 - Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟩)
 - Save and retrieve inventory records.<br> (**STATUS:** 🟩)
@@ -72,6 +73,9 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
    E. Unique Admin menu (**STATUS:** 🟩)<br>
    F. Can add an admin (**STATUS:** 🟩)<br>
    G. Can remove an admin (**STATUS:** 🟩) <br>
+   H. Admin can access and view pre-orders (**STATUS:** 🟧)<br>
+   I. Admin can access and remove custom orders once it is completed (**STATUS:** 🟧)<br>
+   J. Admins can access and view the transactions record (**STATUS:** 🟧)<br>
 - Customer can type their names and will be saved in the transaction files (**STATUS:** 🟩)<br>
 - Customers can be greeted for the first time and again and again and again by the program(**STATUS:** 🟩)
 - Can switch customer name (**STATUS:** 🟩)
