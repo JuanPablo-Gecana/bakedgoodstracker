@@ -897,6 +897,9 @@ void addOrRemoveAdmin() {
             }
             break;
 
+            case 3:
+            break;
+
             default:
             cout << "Invalid choice. Please try again." << endl;
         }   
@@ -985,25 +988,25 @@ void viewCustomOrders() {
             << "2. Back" << endl
             << "Enter your choice: ";
         cin>>choice;
+        cin.ignore();
 
         switch(choice){
             case 1: {
                 cout<<"Enter the Custom Order No. to Delete: ";
                 cin>>number;
 
-                number=-1;
-
-            order.erase(order.begin() + number);
+                order.erase(order.begin() + (number-1));
 
                 ofstream dfile("Custom Order.txt");
                 for (int i=0; i<order.size(); ++i){
                     dfile << order[i].customer << "  "
-                        << order[i].productName << "  "
-                        << order[i].writing << "  "
-                        << order[i].candle << endl;
-                }
+                      << order[i].productName << "  "
+                      << order[i].writing << "  "
+                      << order[i].candle << endl;
                 dfile.close();
+                }
 
+                cout<<"\nCustom Order successfully deleted\n" << endl;
                 break;
             }
             case 2:
