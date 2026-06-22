@@ -87,9 +87,15 @@ int main() {
     choiceInputs choice;
     bool found = false;
     
-    cout<<"Enter your name: ";
-    getline(cin, customerName);
-    cout<<endl;
+    do{
+        cout<<"Enter your name: ";
+        getline(cin, customerName);
+        cout<<endl;
+
+        if(customerName.empty()){
+            cout<<"Name cannot be empty, Please try again.";
+        }
+    } while (customerName.empty());
 
     loadCustomer();
 
