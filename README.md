@@ -14,7 +14,8 @@ All of this data is saved in a text file, ensuring information can't be lost dur
 • Updated vscode.<br>
 • Installed C++, C++ related extensions, and code runner extension for vscode. <br>
 • All of the necessary files such as the c++ file.<br>
-• Latest mingw64 c++ compiler from MSYS2 .<br>
+• Latest mingw64/uscrt64 c++ compiler from MSYS2 .<br>
+Guide for download: https://code.visualstudio.com/docs/languages/cpp <br>
 • C++ standard needs to be C++20.<br>
 <br>
 
