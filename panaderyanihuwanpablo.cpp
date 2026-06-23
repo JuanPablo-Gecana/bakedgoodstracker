@@ -118,7 +118,7 @@ int main() {
         cout << "1. Mag-order ng Produkto" << endl
              << "2. Maghanap ng Produkto" << endl
              << "3. Ipakita ang Lahat ng Produkto" << endl
-             << "4. Palitan ang Customer" << endl
+             << "4. Palitan ang Pangalan ng Customer" << endl
              << "5. Lumabas" << endl
              << "Ilagay ang iyong pinili: ";
         cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
@@ -146,6 +146,7 @@ int main() {
             //If magmatch... welcome sa bagong ui natin for admin, dito nakalagay ung mga revision sa menu ng products natin
             for (int i=0; i < logInfo.size() ; ++i) {
                 if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
+                    cout<<endl;
                     do{
                         cout << "========Maligayang Pagdating Admin "<< logInfo[i].username << "!========" << endl
                         << "1. Magdagdag ng Produkto" << endl
