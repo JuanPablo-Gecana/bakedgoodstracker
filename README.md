@@ -1,7 +1,7 @@
 # Baked Goods Tracker on C++
 
 ## INTRODUCTION: <br>
-PANADERYA NI HUWAN PABLO is a terminal based program written in c++ and it simulates as for an inventory tracker for a small filipino Bakery that sells filipino baked delicacies. <br>
+PANADERYA NI HUWAN PABLO is a terminal based program written in c++ and it simulates as an inventory tracker for a small filipino bakery that sells filipino baked delicacies. <br>
 <br>
 It welcomes the customer as the program starts and the program has a special way of welcoming back to the customer if that customer ordered a product using the program in the past. The customer can order a product, browse the lists of available products through displaying them, and search for a specific product at its will and has an ability to change customer without requiring the user to leave and enter the program again. It can cater normal orders, pre-orders if the product they requested is currently out of stock, custom orders and an optional candle for cakes. As you pre-order, you can pick a pickup date for a product as the product restocks.<br>
 <br>
