@@ -10,12 +10,13 @@ Theres a hidden ADMIN option that if entered, it requires a username and passwor
 All of this data is saved in a text file, ensuring information can't be lost during seperate runs of the program.<br>
 <br>
 
-## REQUIREMENTS:
-• Updated vscode.
-• Installed C++, C++ related extensions, and code runner extension for vscode.
-• All of the necessary files such as the c++ file.
-• Latest mingw64 c++ compiler from MSYS2 .
-• C++ standard needs to be C++20.
+## REQUIREMENTS:<br>
+• Updated vscode.<br>
+• Installed C++, C++ related extensions, and code runner extension for vscode. <br>
+• All of the necessary files such as the c++ file.<br>
+• Latest mingw64 c++ compiler from MSYS2 .<br>
+• C++ standard needs to be C++20.<br>
+<br>
 
 ## FEATURES:<br>
 - Menu-Driven Interface<br>
