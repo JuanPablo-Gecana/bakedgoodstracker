@@ -42,44 +42,24 @@ Sa Customer menu is order, display, search, exit (in order) and then sa Admin me
 <br>
 
 ## FEATURES:<br>
-🟥 - No Progress<br>
-🟧 - Currently Working <br>
-🟩 - Done<br>
-
-<br>
-
-- A UI Menu Interface.<br> (**STATUS:** 🟩)
-- Adding new products to the inventory.<br> (**STATUS:** 🟩, Additional Comment: TANGINA AYOQ NA ~~MABUHAY~~)
-- Updating current product information.<br> (**STATUS:** 🟩)
-  A. Can automatically deduct quantity from pre orders and transfer the pre order details to the transactions record (**STATUS:** 🟩)<br>
-- Deleting product records from the inventory.<br> (**STATUS:** 🟩)
-- Can Search for a specific product.<br> (**STATUS:** 🟩, Additional Comment: took a ton of hours to fix that bruh ._.)
-   A. if you search a term (eg. cake) any item with that name will be included. <br>(**STATUS:** 🟩)
-- Display all available products and their details.<br> (**STATUS:** 🟩)
-- Monitor and display current stock quantities.<br> (**STATUS:** 🟩, Additional Comment: personally idk ano gagawin here)
-- Accept and process customer orders. (**STATUS:** 🟩)<br>
-  A. If the ordered product is currently out of stock, customer can pre-order that product. (**STATUS:** 🟩)<br>
-  B. If an order is a "cake" it will ask for a custom writing on the cake and asks if a candle is included (for free) <br>(**STATUS:** 🟩)
-- Validate stock availability before confirming an order.<br> (**STATUS:** 🟩)
-- Automatically deduct inventory quantities after a successful order.<br> (**STATUS:** 🟩)
-- Save and retrieve inventory records.<br> (**STATUS:** 🟩)
-- Saves all transactions in a file.<br> (**STATUS:**🟩)
-- Generate transaction summaries or order receipts. <br> (**STATUS:** 🟩)
-- Admin menu <br>
-   A. Unique Admin Password (**STATUS:** 🟩) <br>
-   B. Can save admin login credentials on a file (**STATUS:** 🟩)<br>
-   C. Can change admin name and password (**STATUS:** 🟩)<br>
-   D. Admins unlocked more features than the customer (**STATUS:** 🟩)<br>
-   E. Unique Admin menu (**STATUS:** 🟩)<br>
-   F. Can add an admin (**STATUS:** 🟩)<br>
-   G. Can remove an admin (**STATUS:** 🟩) <br>
-   H. Admin can access and view pre-orders (**STATUS:** 🟧)<br>
-   I. Admin can access and remove custom orders once it is completed (**STATUS:** 🟧)<br>
-   J. Admins can access and view the transactions record (**STATUS:** 🟧)<br>
-- Customer can type their names and will be saved in the transaction files (**STATUS:** 🟩)<br>
-- Customers can be greeted for the first time and again and again and again by the program(**STATUS:** 🟩)
-- Can switch customer name (**STATUS:** 🟩)
-<br>
-
-
-
+- Interactive Ui<br>
+- Can add, update, delete and search for a product in the Inventory. <br>
+   A. Can automatically deduct quantity from pre orders and transfer the pre order details to the transactions record<br>
+   B. if you search a term (eg. cake) any item with that name will be included. <br>
+- Can display all products regardless of its availability based on stock. <br>
+- Ordering system that also has pre-ordering and custom order's on cakes. <br>
+   A. Pre ordering can happen if the requested product by the customer is currently out of stock.<br>
+   B. Customer can avail a candle for free if the order was a cake. <br>
+- Additional admin menu that requires a username and password. <br>
+   A. Unique Admin Username and Password <br>
+   B. Can save admin login credentials on a file <br>
+   C. Can change admin name and password <br>
+   D. Admins unlocked more features than the customer <br>
+   E. Unique Admin menu <br>
+   F. Can add an admin <br>
+   G. Can remove an admin  <br>
+   H. Admin can access and view pre-orders <br>
+   I. Admin can access and remove custom orders once it is completed <br>
+   J. Admins can access and view the transactions record <br>
+- Customer's can type their names and will be remembered and greeted by the program upon entering. <br>
+- Program can remember user and admin inputs. <br> 
