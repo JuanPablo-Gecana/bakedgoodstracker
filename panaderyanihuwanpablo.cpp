@@ -88,12 +88,12 @@ int main() {
     bool found = false;
     
     do{
-        cout<<"Enter your name: ";
+        cout<<"Ilagay ang iyong pangalan: ";
         getline(cin, customerName);
         cout<<endl;
 
         if(customerName.empty()){
-            cout <<"Name cannot be empty, Please try again.\n" << endl;
+            cout <<"Hindi maaaring walang lamang ang pangalan. Pakisubukan muli.\n" << endl;
         }
     } while (customerName.empty());
 
@@ -115,12 +115,12 @@ int main() {
                  <<"! SA PANADERYA NI HUWAN PABLO========" << endl;
         }
         
-        cout << "1. Order a Product" << endl
-             << "2. Search for a Product" << endl
-             << "3. Display All Products" << endl
-             << "4. Switch Customer" << endl
-             << "5. Exit" << endl
-             << "Enter your choice: ";
+        cout << "1. Mag-order ng Produkto" << endl
+             << "2. Maghanap ng Produkto" << endl
+             << "3. Ipakita ang Lahat ng Produkto" << endl
+             << "4. Palitan ang Customer" << endl
+             << "5. Lumabas" << endl
+             << "Ilagay ang iyong pinili: ";
         cin >> choice.code; //string muna here since mag eeror sya pag int tas "ADMIN" nilagay ko
 
         //Prolly di na hahaba ung 4 conditions since ayan lang naman ung walang editing na mangyayari sa pov ng customer
@@ -131,8 +131,8 @@ int main() {
                 case 2: searchProduct(); break;
                 case 3: displayMenu(); break;  
                 case 4: changeCustomer(); break;
-                case 5: cout << "\nThank you and Please come again!" << endl; break;
-                default: cout << "Invalid choice. Please try again." << endl;     
+                case 5: cout << "\nSalamat at bumalik kayo ulit!" << endl; break;
+                default: cout << "Maling pinili. Pakisubukan muli." << endl;     
             }
         } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
             loginCredentials login;
@@ -147,17 +147,17 @@ int main() {
             for (int i=0; i < logInfo.size() ; ++i) {
                 if (logInfo[i].username == login.username && logInfo[i].password == login.password) {
                     do{
-                        cout << "========Welcome Admin "<< logInfo[i].username << "!========" << endl
-                        << "1. Add a Product" << endl
-                        << "2. Delete a Product" << endl
-                        << "3. Update a Product" << endl
-                        << "4. View Transaction History" << endl
-                        << "5. View Pre-orders" << endl
-                        << "6. View Custom Orders" << endl
-                        << "7. Change Username/Password" << endl
-                        << "8. Add or Remove an Admin" << endl
-                        << "9. Back" << endl
-                        << "Enter your choice: ";
+                        cout << "========Maligayang Pagdating Admin "<< logInfo[i].username << "!========" << endl
+                        << "1. Magdagdag ng Produkto" << endl
+                        << "2. Magtanggal ng Produkto" << endl
+                        << "3. I-update ang Produkto" << endl
+                        << "4. Tingnan ang Kasaysayan ng Transaksyon" << endl
+                        << "5. Tingnan ang mga Pre-order" << endl
+                        << "6. Tingnan ang mga Custom Order" << endl
+                        << "7. Palitan ang Username/Password" << endl
+                        << "8. Magdagdag o Magtanggal ng Admin" << endl
+                        << "9. Bumalik" << endl
+                        << "Ilagay ang iyong pinili: ";
                         cin >> choice.numCode;
 
                         switch (choice.numCode) {
@@ -170,16 +170,16 @@ int main() {
                             case 7: changeLogInfo(); break;
                             case 8: addOrRemoveAdmin(); break;
                             case 9: break; 
-                            default: cout << "Invalid choice. Please try again." << endl;
+                            default: cout << "Maling pinili. Pakisubukan muli." << endl;
                         }
                     } while (choice.numCode !=9);
                 } else {
-                    cout << "\nUsername and Password don't match.\n" << endl;
+                    cout << "\nHindi tugma ang Username at Password.\n" << endl;
             
                 }
             }
         } else {
-            cout << "\nInvalid choice. Please try again.\n" << endl;
+            cout << "\nMaling pinili. Pakisubukan muli.\n" << endl;
         }
     } while (choice.numCode != 5);
     return 0;
@@ -224,10 +224,10 @@ void loadCustomer() {
 }
 
 void receipt(string a, string b, int c, double d, double e, double f, double g) {
-    cout<<"Customer Name: "<< a << endl;
-    cout<<left<<setw(30)<<"PRODUCT NAME"
-        <<right<<setw(0)<<"QUANTITY"
-        <<right<<setw(30)<<"PRICE"<<endl;
+    cout<<"Pangalan ng Customer: "<< a << endl;
+    cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+        <<right<<setw(0)<<"KANTIDAD"
+        <<right<<setw(30)<<"PRESYO"<<endl;
                             
     cout<<setfill('-')<<setw(75)<<"-"<<endl;
 	cout<<setfill(' ');
@@ -236,9 +236,9 @@ void receipt(string a, string b, int c, double d, double e, double f, double g) 
         <<right<<setw(4)<<c
         <<right<<setw(32)<<d<<endl;
 
-    cout<<"\nTotal cost: "<< e << endl;
-    cout<<"Amount Paid: "<< f <<endl;
-    cout<<"Change: "<< g <<endl;
+    cout<<"\nKabuuang Halaga: "<< e << endl;
+    cout<<"Halagang Binayad: "<< f <<endl;
+    cout<<"Sukli: "<< g <<endl;
 }
 
 void loadOrder(string a) {
@@ -276,7 +276,7 @@ void orderProduct() {
     loadExistingProducts();
 
     if (menu.empty()) { //checheck if empty ung menu
-        cout << "\nSorry, the menu is currently empty. No items to order.\n" << endl; //then ito lalabas pag wala talagang laman
+        cout << "\nPaumanhin, walang laman ang menu sa kasalukuyan. Walang maiorder.\n" << endl; //then ito lalabas pag wala talagang laman
     } else {
         string orderName;
         int orderQty;
@@ -287,9 +287,10 @@ void orderProduct() {
         string date;
         char response;
 
-        cout << "\nEnter product name to order: ";
+        cin.ignore();
+        cout << "\nIlagay ang pangalan ng produktong gustong iorder: ";
         getline(cin, orderName);
-        cout << "Enter quantity: ";
+        cout << "Ilagay kung ilan ang gustong bilhin: ";
         cin >> orderQty;
 
         replace(orderName.begin(), orderName.end(), ' ', '_');
@@ -297,16 +298,16 @@ void orderProduct() {
         for (int i=0; i<menu.size(); ++i){
             if (toLower(menu[i].name).find("cake") != string::npos && toLower(menu[i].name) == toLower(orderName)) {
                 string writing;
-                cout<<"\nWould you like to create a custom writing on the cake?(y/n): ";
+                cout<<"\nNais mo bang gumawa ng custom na sulat sa cake?(y/n): ";
                 cin>>response;
                 if (response == 'y'){
                     cin.ignore();
-                    cout<<"\nType your custom writing here: ";
+                    cout<<"\nI-type ang iyong custom na sulat dito: ";
                     getline(cin, writing);
 
                     replace(writing.begin(), writing.end(), ' ', '_');
                         
-                    cout<<"\nWould you like a candle for the cake for free?(y/n): ";
+                    cout<<"\nGusto mo ba ng libreng kandila para sa cake?(y/n): ";
                     cin>>response;
                     ofstream file("../bakedgoodstracker/file/Custom Order.txt", ios::app);
                     file << customerName << "  "
@@ -337,15 +338,15 @@ void orderProduct() {
                         totalCost = menu[i].price * orderQty;
                         
                         do {
-                            cout<<"The cost of " << orderName << " is " << totalCost << "." << endl;
-                            cout<<"Please enter your payment: ";
+                            cout<<"Ang halaga ng " << orderName << " ay " << totalCost << "." << endl;
+                            cout<<"Pakilagay ang iyong bayad: ";
                             cin>>payment;
 
                             if (payment >= totalCost) {
                                 change = payment - totalCost;
-                                cout << "\nOrder successful!\n" << endl;
+                                cout << "\nMatagumpay na naiorder!\n" << endl;
                             } else {
-                                cout << "\nInsufficient Funds\n" << endl;
+                                cout << "\nKulang ang iyong bayad.\n" << endl;
                             }
                         } while (payment < totalCost);
                         
@@ -368,7 +369,7 @@ void orderProduct() {
                         }
                         
                         else
-                            cout << "\nUnecpected error occured while saving transaction records.\n";
+                            cout << "\nNagkaroon ng hindi inaasahang error habang isinasave ang mga rekord ng transaksyon.\n";
 
                         // Pag-rewrite sa .txt file para synchronize ang binawas na stock
                         ofstream file("../bakedgoodstracker/file/Menu.txt");
@@ -381,22 +382,22 @@ void orderProduct() {
                                 file.close();
                         }
                     } else {
-                        cout << "\nInsufficient stock! Would you like to pre-order?(y/n): ";
+                        cout << "\nKulang ang stock! Gusto mo bang mag-pre-order?(y/n): ";
                         cin >> response;
 
                         if (response == 'y'){
                             totalCost = menu[i].price * orderQty;
 
                            do {
-                            cout<<"The cost of " << orderName << " is " << totalCost << "." << endl;
-                            cout<<"Please enter your payment: ";
+                            cout<<"Ang halaga ng " << orderName << " ay " << totalCost << "." << endl;
+                            cout<<"Pakilagay ang iyong bayad: ";
                             cin>>payment;
 
                             if (payment >= totalCost) {
                                 change = payment - totalCost;
-                                cout << "\nOrder successful!\n" << endl;
+                                cout << "\nMatagumpay na naiorder!\n" << endl;
                             } else {
-                                cout << "\nInsufficient Funds\n" << endl;
+                                cout << "\nKulang ang iyong bayad\n" << endl;
                             }
                         } while (payment < totalCost);
                             
@@ -405,7 +406,7 @@ void orderProduct() {
                         string currentDate = format("{}", calendarDate);
 
                           do {
-                            cout<<"What date do you want to claim the item when it restocks (YYYY-MM-DD): ";
+                            cout<<"Kailan mo gusto kunin ang item pagkatapos itong ma-restock (YYYY-MM-DD): ";
                             cin>>date;
 
                             if (date > currentDate) {
@@ -423,13 +424,13 @@ void orderProduct() {
 
                                 receipt(customerName, menu[i].name, orderQty, menu[i].price, totalCost,  payment, change);
 
-                                cout<<"\nPre-Ordered Successfuly\n"<<endl;
+                                cout<<"\nMatagumpay na naiPre-Order\n"<<endl;
                             } else {
-                                cout<<"\n Date is not Available\n"<<endl;
+                                cout<<"\n Hindi Available ang Petsa\n"<<endl;
                             }
                           } while (date <= currentDate);   
                         } else {
-                            cout<<"\nPre-ordering aborted.\n"<<endl;
+                            cout<<"\nKinansela ang Pre-order.\n"<<endl;
                         }
                     }
                             break; 
@@ -437,7 +438,7 @@ void orderProduct() {
             }
 
             if (!productFound) {
-                cout << "\nProduct not found in the menu.\n" << endl;
+                cout << "\nWalang nahanap na produkto sa menu.\n" << endl;
             }
     }
 }
@@ -446,11 +447,11 @@ void orderProduct() {
 void addProduct() {  
     cin.ignore();
     bakedProduct newProduct;
-    cout << "\nEnter the name of the product: ";
+    cout << "\nIlagay ang pangalan ng produkto: ";
     getline(cin, newProduct.name);
-    cout << "Enter the price of the product: ";
+    cout << "Ilagay ang presyo ng produkto: ";
     cin >> newProduct.price;
-    cout << "Enter the quantity of the product: ";
+    cout << "Ilagay kung gaano karami ang produkto: ";
     cin >> newProduct.quantity;
 
     replace(newProduct.name.begin(), newProduct.name.end(), ' ', '_');
@@ -464,7 +465,7 @@ void addProduct() {
         file.close();
     }
 
-    cout << "\nProduct added successfully!\n" << endl;
+    cout << "\nMatagumpay na naidagdag ang produkto!\n" << endl;
 }
 
 void displayMenu() {
@@ -478,14 +479,14 @@ void displayMenu() {
         file.close();//and then isasara ung file
 
         if (menu.empty()){
-            cout<<"\nThere is no listed products in the menu.\n";
+            cout<<"\nWalang nakalistang produkto sa menu.\n";
         } else {
             //ung na pushback ni menu vector is ilalabas na dito
             cout<<"\n"<<endl;
-		    cout<<left<<setw(30)<<"NAME"
-		        <<left<<setw(0)<<"STATUS"
-		        <<right<<setw(30)<<"QUANTITY"
-                <<right<<setw(30)<<"PRICE"<<endl;
+		    cout<<left<<setw(30)<<"PANGALAN"
+		        <<left<<setw(0)<<"KATAYUAN"
+		        <<right<<setw(30)<<"DAMI"
+                <<right<<setw(30)<<"PRESYO"<<endl;
 
 		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
 		    cout<<setfill(' ');
@@ -493,11 +494,11 @@ void displayMenu() {
             for (int i=0; i<menu.size(); ++i){
 			    cout<<left<<setw(14)<<menu[i].name;
 			    if (menu[i].quantity > 0){//may if dito kung available or not ba ung product 
-                    cout << right << setw(24) << "Available";
+                    cout << right << setw(24) << "May Stock";
                     cout<<right<<setw(25)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 } else {
-                    cout << right << setw(26) << "Out of Stock";
+                    cout << right << setw(26) << "Walang Stock";
                     cout<<right<<setw(23)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 } 
@@ -509,7 +510,7 @@ void displayMenu() {
 
 void deleteProduct(){ 
     string name;
-    cout << "Enter product to delete: ";
+    cout << "Ilagay ang produktong gustong tanggalin: ";
     getline(cin, name);
     cin.ignore();
     
@@ -537,9 +538,9 @@ void deleteProduct(){
         }
         file.close();
 
-        cout<<"\nProduct '"<< name << "' was deleted.\n" << endl;
+        cout<<"\nNatanggal ang produktong '"<< name << "'.\n" << endl;
     } else {
-        cout << "Product not found.\n" << endl;
+        cout << "Hindi natagpuan ang produkto.\n" << endl;
     }
 }
 
@@ -547,7 +548,7 @@ void updateProduct(){
     string name;
     bool found = false;
 
-    cout<<"\nWhat product do you want to update: ";
+    cout<<"\nAling produkto ang gusto mong i-update: ";
     cin>>name;
 
     //if deretso agad
@@ -556,18 +557,18 @@ void updateProduct(){
     //magrereiterate kung may mag match and iaanounce naman agad ni program yan
     for (int i=0; i<menu.size(); ++i){
         if (toLower(menu[i].name) == toLower(name)) {
-                cout << "\nProduct found successfully.\n" << endl;
+                cout << "\nMatagumpay na nakita ang produkto.\n" << endl;
                 int choice;
                 do {
-                    cout<< "What information of "<< menu[i].name << " do you want to update?" << endl
-                        << "1. Update Price" << endl
-                        << "2. Update Quantity" << endl
-                        << "3. Back" << endl
-                        << "Enter your choice: ";
+                    cout<< "Aling impormasyon ng "<< menu[i].name << " ang nais mong i-update?" << endl
+                        << "1. I-update ang Presyo" << endl
+                        << "2. I-update ang Dami" << endl
+                        << "3. Bumalik" << endl
+                        << "Ilagay ang iyong pinili: ";
                     cin >> choice;
                     switch (choice) {
                         case 1: {
-                            cout << "\nEnter your updated price of " << menu[i].name << ": ";
+                            cout << "\nIlagay ang bagong presyo ng " << menu[i].name << ": ";
                             cin >> menu[i].price;
                             
                             /* rewriting na sa file ung specific product na gusto natin iupdate same case
@@ -580,19 +581,19 @@ void updateProduct(){
                             }
                                 file.close();
 
-                            cout << "\nPrice Updated!\n" << endl;
+                            cout << "\nNa-update ang Presyo!\n" << endl;
                             found = true;
                             break;
                         }
                         case 2: {
-                            cout << "\nEnter your updated quantity of " << menu[i].name << ": ";
+                            cout << "\nIlagay ang bagong dami ng " << menu[i].name << ": ";
                             cin >> menu[i].quantity;
 
                             loadOrder("pre");
 
                             for (int j=0; j<order.size(); ++j){
                                 if (menu[i].name == order[j].productName && menu[i].quantity >= order[j].quantity){
-                                    cout<<"\nYou have a pre-order for this product for customer "<< order[j].customer<<"! Automatically deducting... \n" << endl;
+                                    cout<<"\nMay pre-order ka sa produktong ito para kay customer "<< order[j].customer<<"! Awtomatikong ibabawas... \n" << endl;
                                     menu[i].quantity -= order[j].quantity;
 
                                     ofstream file("../bakedgoodstracker/file/Transaction.txt", ios::app);
@@ -627,7 +628,7 @@ void updateProduct(){
                                         }
                                         file.close();
 
-                                        cout<<"The updated quantity of "<< menu[i].name << " is " << menu[i].quantity << "!\n" << endl;
+                                        cout<<"Ang bagong dami ng "<< menu[i].name << " ay " << menu[i].quantity << "!\n" << endl;
                                 } else {
                                      /* rewriting na sa file ung specific product na gusto natin iupdate same case
                                     sa lahat ng cases dito sa function nato, its either price or quantity lang */
@@ -639,7 +640,7 @@ void updateProduct(){
                                         }
                                     file.close();
 
-                                    cout << "\nQuantity Updated!\n" << endl;
+                                    cout << "\nNa-update ang dami!\n" << endl;
                                 }
                             }
                             found = true;
@@ -649,12 +650,12 @@ void updateProduct(){
                             cout << endl;
                             break;
                         default:
-                         cout << "Invalid choice. Please try again." << endl;
+                         cout << "Maling pinili. Pakisubukan muli." << endl;
                     }
                 } while (choice !=3);
         } 
         if (found) {
-            cout << "\nProduct not found.\n" << endl;
+            cout << "\nHindi natagpuan ang produkto.\n" << endl;
         }
     }
 }
@@ -662,7 +663,7 @@ void updateProduct(){
 void searchProduct() {
     string name;
     
-    cout << "\nEnter the product you want to search: "; //Enter mo dito ung sinearch mo
+    cout << "\nIlagay ang produktong gusto mong hanapin: "; //Enter mo dito ung sinearch mo
     cin.ignore(); //para di magloko yung user-input
     getline (cin, name); //getline para mabasa yung mga white spaces
 
@@ -683,10 +684,10 @@ void searchProduct() {
     //pag may na-search, magiging true, which means merong product na nahanap.
     if (!isFound) { 
         cout<<endl;
-	    cout<<left<<setw(30)<<"NAME"
-		    <<left<<setw(0)<<"STATUS"
-		    <<right<<setw(30)<<"QUANTITY"
-            <<right<<setw(30)<<"PRICE"<<endl;
+	    cout<<left<<setw(30)<<"PANGALAN"
+		    <<left<<setw(0)<<"KATAYUAN"
+		    <<right<<setw(30)<<"DAMI"
+            <<right<<setw(30)<<"PRESYO"<<endl;
 
 		cout<<setfill('-')<<setw(110)<<"-"<<endl;
 		cout<<setfill(' ');
@@ -695,18 +696,18 @@ void searchProduct() {
             if (toLower(menu[i].name).find(searchWord) != string::npos) {
 			    cout<<left<<setw(14)<<menu[i].name;
 			    if (menu[i].quantity > 0){
-                    cout << right << setw(24) << "Available";
+                    cout << right << setw(24) << "May Stock";
                     cout<<right<<setw(25)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 } else {
-                    cout << right << setw(26) << "Out of Stock";
+                    cout << right << setw(26) << "Walang Stock";
                     cout<<right<<setw(23)<<menu[i].quantity
                         <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
                 }
             }
         } 
     } else {
-        cout << "\nProduct not Found.\n";
+        cout << "\nWalang Natagpuang Produkto.\n";
     }
     cout << endl;
 }
@@ -716,22 +717,22 @@ void changeLogInfo() {
     bool logError = true;
     loginCredentials newInfo;
 
-    cout<<"\nWhat credential do you like to change?"<<endl //bibigyan ng option si admin kung ano papaltan
-        <<"1. Change Username"<<endl
-        <<"2. Change Password"<<endl
-        <<"3. Back"<<endl
-        <<"Enter your choice: ";
+    cout<<"\nAling kredensyal ang nais mong palitan?"<<endl //bibigyan ng option si admin kung ano papaltan
+        <<"1. Palitan ang Username"<<endl
+        <<"2. Palitan ang Password"<<endl
+        <<"3. Bumalik"<<endl
+        <<"Ilagay ang iyong pinili: ";
         cin>>choice;
     
         loadAdmin(); //iloload ung current admin info
 
         switch (choice) {
             case 1:
-                cout<<"\nEnter your password for confirmation: "; //mandatory to sa lahat ng admin action regarding pag aadd pagreremove and pag palit ng info ng admin
+                cout<<"\nIlagay ang iyong password para sa kumpirmasyon: "; //mandatory to sa lahat ng admin action regarding pag aadd pagreremove and pag palit ng info ng admin
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
                     if (newInfo.password == logInfo[i].password) { //check muna if may mag match
-                        cout<<"Enter your new username: "; //papainputin 
+                        cout<<"Ilagay ang iyong bagong username: "; //papainputin 
                         cin>>logInfo[i].username;
 
 					//then iooverwrite ung buong txt file with ung bagong updated username
@@ -741,22 +742,22 @@ void changeLogInfo() {
                                  << logInfo[i].password << endl;
                         }
                     file.close();
-                    cout<<"\nUsername Successfuly Changed!\n"<<endl;
+                    cout<<"\nMatagumpay na Napalitan ang Username!\n"<<endl;
 
                     } else {
                         logError=false;
                     }
                 if (!logError) {
-                    cout<<"\nPassword doesn't match.\n"<<endl;
+                    cout<<"\nHindi tugma ang Password.\n"<<endl;
                 }
             }
                 break;
             case 2: //might update later
-                cout<<"\nEnter your old password for confirmation: ";
+                cout<<"\nIlagay ang iyong lumang password para sa kumpirmasyon: ";
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
                     if (newInfo.password == logInfo[i].password) {
-                        cout<<"Enter your new password: ";
+                        cout<<"Ilagay ang iyong bagong password: ";
                         cin>>logInfo[i].password;
                         
                     ofstream file("../Admin.txt");
@@ -765,20 +766,20 @@ void changeLogInfo() {
                                  << logInfo[i].password << endl;
                         }
                     file.close();
-                    cout<<"\nPassword Successfuly Changed!\n"<<endl;
+                    cout<<"\nMatagumpay na Napalitan ang Password!\n"<<endl;
 
                     } else {
                         logError=false;
                     }
                 if (!logError) {
-                    cout<<"\nPassword doesn't match.\n" <<endl;
+                    cout<<"\nHindi tugma ang Password.\n" <<endl;
                 }
             }
                 break;
             case 3:
                 break;
             default:
-                 cout<<"\nInvalid Choice. Please try again\n"<<endl;
+                 cout<<"\nMaling Pinili. Pakisubukan muli\n"<<endl;
         }
 }
 
@@ -791,27 +792,27 @@ void addOrRemoveAdmin() {
     bool isFound=false;
 
     do{
-        cout<<"\n===========ADD OR DELETE ADMIN===========" << endl
-            <<"1. Add Admin" << endl
-            <<"2. Delete Admin" << endl
-            <<"3. Back" << endl
-            <<"Enter your choice: ";
+        cout<<"\n===========MAGDAGDAG O MAGTANGGAL NG ADMIN===========" << endl
+            <<"1. Magdagdag ng Admin" << endl
+            <<"2. Magtanggal ng Admin" << endl
+            <<"3. Bumalik" << endl
+            <<"Ilagay ang iyong pinili: ";
         cin>>choice;
 
         switch(choice){
             case 1:
-                cout<<"Confirm Password: ";//need ng confirmation ng current admin
+                cout<<"Kumpirmahin ang Password: ";//need ng confirmation ng current admin
                 cin>>veriPass.password;
                 cout<<endl;
 
                 for (int i=0; i<logInfo.size(); ++i){
                     if (veriPass.password==logInfo[i].password) { //checheck if may mag match
-                        cout<<"===========CREATE NEW ADMIN===========" << endl;
-                        cout<<"Add Username: ";
+                        cout<<"===========GUMAWA NG BAGONG ADMIN===========" << endl;
+                        cout<<"Ilagay ang Username: ";
                         cin>>newUser.username;
             
                         do {
-                            cout<<"Add Password (Should be atleast 8 characters): "; //need 8 characters minimun, uulit yan pag di nameet 
+                            cout<<"Ilagay ang Password (Dapat hindi bababa sa 8 karakter): "; //need 8 characters minimun, uulit yan pag di nameet 
                             cin>>newUser.password;
 
 				            //and then if ok na, isasama na sya sa file and sa current vector
@@ -822,28 +823,28 @@ void addOrRemoveAdmin() {
                                 file.close();
 
                                 logInfo.push_back(newUser);
-                                cout<<"\nAdmin Successfuly Added!\n"<<endl;
+                                cout<<"\nMatagumpay na Naidagdag ang Admin!\n"<<endl;
                                 isFound=true;
                             } else {
-                                cout<<"\nPassword too short.\n"<<endl;
+                                cout<<"\nMasyadong Maikli ang Password.\n"<<endl;
                             }
                         } while (newUser.password.size() < 8);
                     }
                 }
             if (!isFound){
-                cout<<"\nPassword doesn't match.\n"<<endl;
+                cout<<"\nHindi tugma ang Password.\n"<<endl;
             }
             break;
 
             case 2:
-            cout<<"\nConfirm Password: "; //need ulit confirmation ng current admin
+            cout<<"\nKumpirmahin ang Password: "; //need ulit confirmation ng current admin
             cin>>veriPass.password;
             cout<<endl;
 
             for (int i=0; i<logInfo.size(); ++i){ //ichecheck if may magmatch
                 if (veriPass.password==logInfo[i].password) {
-                    cout<<"===========DELETE ADMIN===========" << endl;
-                    cout<<"Enter Admin Username to Delete: "; //ieenter na dito ung ireremove na admin
+                    cout<<"===========MAGTANGGAL NG ADMIN===========" << endl;
+                    cout<<"Ilagay ang Username ng Admin na Tatanggalin: "; //ieenter na dito ung ireremove na admin
                     cin>>delUser.username;
                     loadAdmin();
                     for (int j=0; j<logInfo.size(); ++j){
@@ -860,11 +861,11 @@ void addOrRemoveAdmin() {
                          << logInfo[i].password << endl;
                     file.close();
 
-                    cout<<"\nAdmin Successfuly Deleted!\n"<<endl;
+                    cout<<"\nMatagumpay na Natanggal ang Admin!\n"<<endl;
                 }           
             }
             if (!isFound){
-                cout<<"\nPassword doesn't match.\n"<<endl;
+                cout<<"\nHindi tugma ang Password.\n"<<endl;
             }
             break;
 
@@ -872,7 +873,7 @@ void addOrRemoveAdmin() {
             break;
 
             default:
-            cout << "Invalid choice. Please try again." << endl;
+            cout << "Maling pinili. Pakisubukan muli." << endl;
         }   
     } while (choice != 3);
 }
@@ -880,7 +881,7 @@ void addOrRemoveAdmin() {
 string changeCustomer() {
     cin.ignore(); //para di mag error ung user input
     cout<<endl;
-    cout<<"Enter your name: ";
+    cout<<"Ilagay ang iyong pangalan: ";
     getline(cin, customerName); //getline para maacomodate ung may spaces (like Juan Pablo)
     cout<<endl;
     return customerName;
@@ -890,10 +891,10 @@ void viewPreOrder() {
     cout<<endl;
     loadOrder("pre");
     for(int i=0; i<order.size(); i++) {
-        cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
-        cout<<left<<setw(30)<<"PRODUCT NAME"
-            <<right<<setw(0)<<"QUANTITY"
-            <<right<<setw(30)<<"DATE TO BE CLAIMED"<<endl;
+        cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+        cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+            <<right<<setw(0)<<"DAMI"
+            <<right<<setw(30)<<"PETSA NG PAGKUKUHA"<<endl;
                             
         cout<<setfill('-')<<setw(75)<<"-"<<endl;
 	    cout<<setfill(' ');
@@ -912,10 +913,10 @@ void viewTransactions() {
     loadOrder("trans");
     cout<<endl;
     for(int i=0; i<order.size(); i++) {
-        cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
-        cout<<left<<setw(30)<<"PRODUCT NAME"
-            <<right<<setw(0)<<"QUANTITY"
-            <<right<<setw(30)<<"DATE OF TRANSACTION"<<endl;
+        cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+        cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+            <<right<<setw(0)<<"DAMI"
+            <<right<<setw(30)<<"PETSA NG TRANSAKSYON"<<endl;
                             
         cout<<setfill('-')<<setw(75)<<"-"<<endl;
 	    cout<<setfill(' ');
@@ -938,10 +939,10 @@ void viewCustomOrders() {
         cout<<endl;
         for(int i=0; i<order.size(); i++) {
             cout<<"Custom Order No."<<i+1<<endl;
-            cout<<"Customer Name: "<< order[i].customer << "\n" << endl;
-            cout<<left<<setw(30)<<"PRODUCT NAME"
-                <<right<<setw(0)<<"MESSAGE"
-                <<right<<setw(30)<<"CANDLE"<<endl;
+            cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+            cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+                <<right<<setw(0)<<"MENSAHE"
+                <<right<<setw(30)<<"KANDILA"<<endl;
                             
             cout<<setfill('-')<<setw(75)<<"-"<<endl;
 	        cout<<setfill(' ');
@@ -955,15 +956,15 @@ void viewCustomOrders() {
             cout<<endl;
         }
 
-        cout << "\n1. Remove a Custom Order" <<endl
-            << "2. Back" << endl
-            << "Enter your choice: ";
+        cout << "\n1. Magtanggal ng Custom Order" <<endl
+            << "2. Bumalik" << endl
+            << "Ilagay ang iyong pinili: ";
         cin>>choice;
         cin.ignore();
 
         switch(choice){
             case 1: {
-                cout<<"Enter the Custom Order No. to Delete: ";
+                cout<<"Ilagay ang Custom Order No. na Tatanggalin: ";
                 cin>>number;
 
                 order.erase(order.begin() + (number-1));
@@ -977,13 +978,13 @@ void viewCustomOrders() {
                 dfile.close();
                 }
 
-                cout<<"\nCustom Order successfully deleted\n" << endl;
+                cout<<"\nMatagumpay na Natanggal ang Custom Order\n" << endl;
                 break;
             }
             case 2:
                 break;
             default:
-                cout << "Invalid choice. Please try again." << endl;
+                cout << "Maling pinili. Pakisubukan muli." << endl;
         }
     } while (choice != 2);
 }
