@@ -176,7 +176,6 @@ int main() {
                     } while (choice.numCode !=9);
                 } else {
                     cout << "\nHindi tugma ang Username at Password.\n" << endl;
-            
                 }
             }
         } else {
@@ -188,26 +187,26 @@ int main() {
 
 void loadExistingProducts(){
      if (menu.empty()) { //checheck muna if empty otherwise, ignored to
-            ifstream file("../bakedgoodstracker/file/Menu.txt"); //read nya ung txt
-                if (file.is_open()){ //check if open
-                    while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ //kukunin sa file ung name price and quantity nung product
+        ifstream file("../bakedgoodstracker/file/Menu.txt"); //read nya ung txt
+            if (file.is_open()){ //check if open
+                while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ //kukunin sa file ung name price and quantity nung product
                     menu.push_back(existProduct); //ipupushback ung tatlo dito sa menu
                 }
-                file.close(); //icloclose ung file
-            }
-        }
+            file.close(); //icloclose ung file
+        	}
+    }
 }
 
 void loadAdmin(){
      if (logInfo.empty()) {//checheck muna if empty otherwise, ignored to
-            ifstream file("../bakedgoodstracker/file/Admin.txt"); //read nya ung txt
-                if (file.is_open()){//check if open
-                    while(file >> logCred.username >> logCred.password){ //kukunin sa file ung username and password ng admin
+        ifstream file("../bakedgoodstracker/file/Admin.txt"); //read nya ung txt
+        	if (file.is_open()){//check if open
+            	while(file >> logCred.username >> logCred.password){ //kukunin sa file ung username and password ng admin
                     logInfo.push_back(logCred); //ipupushback na ito sa vector
-                }
-                file.close();//icloclose ung file
-            }
-        }
+            	}
+            file.close();//icloclose ung file
+        	}
+    }
 }
 
 void loadCustomer() {
