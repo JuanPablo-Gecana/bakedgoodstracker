@@ -216,7 +216,7 @@ int main() {
 
 void loadExistingProducts(){
      if (menu.empty()) { //checheck muna if empty otherwise, ignored to
-            ifstream file("Menu.txt"); //read nya ung txt
+            ifstream file("bakedgoodstracker/files/Menu.txt"); //read nya ung txt
                 if (file.is_open()){ //check if open
                     while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ //kukunin sa file ung name price and quantity nung product
                     menu.push_back(existProduct); //ipupushback ung tatlo dito sa menu
@@ -228,7 +228,7 @@ void loadExistingProducts(){
 
 void loadAdmin(){
      if (logInfo.empty()) {//checheck muna if empty otherwise, ignored to
-            ifstream file("Admin.txt"); //read nya ung txt
+            ifstream file("bakedgoodstracker/files/Admin.txt"); //read nya ung txt
                 if (file.is_open()){//check if open
                     while(file >> logCred.username >> logCred.password){ //kukunin sa file ung username and password ng admin
                     logInfo.push_back(logCred); //ipupushback na ito sa vector
@@ -242,7 +242,7 @@ void loadCustomer() {
     string tempCustomerName; //temp baka mag overwrite kase sa current customer
 
      if (customerList.empty()){ //check if empty otherwise, ignored
-        ifstream file("Transaction.txt"); //open ung transaction history
+        ifstream file("bakedgoodstracker/files/Transaction.txt"); //open ung transaction history
          if(file.is_open()){ //check if open
             while(file >> tempCustomerName) {//kukunin ung mga name ng mga customer na nag order in the past
                 customerList.push_back(tempCustomerName); //ilalagay na sya sa vector
@@ -273,21 +273,21 @@ void receipt(string a, string b, int c, double d, double e, double f, double g) 
 void loadOrder(string a) {
     if (a == "pre"){
         order.clear();
-        ifstream file("Pre-orders.txt");
+        ifstream file("bakedgoodstracker/files/Pre-orders.txt");
             while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
                 order.push_back(temp);
             }
         file.close();
     } else if (a == "trans"){
         order.clear();
-        ifstream file("Transaction.txt");
+        ifstream file("bakedgoodstracker/files/Transaction.txt");
             while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
                 order.push_back(temp);
             }
         file.close();
     } else {
         order.clear();
-        ifstream file("Custom Order.txt");
+        ifstream file("bakedgoodstracker/files/Custom Order.txt");
             while (file >> temp.customer >> temp.productName >> temp.writing >> temp.candle) {
                 order.push_back(temp);
             }
@@ -337,7 +337,7 @@ void orderProduct() {
                         
                     cout<<"\nWould you like a candle for the cake for free?(y/n): ";
                     cin>>response;
-                    ofstream file("Custom Order.txt", ios::app);
+                    ofstream file("bakedgoodstracker/files/Custom Order.txt", ios::app);
                     file << customerName << "  "
                          << menu[i].name << "  "
                          << writing << "  ";
@@ -384,7 +384,7 @@ void orderProduct() {
                         chrono::year_month_day calendarDate{today};
                         
                         //Pag-save sa .txt file ng mga transactions
-                        ofstream tFile("Transaction.txt", ios::app);
+                        ofstream tFile("bakedgoodstracker/files/Transaction.txt", ios::app);
                         if (tFile.is_open()) {
                             tFile << customerName << "  "
                                   << menu[i].name << "  "
@@ -400,7 +400,7 @@ void orderProduct() {
                             cout << "\nUnecpected error occured while saving transaction records.\n";
 
                         // Pag-rewrite sa .txt file para synchronize ang binawas na stock
-                        ofstream file("Menu.txt");
+                        ofstream file("bakedgoodstracker/files/Menu.txt");
                         if (file.is_open()) {
                             for (int j = 0; j < menu.size(); ++j) {
                                 file << menu[j].name << "  " 
@@ -438,7 +438,7 @@ void orderProduct() {
                             cin>>date;
 
                             if (date > currentDate) {
-                                ofstream file("Pre-orders.txt", ios::app);
+                                ofstream file("bakedgoodstracker/files/Pre-orders.txt", ios::app);
                                 file << customerName << "  "
                                      << menu[i].name << "  "
                                      << orderQty << "  "
@@ -485,7 +485,7 @@ void addProduct() {
     replace(newProduct.name.begin(), newProduct.name.end(), ' ', '_');
 
     //After malagay lahat ng relevant info, ilalagay na nya muna sa file
-    ofstream file("Menu.txt", ios::app);
+    ofstream file("bakedgoodstracker/files/Menu.txt", ios::app);
     if (file.is_open()){
         file << newProduct.name << "  "
              << newProduct.price << "  "
@@ -498,7 +498,7 @@ void addProduct() {
 
 void displayMenu() {
     menu.clear(); //Icleclear na to kase ung laman neto is nailagay naman sa file so redundant na
-    ifstream file("Menu.txt"); //Babasahin na nya ung file
+    ifstream file("bakedgoodstracker/files/Menu.txt"); //Babasahin na nya ung file
     if (file.is_open()){
         /*Hahanapin na nya sa file ung needed na info based sa data type*/
         while(file >> existProduct.name >> existProduct.price >> existProduct.quantity){ 
@@ -558,7 +558,7 @@ void deleteProduct(){
 
     //if natanggal successfully, irerewrite ung buong .txt file except ung tinanggal
     if (found){
-        ofstream file("Menu.txt");
+        ofstream file("bakedgoodstracker/files/Menu.txt");
             for (int i=0 ; i < menu.size(); ++i){
                 file << menu[i].name << "  " 
                      << menu[i].price << "  " 
@@ -601,7 +601,7 @@ void updateProduct(){
                             
                             /* rewriting na sa file ung specific product na gusto natin iupdate same case
                              sa lahat ng cases dito sa function nato, its either price or quantity lang */
-                            ofstream file("Menu.txt");
+                            ofstream file("bakedgoodstracker/files/Menu.txt");
                             for (int i=0 ; i < menu.size(); ++i){
                                 file << menu[i].name << "  " 
                                      << menu[i].price << "  " 
@@ -624,7 +624,7 @@ void updateProduct(){
                                     cout<<"\nYou have a pre-order for this product for customer "<< order[j].customer<<"! Automatically deducting... \n" << endl;
                                     menu[i].quantity -= order[j].quantity;
 
-                                    ofstream file("Transaction.txt", ios::app);
+                                    ofstream file("bakedgoodstracker/files/Transaction.txt", ios::app);
                                         file << order[j].customer << "  " 
                                              << order[j].productName << "  " 
                                              << order[j].quantity << "  "
@@ -637,7 +637,7 @@ void updateProduct(){
                                     order.erase(order.begin() + j);
 
                                     for (int k=0; k<order.size(); ++k){
-                                        ofstream pfile("Pre-orders.txt");
+                                        ofstream pfile("bakedgoodstracker/files/Pre-orders.txt");
                                         pfile << order[j].customer << "  " 
                                              << order[j].productName << "  " 
                                              << order[j].quantity << "  "
@@ -648,7 +648,7 @@ void updateProduct(){
                                         file.close();
                                     }
 
-                                        ofstream mfile("Menu.txt");
+                                        ofstream mfile("bakedgoodstracker/files/Menu.txt");
                                         for (int l=0 ; l < menu.size(); ++l){
                                             mfile << menu[l].name << "  " 
                                                  << menu[l].price << "  " 
@@ -660,7 +660,7 @@ void updateProduct(){
                                 } else {
                                      /* rewriting na sa file ung specific product na gusto natin iupdate same case
                                     sa lahat ng cases dito sa function nato, its either price or quantity lang */
-                                    ofstream file("Menu.txt");
+                                    ofstream file("bakedgoodstracker/files/Menu.txt");
                                         for (int i=0 ; i < menu.size(); ++i){
                                             file << menu[i].name << "  " 
                                                  << menu[i].price << "  " 
@@ -764,7 +764,7 @@ void changeLogInfo() {
                         cin>>logInfo[i].username;
 
 					//then iooverwrite ung buong txt file with ung bagong updated username
-                    ofstream file("Admin.txt"); 
+                    ofstream file("bakedgoodstracker/files/Admin.txt"); 
                         for (int i=0 ; i < logInfo.size(); ++i){
                             file << logInfo[i].username << "  " 
                                  << logInfo[i].password << endl;
@@ -845,7 +845,7 @@ void addOrRemoveAdmin() {
 
 				            //and then if ok na, isasama na sya sa file and sa current vector
                             if (newUser.password.size() == 8) {
-                                ofstream file("Admin.txt", ios::app);
+                                ofstream file("bakedgoodstracker/files/Admin.txt", ios::app);
                                     file << newUser.username << "  " 
                                          << newUser.password << endl;
                                 file.close();
@@ -884,7 +884,7 @@ void addOrRemoveAdmin() {
                 } 
 
                 if (isFound){
-                    ofstream file("Admin.txt");// and sa file ng admin mismo
+                    ofstream file("bakedgoodstracker/files/Admin.txt");// and sa file ng admin mismo
                     file << logInfo[i].username << "  " 
                          << logInfo[i].password << endl;
                     file.close();
@@ -997,7 +997,7 @@ void viewCustomOrders() {
 
                 order.erase(order.begin() + (number-1));
 
-                ofstream dfile("Custom Order.txt");
+                ofstream dfile("bakedgoodstracker/files/Custom Order.txt");
                 for (int i=0; i<order.size(); ++i){
                     dfile << order[i].customer << "  "
                       << order[i].productName << "  "
