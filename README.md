@@ -1,48 +1,26 @@
 # Baked Goods Tracker on C++
 
-## NOTE:
-- Dito ilalagay ung na document na errors and ung naging solutions.<br>
-- Use ai carefully, make sure na naiintihan natin ung binibigay satin ni ai<br>
-- Try to comment na din sa bawat part ng magiging code para sa iba para madali nila maintindihan ung code.<br>
-- Feel free to edit and test ung gawa natin, basta pakilagay nalang ng details sa pag nagcommit na para maiintindihan ung changes.<br>
-  (Or gawa nalang ng bagong branch tas i pull request para mareview and ma merge sa main branch)<br>
-  
+## INTRODUCTION: <br>
+PANADERYA NI HUWAN PABLO is a terminal based program written in c++ and it simulates as an inventory tracker for a small filipino bakery that sells filipino baked delicacies. <br>
+<br>
+It welcomes the customer as the program starts and the program has a special way of welcoming back to the customer if that customer ordered a product using the program in the past. The customer can order a product, browse the lists of available products through displaying them, and search for a specific product at its will and has an ability to change customer without requiring the user to leave and enter the program again. It can cater normal orders, pre-orders if the product they requested is currently out of stock, custom orders and an optional candle for cakes. As you pre-order, you can pick a pickup date for a product as the product restocks.<br>
+<br>
+Theres a hidden ADMIN option that if entered, it requires a username and password. Once the two conditions are met, it gives a whole new menu that give whole control over the inventory of the bakery as it can add and remove a product, either updating a certain product's price or quantity, and has the power to view the history records of the bakery such as its transaction record, and pending pre-orders and custom cake orders and managing other admin accounts.<br>
+<br>
+All of this data is saved in a text file, ensuring information can't be lost during seperate runs of the program.<br>
 <br>
 
-## TIPS:<br>
-- If wala kayong VsCode and gusto itry ung program since may kasama na yang file handling, i download nyo nalang ung .exe file and ung Menu.txt sa laptop/pc nyo and kailangan magkasama sa isang folder yang .exe and .txt file. Thanks! <br>
-
-## PROGRAM EXPLANATION<br>
-May dalawang menu dito sa program, isa sa customer and isa sa admin (satin). Basically ang admin menu is customer menu sya pero with more new features (parang subscription services lang ganun pero di ka magbabayad obv). <br><br> 
-Sa Customer menu is order, display, search, exit (in order) and then sa Admin menu ang additional is ung Add and delete ng product including din ung update ng product (with possibly a seperate menu pero may additional option dun na "Admin" dun sa pinaka menu talaga). <br><br>
- Dont worry na ung sa pagsasave ng info sa file since automatically na sya. As admin syempre may login system and hidden sya sa mga options sa customer menu, katulad din ng isang login system is pwede mo din paltan ung username and password just like usual. Wait nalang siguro na maimplement ko yan.<br><br>
- Im still thinking  a way na ma remember ka ng program mo to remember you as an admin para di paulit ulit na login, pero im thinking na di gawin yun since security risk pag na implement nito irl (what if lang naman)
-
- <br>
-
-## CHALLENGES AND SOLUTION:<br>
-### NOTE:<br>
-- Dito muna ilalagay lahat ng naencounter na Challenges during the coding process and ung naging solutions before ilagay sa pinaka paper natin.<br>
-<br>
-
-**Challenges:** 
-- Some parts of the program doesnt work like the developers intended to work. <br>
-- Developers need to figure out a way to make sure the program isn't case sensitive in user input, as it hampers the user's experience with the program. <br>
-- The Program's ability to remember what the items are listed in its menu.<br>
-- Compiler's incompability to use other header's libraries.
-- Time constraint
-<br>
-
-**Solution:**
-- Experiment and try until the issue gets resolved.<br>
-- Algorithm header alongside transform() syntax makes the program case-insensitive<br> 
-- Using filehandling and its properties enables the program to remember what its menu contents without re entering. <br>
-- The problem lies in the compiler's version. Therefore, a simple fix is to adjust the compiler's version in order to use that library.
-
+## REQUIREMENTS:<br>
+• Updated vscode.<br>
+• Installed C++, C++ related extensions, and code runner extension for vscode. <br>
+• All of the necessary files such as the c++ file.<br>
+• Latest mingw64 c++ compiler from MSYS2 .<br>
+• C++ standard needs to be C++20.<br>
 <br>
 
 ## FEATURES:<br>
-- Interactive Ui<br>
+- Menu-Driven Interface<br>
+- Filipino Language Program <br>
 - Can add, update, delete and search for a product in the Inventory. <br>
    A. Can automatically deduct quantity from pre orders and transfer the pre order details to the transactions record<br>
    B. if you search a term (eg. cake) any item with that name will be included. <br>
