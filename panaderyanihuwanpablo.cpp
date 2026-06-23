@@ -307,21 +307,18 @@ void orderProduct() {
                     getline(cin, writing);
 
                     replace(writing.begin(), writing.end(), ' ', '_');
-                        
-                    cout<<"\nGusto mo ba ng libreng kandila para sa cake?(y/n): ";
-                    cin>>response;
-                    ofstream file("../bakedgoodstracker/file/Custom Order.txt", ios::app);
-                    file << customerName << "  "
-                         << menu[i].name << "  "
-                         << writing << "  ";
-                    if (response == 'y'){
-                        file << "w_Candle" << endl;
-                    } else {
-                        file << "w/o_Candle" << endl;
-                    } file.close();
+                } 
+                cout<<"\nGusto mo ba ng libreng kandila para sa cake?(y/n): ";
+                cin>>response;
+                ofstream file("../bakedgoodstracker/file/Custom Order.txt", ios::app);
+                file << customerName << "  "
+                     << menu[i].name << "  "
+                     << writing << "  ";
+                if (response == 'y'){
+                    file << "w_Candle" << endl;
                 } else {
-                    break;
-                }
+                    file << "w/o_Candle" << endl;
+                } file.close();
             }
         }
 
