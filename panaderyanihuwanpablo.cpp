@@ -127,23 +127,12 @@ int main() {
         if (choice.code == "1" || choice.code == "2" || choice.code == "3" || choice.code == "4" || choice.code == "5") {
             choice.numCode = stoi(choice.code); //stoi para maging int sya pag nag switch na
             switch (choice.numCode) {
-                case 1:
-                    orderProduct();
-                    break;
-                case 2:
-                    searchProduct();
-                    break;
-                case 3:
-                    displayMenu();
-                    break;
-                case 4:
-                    changeCustomer();
-                    break;
-                case 5:
-                    cout << "\nThank you and Please come again!" << endl;
-                    break;
-                default:
-                    cout << "Invalid choice. Please try again." << endl;
+                case 1: orderProduct(); break;
+                case 2: searchProduct(); break;
+                case 3: displayMenu(); break;  
+                case 4: changeCustomer(); break;
+                case 5: cout << "\nThank you and Please come again!" << endl; break;
+                default: cout << "Invalid choice. Please try again." << endl;     
             }
         } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
             loginCredentials login;
@@ -172,34 +161,16 @@ int main() {
                         cin >> choice.numCode;
 
                         switch (choice.numCode) {
-                            case 1:
-                                addProduct();
-                                break;
-                            case 2:
-                                deleteProduct();
-                                break;
-                            case 3:
-                                updateProduct();
-                                break;
-                            case 4:
-                                viewTransactions();
-                                break;
-                            case 5:
-                                viewPreOrder();
-                                break;
-                            case 6:
-                                viewCustomOrders();
-                                break;
-                            case 7:
-                                changeLogInfo();
-                                break;
-                            case 8:
-                                addOrRemoveAdmin();
-                                break;
-                            case 9:
-                                break;
-                            default:
-                                cout << "Invalid choice. Please try again." << endl;
+                            case 1: addProduct(); break;
+                            case 2: deleteProduct(); break;
+                            case 3: updateProduct(); break;
+                            case 4: viewTransactions(); break;
+                            case 5: viewPreOrder(); break;
+                            case 6: viewCustomOrders(); break;
+                            case 7: changeLogInfo(); break;
+                            case 8: addOrRemoveAdmin(); break;
+                            case 9: break; 
+                            default: cout << "Invalid choice. Please try again." << endl;
                         }
                     } while (choice.numCode !=9);
                 } else {
