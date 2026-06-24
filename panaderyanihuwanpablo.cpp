@@ -474,7 +474,7 @@ void displayMenu() {
             menu.push_back(existProduct); //And ipupush na nya sa menu vector na kakaclear lang kanina
         }
         file.close();//and then isasara ung file
-
+        
         if (menu.empty()){
             cout<<"\nWalang nakalistang produkto sa menu.\n";
         } else {
@@ -545,8 +545,11 @@ void updateProduct(){
     string name;
     bool found = false;
 
+    cin.ignore();
     cout<<"\nAling produkto ang gusto mong i-update: ";
-    cin>>name;
+    getline(cin, name);
+
+    replace(name.begin(), name.end(), ' ', '_');
 
     //if deretso agad
     loadExistingProducts();
