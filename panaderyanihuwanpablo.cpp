@@ -136,10 +136,12 @@ int main() {
             }
         } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
             loginCredentials login;
-            cout << "\nUsername: ";//Needed nya na mag input ng username and password
+            cout << "\n=======================ADMIN LOGIN=======================\n";
+            cout << "Username: ";//Needed nya na mag input ng username and password
             cin >> login.username;
             cout << "Password: ";
             cin >> login.password;
+            cout << "========================================================\n";
 
             loadAdmin();
 
@@ -287,6 +289,7 @@ void orderProduct() {
         string date;
         char response;
 
+        cout<<"\n================PAG-OORDER NG PRODUKTO===================";
         cin.ignore();
         cout << "\nIlagay ang pangalan ng produktong gustong iorder: ";
         getline(cin, orderName);
@@ -444,6 +447,8 @@ void orderProduct() {
 void addProduct() {  
     cin.ignore();
     bakedProduct newProduct;
+
+    cout<<"\n================PAG-DAGDAG NG PRODUKTO===================";
     cout << "\nIlagay ang pangalan ng produkto: ";
     getline(cin, newProduct.name);
     cout << "Ilagay ang presyo ng produkto: ";
@@ -508,6 +513,8 @@ void displayMenu() {
 void deleteProduct(){ 
     string name;
     cin.ignore();
+
+    cout<<"\n================PAG-TANGGAL NG PRODUKTO===================";
     cout << "\nIlagay ang produktong gustong tanggalin: ";
     getline(cin, name);
     
@@ -545,6 +552,7 @@ void updateProduct(){
     string name;
     bool found = false;
 
+    cout<<"\n================PAG-UUPDATE NG PRODUKTO===================";
     cin.ignore();
     cout<<"\nAling produkto ang gusto mong i-update: ";
     getline(cin, name);
@@ -663,6 +671,7 @@ void updateProduct(){
 void searchProduct() {
     string name;
     
+    cout<<"\n================PAG-HAHANAP NG PRODUKTO===================";
     cout << "\nIlagay ang produktong gusto mong hanapin: "; //Enter mo dito ung sinearch mo
     cin.ignore(); //para di magloko yung user-input
     getline (cin, name); //getline para mabasa yung mga white spaces
@@ -717,6 +726,7 @@ void changeLogInfo() {
     bool logError = true;
     loginCredentials newInfo;
 
+    cout<<"\n================PAG-PAPALIT NG LOG INFO===================";
     cout<<"\nAling kredensyal ang nais mong palitan?"<<endl //bibigyan ng option si admin kung ano papaltan
         <<"1. Palitan ang Username"<<endl
         <<"2. Palitan ang Password"<<endl
@@ -777,6 +787,7 @@ void changeLogInfo() {
             }
                 break;
             case 3:
+                cout<<endl;
                 break;
             default:
                  cout<<"\nMaling Pinili. Pakisubukan muli\n"<<endl;
@@ -879,6 +890,7 @@ void addOrRemoveAdmin() {
 }
 
 string changeCustomer() {
+    cout<<"\n================PAG-PAPALIT NG PANGALAN===================";
     cin.ignore(); //para di mag error ung user input
     cout<<endl;
     cout<<"Ilagay ang iyong pangalan: ";
@@ -891,8 +903,8 @@ void viewPreOrder() {
     cout<<endl;
     loadOrder("pre");
 
-    if (!order.empty()) {
-        cout << "\nWalang naka preorder sa kasalukuyan\n" << endl;
+    if (order.empty()) {
+        cout << "Walang naka preorder sa kasalukuyan.\n" << endl;
     } else {
         for(int i=0; i<order.size(); i++) {
         cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
@@ -918,8 +930,8 @@ void viewTransactions() {
     loadOrder("trans");
     cout<<endl;
 
-    if (!order.empty()) {
-        cout << "\nWalang transaksyon sa kasulukuyan\n" << endl;
+    if (order.empty()) {
+        cout << "Walang transaksyon sa kasulukuyan.\n" << endl;
     } else {
         for(int i=0; i<order.size(); i++) {
             cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
@@ -946,8 +958,8 @@ void viewCustomOrders() {
     int number;
     int choice;
     
-    if (!order.empty()) {
-        cout << "\nWalang custom na order sa kasalukuyan\n" << endl;
+    if (order.empty()) {
+        cout << "Walang custom na order sa kasalukuyan.\n" << endl;
     } else {
         do{
             cout<<endl;
