@@ -507,9 +507,9 @@ void displayMenu() {
 
 void deleteProduct(){ 
     string name;
-    cout << "Ilagay ang produktong gustong tanggalin: ";
-    getline(cin, name);
     cin.ignore();
+    cout << "\nIlagay ang produktong gustong tanggalin: ";
+    getline(cin, name);
     
     replace(name.begin(), name.end(), ' ', '_');
 
@@ -890,7 +890,11 @@ string changeCustomer() {
 void viewPreOrder() {
     cout<<endl;
     loadOrder("pre");
-    for(int i=0; i<order.size(); i++) {
+
+    if (!order.empty()) {
+        cout << "\nWalang naka preorder sa kasalukuyan\n" << endl;
+    } else {
+        for(int i=0; i<order.size(); i++) {
         cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
         cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
             <<right<<setw(0)<<"DAMI"
@@ -906,28 +910,34 @@ void viewPreOrder() {
         cout<<setfill('-')<<setw(75)<<"-"<<endl;
 	    cout<<setfill(' ');
         cout<<endl;
+        }
     }
 }
 
 void viewTransactions() {
     loadOrder("trans");
     cout<<endl;
-    for(int i=0; i<order.size(); i++) {
-        cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
-        cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+
+    if (!order.empty()) {
+        cout << "\nWalang transaksyon sa kasulukuyan\n" << endl;
+    } else {
+        for(int i=0; i<order.size(); i++) {
+            cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+            cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
             <<right<<setw(0)<<"DAMI"
             <<right<<setw(30)<<"PETSA NG TRANSAKSYON"<<endl;
                             
-        cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	    cout<<setfill(' ');
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
     
-        cout<<left<<setw(30)<< order[i].productName
-            <<right<<setw(4)<< order[i].quantity
-            <<right<<setw(30)<< order[i].date <<endl;
+            cout<<left<<setw(30)<< order[i].productName
+                <<right<<setw(4)<< order[i].quantity
+                <<right<<setw(30)<< order[i].date <<endl;
 
-        cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	    cout<<setfill(' ');
-        cout<<endl;
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
+            cout<<endl;
+        }
     }
 }
 
@@ -935,56 +945,61 @@ void viewCustomOrders() {
     loadOrder("custom");
     int number;
     int choice;
-    do{
-        cout<<endl;
-        for(int i=0; i<order.size(); i++) {
-            cout<<"Custom Order No."<<i+1<<endl;
-            cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
-            cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
-                <<right<<setw(0)<<"MENSAHE"
-                <<right<<setw(30)<<"KANDILA"<<endl;
-                            
-            cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	        cout<<setfill(' ');
     
-            cout<<left<<setw(30)<< order[i].productName
-                <<right<<setw(2)<< order[i].writing
-                <<right<<setw(26)<< order[i].candle <<endl;
-    
-            cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	        cout<<setfill(' ');
+    if (!order.empty()) {
+        cout << "\nWalang custom na order sa kasalukuyan\n" << endl;
+    } else {
+        do{
             cout<<endl;
-        }
-
-        cout << "\n1. Magtanggal ng Custom Order" <<endl
-            << "2. Bumalik" << endl
-            << "Ilagay ang iyong pinili: ";
-        cin>>choice;
-        cin.ignore();
-
-        switch(choice){
-            case 1: {
-                cout<<"Ilagay ang Custom Order No. na Tatanggalin: ";
-                cin>>number;
-
-                order.erase(order.begin() + (number-1));
-
-                ofstream dfile("../bakedgoodstracker/file/Custom Order.txt");
-                for (int i=0; i<order.size(); ++i){
-                    dfile << order[i].customer << "  "
-                      << order[i].productName << "  "
-                      << order[i].writing << "  "
-                      << order[i].candle << endl;
-                dfile.close();
-                }
-
-                cout<<"\nMatagumpay na Natanggal ang Custom Order\n" << endl;
-                break;
+            for(int i=0; i<order.size(); i++) {
+                cout<<"Custom Order No."<<i+1<<endl;
+                cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+                cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+                    <<right<<setw(0)<<"MENSAHE"
+                    <<right<<setw(30)<<"KANDILA"<<endl;
+                            
+                cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	            cout<<setfill(' ');
+    
+                cout<<left<<setw(30)<< order[i].productName
+                    <<right<<setw(2)<< order[i].writing
+                    <<right<<setw(26)<< order[i].candle <<endl;
+    
+                cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	            cout<<setfill(' ');
+                cout<<endl;
             }
-            case 2:
-                break;
-            default:
-                cout << "Maling pinili. Pakisubukan muli." << endl;
-        }
-    } while (choice != 2);
+
+            cout << "\n1. Magtanggal ng Custom Order" <<endl
+                << "2. Bumalik" << endl
+                << "Ilagay ang iyong pinili: ";
+            cin>>choice;
+            cin.ignore();
+
+            switch(choice){
+                case 1: {
+                    cout<<"Ilagay ang Custom Order No. na Tatanggalin: ";
+                    cin>>number;
+
+                    order.erase(order.begin() + (number-1));
+
+                    ofstream dfile("../bakedgoodstracker/file/Custom Order.txt");
+                    for (int i=0; i<order.size(); ++i){
+                        dfile << order[i].customer << "  "
+                              << order[i].productName << "  "
+                              << order[i].writing << "  "
+                              << order[i].candle << endl;
+                    dfile.close();
+                    }
+
+                    cout<<"\nMatagumpay na Natanggal ang Custom Order\n" << endl;
+                    break;
+                }
+                case 2:
+                    break;
+                default:
+                    cout << "Maling pinili. Pakisubukan muli." << endl;
+            }
+        } while (choice != 2);
+    }
 }
