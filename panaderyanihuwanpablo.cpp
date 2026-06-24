@@ -136,10 +136,12 @@ int main() {
             }
         } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
             loginCredentials login;
-            cout << "\nUsername: ";//Needed nya na mag input ng username and password
+            cout << "\n=======================ADMIN LOGIN=======================\n";
+            cout << "Username: ";//Needed nya na mag input ng username and password
             cin >> login.username;
             cout << "Password: ";
             cin >> login.password;
+            cout << "========================================================\n";
 
             loadAdmin();
 
