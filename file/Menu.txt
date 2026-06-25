@@ -18,4 +18,3 @@ Spanish_Bread  6  7
 Ube_Cake  250  6
 Ube_Pandesal  10  9
 Yema_Cake  150  1
-q  0  0
