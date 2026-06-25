@@ -476,30 +476,29 @@ void displayMenu() {
             //ung na pushback ni menu vector is ilalabas na dito
             cout<<"\n"<<endl;
 		    cout<<left<<setw(30)<<"PANGALAN"
-		        <<left<<setw(0)<<"KATAYUAN"
-		        <<right<<setw(30)<<"DAMI"
+		        <<right<<setw(17)<<"KATAYUAN"
+		        <<right<<setw(29)<<"DAMI"
                 <<right<<setw(30)<<"PRESYO"<<endl;
 
 		    cout<<setfill('-')<<setw(110)<<"-"<<endl;
 		    cout<<setfill(' ');
 
             for (int i=0; i<menu.size(); ++i){
-			    cout<<left<<setw(14)<<menu[i].name;
+			    cout<<left<<setw(25)<<menu[i].name;
 			    if (menu[i].quantity > 0){//may if dito kung available or not ba ung product 
-                    cout << right << setw(24) << "May Stock";
-                    cout<<right<<setw(29)<<menu[i].quantity
-                        <<right<<setw(34)<<"₱"<<menu[i].price<<endl;
+                    cout << right << setw(23) << "May Stock";
+                    cout<<right<<setw(26)<<menu[i].quantity
+                        <<right<<setw(30)<<"PHP "<<menu[i].price<<endl;
                 } else {
                     cout << right << setw(26) << "Walang Stock";
                     cout<<right<<setw(23)<<menu[i].quantity
-                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
+                        <<right<<setw(30)<<"PHP "<<menu[i].price<<endl;
                 } 
             }
         }
     } 
     cout << endl;
 }
-
 void searchProduct() {
     string name;
     
