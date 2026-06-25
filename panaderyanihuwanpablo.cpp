@@ -56,30 +56,30 @@ loginCredentials login;
 
 //===============================[Helper Functions]================================== 
 
-void loadExistingProducts(); // Line 191 - if deretso na agad sa search, update, etc. eto muna magrurun
-void loadOrder(string a); // Line 203 - may condition to since same same lang ung operations and vector arraypero different files lang naman
-void receipt(string a, string b, int c, double d, double e, double f, double g); // Line 228 - helper function para sa pag generate ng receipts sa mga transactions
-void loadAdmin(); // Line 246 - pangload ng admin info sa file
-void loadCustomer(); // Line 258 - need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
-string toLower(string s); // Line 272 - Reason na magiging case-insensitive ung program.
+void loadExistingProducts(); // Line 192 - if deretso na agad sa search, update, etc. eto muna magrurun
+void loadOrder(string a); // Line 204 - may condition to since same same lang ung operations and vector arraypero different files lang naman
+void receipt(string a, string b, int c, double d, double e, double f, double g); // Line 229 - helper function para sa pag generate ng receipts sa mga transactions
+void loadAdmin(); // Line 247 - pangload ng admin info sa file
+void loadCustomer(); // Line 259 - need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
+string toLower(string s); // Line 273 - Reason na magiging case-insensitive ung program.
 
 //================================[Customer Menu]=================================== 
 
-void orderProduct();// Line 280 - Main ordering system, dito mag oorder ang mga customer.
-void displayMenu(); // Line 449 - Ipapakita lahat nung nilagay na products doon sa addProduct function.
-void searchProduct(); // Line 488 - dito naman pag gusto ng user na mag search ng specific product
-string changeCustomer(); // Line 542 - Eto para mag palit ng name ng customer without the need na tapusin ung program
+void orderProduct();// Line 281 - Main ordering system, dito mag oorder ang mga customer.
+void displayMenu(); // Line 463 - Ipapakita lahat nung nilagay na products doon sa addProduct function.
+void searchProduct(); // Line 503 - dito naman pag gusto ng user na mag search ng specific product
+string changeCustomer(); // Line 556 - Eto para mag palit ng name ng customer without the need na tapusin ung program
 
 //==============================[Admin Menu]=================================
 
-void addProduct(); // Line 555 - Mag aadd ng product dun sa program and sa file.
-void deleteProduct(); // Line 581 - Dito yung part kung san magdedelete ka ng products. 
-void updateProduct(); // Line 619 - dito mag uupdate ng ating mga current products
-void viewTransactions(); // Line 739 - Function para makita ang transaction history
-void viewPreOrder(); // Line 766 - Para makita ng mga admin ung mga pre orders
-void viewCustomOrders(); // Line 793 - para makita ung mga custom orders sa mga cakes and makita din if may candle ding kasama
-void changeLogInfo(); // Line 856 - If admin gusto paltan ung either username or password
-void addOrRemoveAdmin();//Line 929 - Para magdagdag ng admin //Para magtanggal ng admin
+void addProduct(); // Line 569 - Mag aadd ng product dun sa program and sa file.
+void deleteProduct(); // Line 595 - Dito yung part kung san magdedelete ka ng products. 
+void updateProduct(); // Line 633 - dito mag uupdate ng ating mga current products
+void viewTransactions(); // Line 757 - Function para makita ang transaction history
+void viewPreOrder(); // Line 784 - Para makita ng mga admin ung mga pre orders
+void viewCustomOrders(); // Line 811 - para makita ung mga custom orders sa mga cakes and makita din if may candle ding kasama
+void changeLogInfo(); // Line 876 - If admin gusto paltan ung either username or password
+void addOrRemoveAdmin();//Line 954 - Para magdagdag ng admin //Para magtanggal ng admin
 
 //================================[Main Function]==================================== 
 
