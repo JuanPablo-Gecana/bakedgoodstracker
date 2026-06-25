@@ -29,6 +29,7 @@ struct loginCredentials {
     string password;
 };
 
+//struct for orders and mapapasa and magagamit to sa pag gegenerate ng receipt
 struct orders {
     string customer;
     string productName;
@@ -47,39 +48,38 @@ vector <bakedProduct> menu; //pang lagay ng mga items na ibebenta and ididisplay
 bakedProduct existProduct; //useful sa pagloload sa vector galing sa txt file
 vector <loginCredentials> logInfo; //pang store ng login credentials ng mga admin
 loginCredentials logCred; //pangload sa vector para may ma compare later
-vector <orders> order;
+vector <orders> order; //pangstore ng order ng mga customer
 orders temp;
 string customerName;
 vector <string> customerList;
+loginCredentials login;
 
 //===============================[Helper Functions]================================== 
 
-void loadExistingProducts(); //if deretso na agad sa search, update, etc. eto muna magrurun
-void loadOrder(string a);
-void receipt(string a, string b, int c, double d, double e, double f, double g);
-void loadAdmin(); //pangload ng admin info sa file
-void loadCustomer(); //need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
-string toLower(string s); // Reason na magiging case-insensitive ung program.
+void loadExistingProducts(); // Line 191 - if deretso na agad sa search, update, etc. eto muna magrurun
+void loadOrder(string a); // Line 203 - may condition to since same same lang ung operations and vector arraypero different files lang naman
+void receipt(string a, string b, int c, double d, double e, double f, double g); // Line 228 - helper function para sa pag generate ng receipts sa mga transactions
+void loadAdmin(); // Line 246 - pangload ng admin info sa file
+void loadCustomer(); // Line 258 - need natin to pag bumabalik ng program pang check kung nakaorder na dito already ung customer
+string toLower(string s); // Line 272 - Reason na magiging case-insensitive ung program.
 
-//================================[Core Functions]=================================== 
+//================================[Customer Menu]=================================== 
 
-/*itong addProduct kasama ung displayMenu function ang reason na matatandaan lahat ng program ung 
-ininput natin na Products*/
-void orderProduct();//Main ordering system, dito mag oorder ang mga customer.
-void addProduct(); // Mag aadd ng product dun sa program and sa file.
-void displayMenu(); //Ipapakita lahat nung nilagay na products doon sa addProduct function.
-void deleteProduct(); // Dito yung part kung san magdedelete ka ng products. 
-void updateProduct(); //dito mag uupdate ng ating mga current products
-void searchProduct(); //dito naman pag gusto ng user na mag search ng specific product
+void orderProduct();// Line 280 - Main ordering system, dito mag oorder ang mga customer.
+void displayMenu(); // Line 449 - Ipapakita lahat nung nilagay na products doon sa addProduct function.
+void searchProduct(); // Line 488 - dito naman pag gusto ng user na mag search ng specific product
+string changeCustomer(); // Line 542 - Eto para mag palit ng name ng customer without the need na tapusin ung program
 
-//==============================[Features Functions]=================================
+//==============================[Admin Menu]=================================
 
-void changeLogInfo(); //If admin gusto paltan ung either username or password
-void addOrRemoveAdmin();//Para magdagdag ng admin //Para magtanggal ng admin
-string changeCustomer();
-void viewPreOrder();
-void viewTransactions();
-void viewCustomOrders();
+void addProduct(); // Line 555 - Mag aadd ng product dun sa program and sa file.
+void deleteProduct(); // Line 581 - Dito yung part kung san magdedelete ka ng products. 
+void updateProduct(); // Line 619 - dito mag uupdate ng ating mga current products
+void viewTransactions(); // Line 739 - Function para makita ang transaction history
+void viewPreOrder(); // Line 766 - Para makita ng mga admin ung mga pre orders
+void viewCustomOrders(); // Line 793 - para makita ung mga custom orders sa mga cakes and makita din if may candle ding kasama
+void changeLogInfo(); // Line 856 - If admin gusto paltan ung either username or password
+void addOrRemoveAdmin();//Line 929 - Para magdagdag ng admin //Para magtanggal ng admin
 
 //================================[Main Function]==================================== 
 
@@ -135,7 +135,7 @@ int main() {
                 default: cout << "Maling pinili. Pakisubukan muli." << endl;     
             }
         } else if (choice.code == "ADMIN") { //What if ADMIN na, eto mangyayari
-            loginCredentials login;
+            
             cout << "\n=======================ADMIN LOGIN=======================\n";
             cout << "Username: ";//Needed nya na mag input ng username and password
             cin >> login.username;
@@ -187,6 +187,8 @@ int main() {
     return 0;
 }
 
+//===============================[Helper Functions]================================== 
+
 void loadExistingProducts(){
      if (menu.empty()) { //checheck muna if empty otherwise, ignored to
         ifstream file("../bakedgoodstracker/file/Menu.txt"); //read nya ung txt
@@ -197,6 +199,49 @@ void loadExistingProducts(){
             file.close(); //icloclose ung file
         	}
     }
+}
+
+void loadOrder(string a) {
+    if (a == "pre"){
+        order.clear();
+        ifstream file("../bakedgoodstracker/file/Pre-orders.txt");
+            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
+                order.push_back(temp);
+            }
+        file.close();
+    } else if (a == "trans"){
+        order.clear();
+        ifstream file("../bakedgoodstracker/file/Transaction.txt");
+            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
+                order.push_back(temp);
+            }
+        file.close();
+    } else {
+        order.clear();
+        ifstream file("../bakedgoodstracker/file/Custom Order.txt");
+            while (file >> temp.customer >> temp.productName >> temp.writing >> temp.candle) {
+                order.push_back(temp);
+            }
+        file.close();
+    }
+}
+
+void receipt(string a, string b, int c, double d, double e, double f, double g) {
+    cout<<"Pangalan ng Customer: "<< a << endl;
+    cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+        <<right<<setw(0)<<"KANTIDAD"
+        <<right<<setw(30)<<"PRESYO"<<endl;
+                            
+    cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	cout<<setfill(' ');
+    
+    cout<<left<<setw(30)<<b
+        <<right<<setw(4)<<c
+        <<right<<setw(32)<<d<<endl;
+
+    cout<<"\nKabuuang Halaga: "<< e << endl;
+    cout<<"Halagang Binayad: "<< f <<endl;
+    cout<<"Sukli: "<< g <<endl;
 }
 
 void loadAdmin(){
@@ -225,54 +270,13 @@ void loadCustomer() {
      }
 }
 
-void receipt(string a, string b, int c, double d, double e, double f, double g) {
-    cout<<"Pangalan ng Customer: "<< a << endl;
-    cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
-        <<right<<setw(0)<<"KANTIDAD"
-        <<right<<setw(30)<<"PRESYO"<<endl;
-                            
-    cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	cout<<setfill(' ');
-    
-    cout<<left<<setw(30)<<b
-        <<right<<setw(4)<<c
-        <<right<<setw(32)<<d<<endl;
-
-    cout<<"\nKabuuang Halaga: "<< e << endl;
-    cout<<"Halagang Binayad: "<< f <<endl;
-    cout<<"Sukli: "<< g <<endl;
-}
-
-void loadOrder(string a) {
-    if (a == "pre"){
-        order.clear();
-        ifstream file("../bakedgoodstracker/file/Pre-orders.txt");
-            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
-                order.push_back(temp);
-            }
-        file.close();
-    } else if (a == "trans"){
-        order.clear();
-        ifstream file("../bakedgoodstracker/file/Transaction.txt");
-            while (file >> temp.customer >> temp.productName >> temp.quantity >> temp.price >> temp.paid >> temp.change >> temp.date) {
-                order.push_back(temp);
-            }
-        file.close();
-    } else {
-        order.clear();
-        ifstream file("../bakedgoodstracker/file/Custom Order.txt");
-            while (file >> temp.customer >> temp.productName >> temp.writing >> temp.candle) {
-                order.push_back(temp);
-            }
-        file.close();
-    }
-}
-
 string toLower(string s) {
     //transform(startPOS, endPOS, startPOSngoutput, ung gagawin)
     transform(s.begin(), s.end(), s.begin(), ::tolower); 
     return s;
 }
+
+//================================[Customer Menu]=================================== 
 
 void orderProduct() {
     loadExistingProducts();
@@ -298,7 +302,9 @@ void orderProduct() {
 
         replace(orderName.begin(), orderName.end(), ' ', '_');
 
+        //ichecheck muna if ung inorder is cake
         for (int i=0; i<menu.size(); ++i){
+            //hahanapin nya basta na may word na cake and check if that cake is meron sa menu
             if (toLower(menu[i].name).find("cake") != string::npos && toLower(menu[i].name) == toLower(orderName)) {
                 string writing;
                 cout<<"\nNais mo bang gumawa ng custom na sulat sa cake?(y/n): ";
@@ -308,8 +314,10 @@ void orderProduct() {
                     cout<<"\nI-type ang iyong custom na sulat dito: ";
                     getline(cin, writing);
 
-                    replace(writing.begin(), writing.end(), ' ', '_');
+                    replace(writing.begin(), writing.end(), ' ', '_'); //para maging isang string ung message and para mabasa ni program ung buong message
                 } 
+
+                //mag aask naman sya kung may kasamang kandila regardless kung may writing o wala
                 cout<<"\nGusto mo ba ng libreng kandila para sa cake?(y/n): ";
                 cin>>response;
                 ofstream file("../bakedgoodstracker/file/Custom Order.txt", ios::app);
@@ -352,6 +360,7 @@ void orderProduct() {
                         
                         receipt(customerName, menu[i].name, orderQty, menu[i].price, totalCost,  payment, change);
 
+                        //chrono para makuha ung system clock date galing mismo sa device mo
                         chrono::sys_days today = chrono::time_point_cast<chrono::days>(chrono::system_clock::now());
                         chrono::year_month_day calendarDate{today};
                         
@@ -382,12 +391,14 @@ void orderProduct() {
                                 file.close();
                         }
                     } else {
+                        //pag wala ung product currently pwede mag restock
                         cout << "\nKulang ang stock! Gusto mo bang mag-pre-order?(y/n): ";
                         cin >> response;
 
                         if (response == 'y'){
                             totalCost = menu[i].price * orderQty;
 
+                            //if mag prepre order, proceed sya sa normal transactions
                            do {
                             cout<<"Ang halaga ng " << orderName << " ay " << totalCost << "." << endl;
                             cout<<"Pakilagay ang iyong bayad: ";
@@ -400,16 +411,21 @@ void orderProduct() {
                                 cout << "\nKulang ang iyong bayad\n" << endl;
                             }
                         } while (payment < totalCost);
-                            
+                        
+                        //chrono para makuha ung system clock date galing mismo sa device mo
                         chrono::sys_days today = chrono::time_point_cast<chrono::days>(chrono::system_clock::now());
                         chrono::year_month_day calendarDate{today};
+
+                        //format para maging string and comparable sya later pag kailan kukunin
                         string currentDate = format("{}", calendarDate);
 
                           do {
                             cout<<"Kailan mo gusto kunin ang item pagkatapos itong ma-restock (YYYY-MM-DD): ";
                             cin>>date;
 
-                            if (date > currentDate) {
+                            //di nya iaacept if kahapon either ngayon or sa susunod na araw base din sa device mo
+                            if (date >= currentDate) {
+                                //and then isasave na sya sa file
                                 ofstream file("../bakedgoodstracker/file/Pre-orders.txt", ios::app);
                                 file << customerName << "  "
                                      << menu[i].name << "  "
@@ -422,6 +438,7 @@ void orderProduct() {
                                 
                                 cout<<endl;
 
+                                //and mag gegenerate ng resibo
                                 receipt(customerName, menu[i].name, orderQty, menu[i].price, totalCost,  payment, change);
 
                                 cout<<"\nMatagumpay na naiPre-Order\n"<<endl;
@@ -441,33 +458,6 @@ void orderProduct() {
                 cout << "\nWalang nahanap na produkto sa menu.\n" << endl;
             }
     }
-}
-
-/*Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
-void addProduct() {  
-    cin.ignore();
-    bakedProduct newProduct;
-
-    cout<<"\n================PAG-DAGDAG NG PRODUKTO===================";
-    cout << "\nIlagay ang pangalan ng produkto: ";
-    getline(cin, newProduct.name);
-    cout << "Ilagay ang presyo ng produkto: ";
-    cin >> newProduct.price;
-    cout << "Ilagay kung gaano karami ang produkto: ";
-    cin >> newProduct.quantity;
-
-    replace(newProduct.name.begin(), newProduct.name.end(), ' ', '_');
-
-    //After malagay lahat ng relevant info, ilalagay na nya muna sa file
-    ofstream file("../bakedgoodstracker/file/Menu.txt", ios::app);
-    if (file.is_open()){
-        file << newProduct.name << "  "
-             << newProduct.price << "  "
-             << newProduct.quantity << endl;
-        file.close();
-    }
-
-    cout << "\nMatagumpay na naidagdag ang produkto!\n" << endl;
 }
 
 void displayMenu() {
@@ -497,8 +487,8 @@ void displayMenu() {
 			    cout<<left<<setw(14)<<menu[i].name;
 			    if (menu[i].quantity > 0){//may if dito kung available or not ba ung product 
                     cout << right << setw(24) << "May Stock";
-                    cout<<right<<setw(25)<<menu[i].quantity
-                        <<right<<setw(32)<<"₱"<<menu[i].price<<endl;
+                    cout<<right<<setw(29)<<menu[i].quantity
+                        <<right<<setw(34)<<"₱"<<menu[i].price<<endl;
                 } else {
                     cout << right << setw(26) << "Walang Stock";
                     cout<<right<<setw(23)<<menu[i].quantity
@@ -508,164 +498,6 @@ void displayMenu() {
         }
     } 
     cout << endl;
-}
-
-void deleteProduct(){ 
-    string name;
-    cin.ignore();
-
-    cout<<"\n================PAG-TANGGAL NG PRODUKTO===================";
-    cout << "\nIlagay ang produktong gustong tanggalin: ";
-    getline(cin, name);
-    
-    replace(name.begin(), name.end(), ' ', '_');
-
-    //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
-    loadExistingProducts();
-
-    //i checheck kung nandun ba sa vector ung tatanggaling product
-    bool found = false;
-    for (int i=0; i<menu.size(); ++i){
-        if (toLower(menu[i].name) == toLower(name)) {
-            menu.erase(menu.begin() + i);
-            found = true;
-        }
-    }
-
-    //if natanggal successfully, irerewrite ung buong .txt file except ung tinanggal
-    if (found){
-        ofstream file("../bakedgoodstracker/file/Menu.txt");
-            for (int i=0 ; i < menu.size(); ++i){
-                file << menu[i].name << "  " 
-                     << menu[i].price << "  " 
-                     << menu[i].quantity << endl;
-        }
-        file.close();
-
-        cout<<"\nNatanggal ang produktong '"<< name << "'.\n" << endl;
-    } else {
-        cout << "Hindi natagpuan ang produkto.\n" << endl;
-    }
-}
-
-void updateProduct(){
-    string name;
-    bool found = false;
-
-    cout<<"\n================PAG-UUPDATE NG PRODUKTO===================";
-    cin.ignore();
-    cout<<"\nAling produkto ang gusto mong i-update: ";
-    getline(cin, name);
-
-    replace(name.begin(), name.end(), ' ', '_');
-
-    //if deretso agad
-    loadExistingProducts();
-
-    //magrereiterate kung may mag match and iaanounce naman agad ni program yan
-    for (int i=0; i<menu.size(); ++i){
-        if (toLower(menu[i].name) == toLower(name)) {
-                cout << "\nMatagumpay na nakita ang produkto.\n" << endl;
-                int choice;
-                do {
-                    cout<< "Aling impormasyon ng "<< menu[i].name << " ang nais mong i-update?" << endl
-                        << "1. I-update ang Presyo" << endl
-                        << "2. I-update ang Dami" << endl
-                        << "3. Bumalik" << endl
-                        << "Ilagay ang iyong pinili: ";
-                    cin >> choice;
-                    switch (choice) {
-                        case 1: {
-                            cout << "\nIlagay ang bagong presyo ng " << menu[i].name << ": ";
-                            cin >> menu[i].price;
-                            
-                            /* rewriting na sa file ung specific product na gusto natin iupdate same case
-                             sa lahat ng cases dito sa function nato, its either price or quantity lang */
-                            ofstream file("../bakedgoodstracker/file/Menu.txt");
-                            for (int i=0 ; i < menu.size(); ++i){
-                                file << menu[i].name << "  " 
-                                     << menu[i].price << "  " 
-                                     << menu[i].quantity << endl;
-                            }
-                                file.close();
-
-                            cout << "\nNa-update ang Presyo!\n" << endl;
-                            found = true;
-                            break;
-                        }
-                        case 2: {
-                            cout << "\nIlagay ang bagong dami ng " << menu[i].name << ": ";
-                            cin >> menu[i].quantity;
-
-                            loadOrder("pre");
-
-                            for (int j=0; j<order.size(); ++j){
-                                if (menu[i].name == order[j].productName && menu[i].quantity >= order[j].quantity){
-                                    cout<<"\nMay pre-order ka sa produktong ito para kay customer "<< order[j].customer<<"! Awtomatikong ibabawas... \n" << endl;
-                                    menu[i].quantity -= order[j].quantity;
-
-                                    ofstream file("../bakedgoodstracker/file/Transaction.txt", ios::app);
-                                        file << order[j].customer << "  " 
-                                             << order[j].productName << "  " 
-                                             << order[j].quantity << "  "
-                                             << order[j].price << "  "
-                                             << order[j].paid << "  "
-                                             << order[j].change << "  "
-                                             << order[j].date << endl;
-                                    file.close();
-
-                                    order.erase(order.begin() + j);
-
-                                    for (int k=0; k<order.size(); ++k){
-                                        ofstream pfile("../bakedgoodstracker/file/Pre-orders.txt");
-                                        pfile << order[j].customer << "  " 
-                                             << order[j].productName << "  " 
-                                             << order[j].quantity << "  "
-                                             << order[j].price << "  "
-                                             << order[j].paid << "  "
-                                             << order[j].change << "  "
-                                             << order[j].date << endl;
-                                        file.close();
-                                    }
-
-                                        ofstream mfile("../bakedgoodstracker/file/Menu.txt");
-                                        for (int l=0 ; l < menu.size(); ++l){
-                                            mfile << menu[l].name << "  " 
-                                                 << menu[l].price << "  " 
-                                                 << menu[l].quantity << endl;
-                                        }
-                                        file.close();
-
-                                        cout<<"Ang bagong dami ng "<< menu[i].name << " ay " << menu[i].quantity << "!\n" << endl;
-                                } else {
-                                     /* rewriting na sa file ung specific product na gusto natin iupdate same case
-                                    sa lahat ng cases dito sa function nato, its either price or quantity lang */
-                                    ofstream file("../bakedgoodstracker/file/Menu.txt");
-                                        for (int i=0 ; i < menu.size(); ++i){
-                                            file << menu[i].name << "  " 
-                                                 << menu[i].price << "  " 
-                                                 << menu[i].quantity << endl;
-                                        }
-                                    file.close();
-
-                                    cout << "\nNa-update ang dami!\n" << endl;
-                                }
-                            }
-                            found = true;
-                            break;
-                        }
-                        case 3:
-                            cout << endl;
-                            break;
-                        default:
-                         cout << "Maling pinili. Pakisubukan muli." << endl;
-                    }
-                } while (choice !=3);
-        } 
-        if (found) {
-            cout << "\nHindi natagpuan ang produkto.\n" << endl;
-        }
-    }
 }
 
 void searchProduct() {
@@ -721,6 +553,326 @@ void searchProduct() {
     cout << endl;
 }
 
+string changeCustomer() {
+    cout<<"\n================PAG-PAPALIT NG PANGALAN===================";
+    cin.ignore(); //para di mag error ung user input
+    cout<<endl;
+    cout<<"Ilagay ang iyong pangalan: ";
+    getline(cin, customerName); //getline para maacomodate ung may spaces (like Juan Pablo)
+    cout<<endl;
+    return customerName;
+}
+
+//==============================[Admin Menu]=================================
+
+/*Dito lahat ilalagay ung mga products na ibebenta and ung mga relevant info nila */
+void addProduct() {  
+    cin.ignore();
+    bakedProduct newProduct;
+
+    cout<<"\n================PAG-DAGDAG NG PRODUKTO===================";
+    cout << "\nIlagay ang pangalan ng produkto: "; //ilalagay yung pangalan ng product
+    getline(cin, newProduct.name);
+    cout << "Ilagay ang presyo ng produkto: "; // presyo nya
+    cin >> newProduct.price;
+    cout << "Ilagay kung gaano karami ang produkto: "; // and gaano kadami ung stock 
+    cin >> newProduct.quantity;
+
+    replace(newProduct.name.begin(), newProduct.name.end(), ' ', '_');
+
+    //After malagay lahat ng relevant info, ilalagay na nya muna sa file
+    ofstream file("../bakedgoodstracker/file/Menu.txt", ios::app);
+    if (file.is_open()){
+        file << newProduct.name << "  "
+             << newProduct.price << "  "
+             << newProduct.quantity << endl;
+        file.close();
+    }
+
+    cout << "\nMatagumpay na naidagdag ang produkto!\n" << endl;
+}
+
+void deleteProduct(){ 
+    string name;
+    cin.ignore();
+
+    cout<<"\n================PAG-TANGGAL NG PRODUKTO===================";
+    cout << "\nIlagay ang produktong gustong tanggalin: "; //ilalagay dito ung gustong tanggalin
+    getline(cin, name);
+    
+    replace(name.begin(), name.end(), ' ', '_');
+
+    //gagana lang to if deretso delete agad (di muna nagdisplay bago magdelete)
+    loadExistingProducts();
+
+    //i checheck kung nandun ba sa vector ung tatanggaling product
+    bool found = false;
+    for (int i=0; i<menu.size(); ++i){
+        if (toLower(menu[i].name) == toLower(name)) {
+            menu.erase(menu.begin() + i);
+            found = true;
+        }
+    }
+
+    //if natanggal successfully, irerewrite ung buong .txt file except ung tinanggal
+    if (found){
+        ofstream file("../bakedgoodstracker/file/Menu.txt");
+            for (int i=0 ; i < menu.size(); ++i){
+                file << menu[i].name << "  " 
+                     << menu[i].price << "  " 
+                     << menu[i].quantity << endl;
+        }
+        file.close();
+
+        cout<<"\nNatanggal ang produktong '"<< name << "'.\n" << endl;
+    } else {
+        cout << "Hindi natagpuan ang produkto.\n" << endl;
+    }
+}
+
+void updateProduct(){
+    string name;
+    bool found = false;
+
+    cout<<"\n================PAG-UUPDATE NG PRODUKTO===================";
+    cin.ignore();
+    cout<<"\nAling produkto ang gusto mong i-update: ";
+    getline(cin, name);
+
+    replace(name.begin(), name.end(), ' ', '_');
+
+    //if deretso agad
+    loadExistingProducts();
+
+    //magrereiterate kung may mag match and iaanounce naman agad ni program yan
+    for (int i=0; i<menu.size(); ++i){
+        if (toLower(menu[i].name) == toLower(name)) {
+                cout << "\nMatagumpay na nakita ang produkto.\n" << endl;
+                int choice;
+                do { // mag aask na si program ano ung iuupdate
+                    cout<< "Aling impormasyon ng "<< menu[i].name << " ang nais mong i-update?" << endl
+                        << "1. I-update ang Presyo" << endl
+                        << "2. I-update ang Dami" << endl
+                        << "3. Bumalik" << endl
+                        << "Ilagay ang iyong pinili: "; //input ng gagawin mo
+                    cin >> choice;
+                    switch (choice) {
+                        case 1: {//maglalagay na ng bagong presyo
+                            cout << "\nIlagay ang bagong presyo ng " << menu[i].name << ": ";
+                            cin >> menu[i].price;
+                            
+                            /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                             sa lahat ng cases dito sa function nato, its either price or quantity lang */
+                            ofstream file("../bakedgoodstracker/file/Menu.txt");
+                            for (int i=0 ; i < menu.size(); ++i){
+                                file << menu[i].name << "  " 
+                                     << menu[i].price << "  " 
+                                     << menu[i].quantity << endl;
+                            }
+                                file.close();
+
+                            cout << "\nNa-update ang Presyo!\n" << endl;
+                            found = true;
+                            break;
+                        }
+                        case 2: {//maglalagay na sya ng bagong quantity
+                            cout << "\nIlagay ang bagong dami ng " << menu[i].name << ": ";
+                            cin >> menu[i].quantity;
+
+                            loadOrder("pre");
+                            
+                            //check if may naka pre order sa product na yun after mag re stock
+                            for (int j=0; j<order.size(); ++j){
+                                if (menu[i].name == order[j].productName && menu[i].quantity >= order[j].quantity){
+                                    //automatically ibabawas ung na stock sa pre order and ilalagay na sya sa transaction records natin
+                                    cout<<"\nMay pre-order ka sa produktong ito para kay customer "<< order[j].customer<<"! Awtomatikong ibabawas... \n" << endl;
+                                    menu[i].quantity -= order[j].quantity;
+
+                                    ofstream file("../bakedgoodstracker/file/Transaction.txt", ios::app);
+                                        file << order[j].customer << "  " 
+                                             << order[j].productName << "  " 
+                                             << order[j].quantity << "  "
+                                             << order[j].price << "  "
+                                             << order[j].paid << "  "
+                                             << order[j].change << "  "
+                                             << order[j].date << endl;
+                                    file.close();
+
+                                    //tatanggalin na sya sa pre order files and irerewrite sa current pre order file
+                                    order.erase(order.begin() + j);
+
+                                    for (int k=0; k<order.size(); ++k){
+                                        ofstream pfile("../bakedgoodstracker/file/Pre-orders.txt");
+                                        pfile << order[j].customer << "  " 
+                                             << order[j].productName << "  " 
+                                             << order[j].quantity << "  "
+                                             << order[j].price << "  "
+                                             << order[j].paid << "  "
+                                             << order[j].change << "  "
+                                             << order[j].date << endl;
+                                        file.close();
+                                    }
+
+                                    // and pag na settle na un iuupdate na sa menu ung updated stock after nung pre order
+                                        ofstream mfile("../bakedgoodstracker/file/Menu.txt");
+                                        for (int l=0 ; l < menu.size(); ++l){
+                                            mfile << menu[l].name << "  " 
+                                                 << menu[l].price << "  " 
+                                                 << menu[l].quantity << endl;
+                                        }
+                                        file.close();
+
+                                        cout<<"Ang bagong dami ng "<< menu[i].name << " ay " << menu[i].quantity << "!\n" << endl;
+                                } else {
+                                     /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                                    sa lahat ng cases dito sa function nato, its either price or quantity lang */
+                                    ofstream file("../bakedgoodstracker/file/Menu.txt");
+                                        for (int i=0 ; i < menu.size(); ++i){
+                                            file << menu[i].name << "  " 
+                                                 << menu[i].price << "  " 
+                                                 << menu[i].quantity << endl;
+                                        }
+                                    file.close();
+
+                                    cout << "\nNa-update ang dami!\n" << endl;
+                                }
+                            }
+                            found = true;
+                            break;
+                        }
+                        case 3:
+                            cout << endl;
+                            break;
+                        default:
+                         cout << "Maling pinili. Pakisubukan muli." << endl;
+                    }
+                } while (choice !=3);
+        } 
+        if (found) {
+            cout << "\nHindi natagpuan ang produkto.\n" << endl;
+        }
+    }
+}
+
+void viewTransactions() {
+    loadOrder("trans"); //check and load muna ung current transactions sa vector
+    cout<<endl;
+
+    if (order.empty()) {
+        cout << "Walang transaksyon sa kasulukuyan.\n" << endl;
+    } else { //magshow show na sya if meron sa loob ng vector and may divider sya
+        for(int i=0; i<order.size(); i++) {
+            cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+            cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+            <<right<<setw(0)<<"DAMI"
+            <<right<<setw(30)<<"PETSA NG TRANSAKSYON"<<endl;
+                            
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
+    
+            cout<<left<<setw(30)<< order[i].productName
+                <<right<<setw(4)<< order[i].quantity
+                <<right<<setw(30)<< order[i].date <<endl;
+
+            cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	        cout<<setfill(' ');
+            cout<<endl;
+        }
+    }
+}
+
+void viewPreOrder() {
+    cout<<endl;
+    loadOrder("pre"); //loads ung mga na preorder na
+
+    if (order.empty()) {
+        cout << "Walang naka preorder sa kasalukuyan.\n" << endl;
+    } else { //if merong current pre order, ipapakita rito
+        for(int i=0; i<order.size(); i++) {
+        cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+        cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+            <<right<<setw(0)<<"DAMI"
+            <<right<<setw(30)<<"PETSA NG PAGKUKUHA"<<endl;
+                            
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+    
+        cout<<left<<setw(30)<< order[i].productName
+            <<right<<setw(4)<< order[i].quantity
+            <<right<<setw(30)<< order[i].date <<endl;
+
+        cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	    cout<<setfill(' ');
+        cout<<endl;
+        }
+    }
+}
+
+void viewCustomOrders() {
+    loadOrder("custom"); //load lahat ng custom orders
+    int number;
+    int choice;
+    
+    if (order.empty()) {
+        cout << "Walang custom na order sa kasalukuyan.\n" << endl;
+    } else { //if true, lalabas lahat ng current pre order info 
+        do{
+            cout<<endl;
+            for(int i=0; i<order.size(); i++) {
+                cout<<"Custom Order No."<<i+1<<endl;
+                cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
+                cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
+                    <<right<<setw(0)<<"MENSAHE"
+                    <<right<<setw(30)<<"KANDILA"<<endl;
+                            
+                cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	            cout<<setfill(' ');
+    
+                cout<<left<<setw(30)<< order[i].productName
+                    <<right<<setw(2)<< order[i].writing
+                    <<right<<setw(26)<< order[i].candle <<endl;
+    
+                cout<<setfill('-')<<setw(75)<<"-"<<endl;
+	            cout<<setfill(' ');
+                cout<<endl;
+            }
+
+            //magbibigay ng choice na magtanggal or babalik sa admin menu
+            cout << "\n1. Magtanggal ng Custom Order" <<endl
+                << "2. Bumalik" << endl
+                << "Ilagay ang iyong pinili: ";
+            cin>>choice;
+            cin.ignore();
+
+            switch(choice){
+                case 1: {
+                    cout<<"Ilagay ang Custom Order No. na Tatanggalin: ";
+                    cin>>number;
+
+                    order.erase(order.begin() + (number-1)); //para matanggal ung tatangalin sa vector
+
+                    //ganun din sa file para ma delete sya permanently
+                    ofstream dfile("../bakedgoodstracker/file/Custom Order.txt");
+                    for (int i=0; i<order.size(); ++i){
+                        dfile << order[i].customer << "  "
+                              << order[i].productName << "  "
+                              << order[i].writing << "  "
+                              << order[i].candle << endl;
+                    dfile.close();
+                    }
+
+                    cout<<"\nMatagumpay na Natanggal ang Custom Order\n" << endl;
+                    break;
+                }
+                case 2:
+                    break;
+                default:
+                    cout << "Maling pinili. Pakisubukan muli." << endl;
+            }
+        } while (choice != 2);
+    }
+}
+
 void changeLogInfo() { 
     int choice;
     bool logError = true;
@@ -741,9 +893,11 @@ void changeLogInfo() {
                 cout<<"\nIlagay ang iyong password para sa kumpirmasyon: "; //mandatory to sa lahat ng admin action regarding pag aadd pagreremove and pag palit ng info ng admin
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
-                    if (newInfo.password == logInfo[i].password) { //check muna if may mag match
+                    if (newInfo.password == login.password && login.username == logInfo[i].username) { //check muna if may mag match
                         cout<<"Ilagay ang iyong bagong username: "; //papainputin 
                         cin>>logInfo[i].username;
+
+                        login.username = logInfo[i].username; //eto na ung new pang greet sa admin after mag execute to
 
 					//then iooverwrite ung buong txt file with ung bagong updated username
                     ofstream file("../bakedgoodstracker/file/Admin.txt"); 
@@ -762,14 +916,17 @@ void changeLogInfo() {
                 }
             }
                 break;
-            case 2: //might update later
+            case 2: //need ng confirmation ng current admin password
                 cout<<"\nIlagay ang iyong lumang password para sa kumpirmasyon: ";
                 cin>>newInfo.password;
                 for (int i=0; i < logInfo.size(); ++i){
-                    if (newInfo.password == logInfo[i].password) {
-                        cout<<"Ilagay ang iyong bagong password: ";
+                    if (newInfo.password == login.password && login.username == logInfo[i].username) {
+                        cout<<"Ilagay ang iyong bagong password: "; //and true ilalagay na ung bagong password
                         cin>>logInfo[i].password;
+
+                        login.password = logInfo[i].password; //eto na ung gagamitin mong password for future changes
                         
+                    // papaltan na sya at ilalagay na sya sa file 
                     ofstream file("../Admin.txt");
                         for (int i=0 ; i < logInfo.size(); ++i){
                             file << logInfo[i].username << "  " 
@@ -803,6 +960,7 @@ void addOrRemoveAdmin() {
     bool isFound=false;
 
     do{
+        //menu para sa pagdagdag o pag tanggal ng mga admin
         cout<<"\n===========MAGDAGDAG O MAGTANGGAL NG ADMIN===========" << endl
             <<"1. Magdagdag ng Admin" << endl
             <<"2. Magtanggal ng Admin" << endl
@@ -816,8 +974,7 @@ void addOrRemoveAdmin() {
                 cin>>veriPass.password;
                 cout<<endl;
 
-                for (int i=0; i<logInfo.size(); ++i){
-                    if (veriPass.password==logInfo[i].password) { //checheck if may mag match
+                    if (veriPass.password==login.password) { //checheck if may mag match sa current admin
                         cout<<"===========GUMAWA NG BAGONG ADMIN===========" << endl;
                         cout<<"Ilagay ang Username: ";
                         cin>>newUser.username;
@@ -841,7 +998,6 @@ void addOrRemoveAdmin() {
                             }
                         } while (newUser.password.size() < 8);
                     }
-                }
             if (!isFound){
                 cout<<"\nHindi tugma ang Password.\n"<<endl;
             }
@@ -851,9 +1007,9 @@ void addOrRemoveAdmin() {
             cout<<"\nKumpirmahin ang Password: "; //need ulit confirmation ng current admin
             cin>>veriPass.password;
             cout<<endl;
-
-            for (int i=0; i<logInfo.size(); ++i){ //ichecheck if may magmatch
-                if (veriPass.password==logInfo[i].password) {
+                
+                //ichecheck if may magmatch
+                if (veriPass.password==login.password) {
                     cout<<"===========MAGTANGGAL NG ADMIN===========" << endl;
                     cout<<"Ilagay ang Username ng Admin na Tatanggalin: "; //ieenter na dito ung ireremove na admin
                     cin>>delUser.username;
@@ -867,14 +1023,15 @@ void addOrRemoveAdmin() {
                 } 
 
                 if (isFound){
-                    ofstream file("../bakedgoodstracker/file/Admin.txt");// and sa file ng admin mismo
-                    file << logInfo[i].username << "  " 
-                         << logInfo[i].password << endl;
-                    file.close();
-
+                    ofstream file("../bakedgoodstracker/file/Admin.txt");// and sa file ng admin mismo by rewriting
+                    for (int i=0; i<logInfo.size(); i++){
+                        file << logInfo[i].username << "  " 
+                             << logInfo[i].password << endl;
+                        file.close();
+                    }
                     cout<<"\nMatagumpay na Natanggal ang Admin!\n"<<endl;
                 }           
-            }
+            
             if (!isFound){
                 cout<<"\nHindi tugma ang Password.\n"<<endl;
             }
@@ -887,131 +1044,4 @@ void addOrRemoveAdmin() {
             cout << "Maling pinili. Pakisubukan muli." << endl;
         }   
     } while (choice != 3);
-}
-
-string changeCustomer() {
-    cout<<"\n================PAG-PAPALIT NG PANGALAN===================";
-    cin.ignore(); //para di mag error ung user input
-    cout<<endl;
-    cout<<"Ilagay ang iyong pangalan: ";
-    getline(cin, customerName); //getline para maacomodate ung may spaces (like Juan Pablo)
-    cout<<endl;
-    return customerName;
-}
-
-void viewPreOrder() {
-    cout<<endl;
-    loadOrder("pre");
-
-    if (order.empty()) {
-        cout << "Walang naka preorder sa kasalukuyan.\n" << endl;
-    } else {
-        for(int i=0; i<order.size(); i++) {
-        cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
-        cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
-            <<right<<setw(0)<<"DAMI"
-            <<right<<setw(30)<<"PETSA NG PAGKUKUHA"<<endl;
-                            
-        cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	    cout<<setfill(' ');
-    
-        cout<<left<<setw(30)<< order[i].productName
-            <<right<<setw(4)<< order[i].quantity
-            <<right<<setw(30)<< order[i].date <<endl;
-
-        cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	    cout<<setfill(' ');
-        cout<<endl;
-        }
-    }
-}
-
-void viewTransactions() {
-    loadOrder("trans");
-    cout<<endl;
-
-    if (order.empty()) {
-        cout << "Walang transaksyon sa kasulukuyan.\n" << endl;
-    } else {
-        for(int i=0; i<order.size(); i++) {
-            cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
-            cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
-            <<right<<setw(0)<<"DAMI"
-            <<right<<setw(30)<<"PETSA NG TRANSAKSYON"<<endl;
-                            
-            cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	        cout<<setfill(' ');
-    
-            cout<<left<<setw(30)<< order[i].productName
-                <<right<<setw(4)<< order[i].quantity
-                <<right<<setw(30)<< order[i].date <<endl;
-
-            cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	        cout<<setfill(' ');
-            cout<<endl;
-        }
-    }
-}
-
-void viewCustomOrders() {
-    loadOrder("custom");
-    int number;
-    int choice;
-    
-    if (order.empty()) {
-        cout << "Walang custom na order sa kasalukuyan.\n" << endl;
-    } else {
-        do{
-            cout<<endl;
-            for(int i=0; i<order.size(); i++) {
-                cout<<"Custom Order No."<<i+1<<endl;
-                cout<<"Pangalan ng Customer: "<< order[i].customer << "\n" << endl;
-                cout<<left<<setw(30)<<"PANGALAN NG PRODUKTO"
-                    <<right<<setw(0)<<"MENSAHE"
-                    <<right<<setw(30)<<"KANDILA"<<endl;
-                            
-                cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	            cout<<setfill(' ');
-    
-                cout<<left<<setw(30)<< order[i].productName
-                    <<right<<setw(2)<< order[i].writing
-                    <<right<<setw(26)<< order[i].candle <<endl;
-    
-                cout<<setfill('-')<<setw(75)<<"-"<<endl;
-	            cout<<setfill(' ');
-                cout<<endl;
-            }
-
-            cout << "\n1. Magtanggal ng Custom Order" <<endl
-                << "2. Bumalik" << endl
-                << "Ilagay ang iyong pinili: ";
-            cin>>choice;
-            cin.ignore();
-
-            switch(choice){
-                case 1: {
-                    cout<<"Ilagay ang Custom Order No. na Tatanggalin: ";
-                    cin>>number;
-
-                    order.erase(order.begin() + (number-1));
-
-                    ofstream dfile("../bakedgoodstracker/file/Custom Order.txt");
-                    for (int i=0; i<order.size(); ++i){
-                        dfile << order[i].customer << "  "
-                              << order[i].productName << "  "
-                              << order[i].writing << "  "
-                              << order[i].candle << endl;
-                    dfile.close();
-                    }
-
-                    cout<<"\nMatagumpay na Natanggal ang Custom Order\n" << endl;
-                    break;
-                }
-                case 2:
-                    break;
-                default:
-                    cout << "Maling pinili. Pakisubukan muli." << endl;
-            }
-        } while (choice != 2);
-    }
 }
