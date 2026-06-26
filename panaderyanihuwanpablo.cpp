@@ -632,6 +632,7 @@ void deleteProduct(){
 void updateProduct(){
     string name;
     bool found = false;
+    bool updated = false;
 
     cout<<"\n================PAG-UUPDATE NG PRODUKTO===================";
     cin.ignore();
@@ -681,7 +682,7 @@ void updateProduct(){
                             loadOrder("pre");
                             
                             //check if may naka pre order sa product na yun after mag re stock
-                            for (int j=0; j<order.size(); ++j){
+                            for (int j=0; j<order.size(); ++j) {
                                 if (menu[i].name == order[j].productName && menu[i].quantity >= order[j].quantity){
                                     //automatically ibabawas ung na stock sa pre order and ilalagay na sya sa transaction records natin
                                     cout<<"\nMay pre-order ka sa produktong ito para kay customer "<< order[j].customer<<"! Awtomatikong ibabawas... \n" << endl;
@@ -702,17 +703,16 @@ void updateProduct(){
 
                                     for (int k=0; k<order.size(); ++k){
                                         ofstream pfile("../bakedgoodstracker/file/Pre-orders.txt");
-                                        pfile << order[j].customer << "  " 
-                                             << order[j].productName << "  " 
-                                             << order[j].quantity << "  "
-                                             << order[j].price << "  "
-                                             << order[j].paid << "  "
-                                             << order[j].change << "  "
-                                             << order[j].date << endl;
+                                        pfile << order[k].customer << "  " 
+                                             << order[k].productName << "  " 
+                                             << order[k].quantity << "  "
+                                             << order[k].price << "  "
+                                             << order[k].paid << "  "
+                                             << order[k].change << "  "
+                                             << order[k].date << endl;
                                         file.close();
-                                    }
 
-                                    // and pag na settle na un iuupdate na sa menu ung updated stock after nung pre order
+                                        // and pag na settle na un iuupdate na sa menu ung updated stock after nung pre order
                                         ofstream mfile("../bakedgoodstracker/file/Menu.txt");
                                         for (int l=0 ; l < menu.size(); ++l){
                                             mfile << menu[l].name << "  " 
@@ -721,9 +721,15 @@ void updateProduct(){
                                         }
                                         file.close();
 
+                                        updated = true;
+
                                         cout<<"Ang bagong dami ng "<< menu[i].name << " ay " << menu[i].quantity << "!\n" << endl;
-                                } else {
-                                     /* rewriting na sa file ung specific product na gusto natin iupdate same case
+                                    }
+                                }
+                            }
+                                    
+                            if (!updated) {
+                                 /* rewriting na sa file ung specific product na gusto natin iupdate same case
                                     sa lahat ng cases dito sa function nato, its either price or quantity lang */
                                     ofstream file("../bakedgoodstracker/file/Menu.txt");
                                         for (int i=0 ; i < menu.size(); ++i){
@@ -734,9 +740,8 @@ void updateProduct(){
                                     file.close();
 
                                     cout << "\nNa-update ang dami!\n" << endl;
-                                }
-                            }
-                            found = true;
+                                    found = true;
+                            }       
                             break;
                         }
                         case 3:
